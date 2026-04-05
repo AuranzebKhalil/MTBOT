@@ -1,0 +1,128 @@
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:app.ai.predictor:AI model and scaler loaded successfully
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:BotWorker:
+------------------------------
+INFO:BotWorker:\U0001f195 NEW TRADE CAPTURED: #569598968
+INFO:BotWorker:   Symbol: EURUSD
+INFO:BotWorker:   Bid/Ask: 1.15239/1.15258 (Spread: 0.00019)
+INFO:BotWorker:   Requested: 1.15258 | Filled: 1.15257
+INFO:BotWorker:   SL: 1.1473900000000001 | TP1: 1.15657 | TP2: 1.16258
+INFO:BotWorker:   Initial Stages: stage1_partial_done: False, stage1_sl_done: False
+INFO:BotWorker:   AI Conf: 0.85 (Threshold: 0.48)
+INFO:BotWorker:------------------------------
+
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569598968, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15238, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 1}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3610680103302002s: OrderSendResult(retcode=10009, deal=764350885, order=569598993, volume=0.03, price=1.15237, bid=1.15237, ask=1.15256, comment='Request executed', request_id=3473761042, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15238, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=1, type_time=0, expiration=0, comment='Bot Partial', position=569598968, position_by=0))
+INFO:app.market_data.mt5_client:DEBUG: Partial close SUCCESS for #569598968 | Action: SUCCESS | Remainder: 0.03
+INFO:BotWorker:\U0001f4ca VOLUME LOG [Stage 1] #569598968:
+INFO:BotWorker:   Original: 0.06 | Before: 0.06
+INFO:BotWorker:   Requested: 0.030 | Rounded: 0.03
+INFO:BotWorker:   Forced Full: False (Min: 0.01)
+INFO:BotWorker:   Projected Remainder: 0.03
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 6, 'position': 569598968, 'symbol': 'EURUSD', 'sl': 1.148965, 'tp': 1.16258}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3070108890533447s: OrderSendResult(retcode=10009, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Request executed', request_id=3473761043, retcode_external=0, request=TradeRequest(action=6, magic=0, order=0, symbol='EURUSD', volume=0.0, price=0.0, stoplimit=0.0, sl=1.148965, tp=1.16258, deviation=0, type=0, type_filling=0, type_time=0, expiration=0, comment='', position=569598968, position_by=0))
+INFO:BotWorker:\U0001f3af STAGE 1 LOG: [ticket=#569598968] stage1_partial_done=T, stage1_sl_done=T, stage1_executed=T
+INFO:BotWorker:\U0001f3af SL Secured at 1.14897
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569598968, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.15242, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 1}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3483903408050537s: OrderSendResult(retcode=10009, deal=764350891, order=569598999, volume=0.01, price=1.1524, bid=1.1524, ask=1.15259, comment='Request executed', request_id=3473761044, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.01, price=1.15242, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=1, type_time=0, expiration=0, comment='Bot Partial', position=569598968, position_by=0))
+INFO:app.market_data.mt5_client:DEBUG: Partial close SUCCESS for #569598968 | Action: SUCCESS | Remainder: 0.02
+INFO:BotWorker:\U0001f4ca VOLUME LOG [Stage 2] #569598968:
+INFO:BotWorker:   Original: 0.06 | Before: 0.03
+INFO:BotWorker:   Requested: 0.015 | Rounded: 0.01
+INFO:BotWorker:   Forced Full: False (Min: 0.01)
+INFO:BotWorker:   Projected Remainder: 0.02
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 6, 'position': 569598968, 'symbol': 'EURUSD', 'sl': 1.15088, 'tp': 1.16258}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.30492687225341797s: OrderSendResult(retcode=10009, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Request executed', request_id=3473761045, retcode_external=0, request=TradeRequest(action=6, magic=0, order=0, symbol='EURUSD', volume=0.0, price=0.0, stoplimit=0.0, sl=1.15088, tp=1.16258, deviation=0, type=0, type_filling=0, type_time=0, expiration=0, comment='', position=569598968, position_by=0))
+INFO:BotWorker:\U0001f680 STAGE 2 LOG: [ticket=#569598968] stage2_partial_done=T, stage2_sl_done=T, stage2_executed=T
+INFO:BotWorker:\U0001f680 SL Advanced to 1.15088
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 6, 'position': 569599016, 'symbol': 'EURUSD', 'sl': 1.148685, 'tp': 1.1575799999999998}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3030259609222412s: OrderSendResult(retcode=10009, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Request executed', request_id=3473761048, retcode_external=0, request=TradeRequest(action=6, magic=0, order=0, symbol='EURUSD', volume=0.0, price=0.0, stoplimit=0.0, sl=1.148685, tp=1.1575799999999998, deviation=0, type=0, type_filling=0, type_time=0, expiration=0, comment='', position=569599016, position_by=0))
+INFO:BotWorker:\U0001f3af STAGE 1 LOG: [ticket=#569599016] stage1_partial_done=T, stage1_sl_done=T, stage1_executed=T
+INFO:BotWorker:\U0001f3af SL Secured at 1.14868
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+DB Cleared for fresh run.
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0% (Close 50%), Stage 2 @ 80.0% (Close 25%)
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569598968
+   >>> Requested: 1.15258 | Actual Fill: 1.15257
+
+--- [3] STATE AT ENTRY ---
+ticket: 569598968
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15239
+ask: 1.15258
+spread: 0.00018999999999991246
+requested entry: 1.15258
+actual fill: 1.15257
+original SL: 1.1473900000000001
+TP: 1.16258
+TP1: 1.15657
+TP2: 1.16258
+[OK] TP CONSISTENCY OK: TP == TP2
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- [4] DURING MANAGEMENT (SIMULATING PROGRESS) ---
+Current Market Bid: 1.15238
+
+-> TRIGGERING STAGE 1: Simulating 65% progress...
+   (Calculated Progress: (Bid 1.15238 - Entry 1.14868) / (TP1 1.15368 - Entry 1.14868))
+   Expected Progress: 74.00%
+
+[VERIFYING STAGE 1]
+   Original Volume: 0.06
+   Current Bid: 1.15238
+   Stored Entry: 1.14868
+   Stored TP1: 1.15368
+   MT5 Position Volume: 0.03
+   MT5 Position SL: 1.14897
+   [OK] MONOTONIC CHECK: SL improved from 1.14739 to 1.14897
+
+-> TRIGGERING STAGE 2: Simulating 85% progress...
+   (Calculated Progress: (Bid 1.15238 - Entry 1.14788) / (TP1 1.15288 - Entry 1.14788))
+   Expected Progress: 90.00%
+
+[VERIFYING STAGE 2]
+   Current Bid: 1.15238
+   Stored Entry: 1.14788
+   Stored TP1: 1.15288
+   Stored TP2 (Hard TP): 1.16258
+   MT5 Position Volume: 0.02
+   MT5 Position SL: 1.15088
+   [OK] MONOTONIC CHECK: SL maintained or improved (1.15088 >= 1.15088)
+   [OK] RUNNER MAINTAINED: 0.02 units still open.
+
+--- [5] AT EXIT ---
+Closing remaining volume manually to finalize trade...
+   final_exit_status in DB: OPEN
+   final_exit_reason in DB: None
+
+--- [6] FINAL VERIFICATION ---
+Checking DB Trade Events for duplicate partials...
+   Event 1: STAGE_1_SUCCESS (Vol 0.06 -> 0.03)
+   Event 2: STAGE_2_SUCCESS (Vol 0.03 -> 0.02)
+
+========================================
+   [7] RESTART-PROOF TEST (Protection Gap)
+========================================
+Opening second trade for Gap Test...
+Opened Trade #569599016 for Gap Test
+Set DB: stage1_partial_done=True, stage1_sl_done=False
+Calling _manage_open_positions to trigger retry...
+RESULT:
+   DB stage1_partial_done: True
+   DB stage1_sl_done: True (Should be True now)
+   MT5 SL: 1.14869 (Requested security SL)
+   MT5 Vol: 0.04 (Should still be 0.04, no second partial sent)
+
+--- DEMO COMPLETE ---

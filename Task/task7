@@ -1,0 +1,34 @@
+Task 7 — Add session filter
+
+Implement a session filter in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Use actual time/session tagging in the backend
+- Make strategy-session mapping configurable
+
+Goal:
+Allow or block strategies depending on trading session.
+
+Required behavior:
+- label sessions such as:
+  - Asia
+  - London
+  - New York
+  - London/New York overlap
+- allow strategies only in configured sessions
+- keep logs and trade records tagged with session
+
+Suggested config:
+- enable_session_filter = true
+- allowed_sessions_by_strategy = configurable mapping
+
+Add rejection log:
+- REJECTED_SESSION_FILTER
+
+Show me:
+1. files changed
+2. functions changed
+3. how session is detected
+4. how strategies are mapped to sessions
+5. example rejection log

@@ -1,0 +1,49 @@
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:app.ai.predictor:AI model and scaler loaded successfully
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:BotWorker:
+------------------------------
+INFO:BotWorker:\U0001f195 NEW TRADE CAPTURED: #569523015
+INFO:BotWorker:   Symbol: EURUSD
+INFO:BotWorker:   Bid/Ask: 1.15301/1.1532 (Spread: 0.00019)
+INFO:BotWorker:   Requested: 1.1532 | Filled: 1.1532
+INFO:BotWorker:   SL: 1.1480100000000002 | TP1: 1.1572 | TP2: 1.1632
+INFO:BotWorker:   Initial Stages: stage1_partial_done: False, stage1_sl_done: False
+INFO:BotWorker:   AI Conf: 0.85 (Threshold: 0.48)
+INFO:BotWorker:------------------------------
+
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+DB Cleared for fresh run.
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569523015
+   >>> Requested: 1.1532 | Actual Fill: 1.1532
+
+--- [3] STATE AT ENTRY ---
+ticket: 569523015
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15301
+ask: 1.1532
+spread: 0.00018999999999991246
+requested entry: 1.1532
+actual fill: 1.1532
+original SL: 1.1480100000000002
+TP: 1.1632
+TP1: 1.1572
+TP2: 1.1632
+Traceback (most recent call last):
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 414, in <module>
+    capture_trade()
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 175, in capture_trade
+    print(f"\u2705 TP CONSISTENCY OK: TP == TP2")
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>

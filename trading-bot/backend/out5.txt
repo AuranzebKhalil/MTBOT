@@ -1,0 +1,67 @@
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569482681
+   >>> Requested: 1.15354 | Actual Fill: 1.15357
+
+--- [3] STATE AT ENTRY ---
+ticket: 569482681
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15335
+ask: 1.15354
+spread: 0.00018999999999991246
+requested entry: 1.15354
+actual fill: 1.15357
+SL: 1.1483500000000002
+TP: 1.16354
+TP1: 1.15757
+TP2: 1.16157
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- [4] DURING MANAGEMENT (SIMULATING PROGRESS) ---
+Current Market Bid: 1.15338
+
+-> TRIGGERING STAGE 1: Simulating 65% progress...
+   (Calculated Progress: (Bid 1.15338 - Entry 1.14688) / (TP1 1.15688 - Entry 1.14688))
+   Expected Progress: 65.00%
+
+[VERIFYING STAGE 1]
+   DB stage1_partial_done: False
+   DB stage1_sl_done: False
+   MT5 Position Vol: 0.06 (Requested 0.50 of 0.06 -> 0.03 remains)
+   MT5 Position SL: 1.14835 (Should be near entry 1.14688)
+
+-> TRIGGERING STAGE 2: Simulating 85% progress...
+   (Calculated Progress: (Bid 1.15338 - Entry 1.14488) / (TP1 1.15488 - Entry 1.14488))
+   Expected Progress: 85.00%
+
+[VERIFYING STAGE 2]
+   DB stage2_partial_done: False
+   DB stage2_sl_done: False
+   MT5 Position Vol: 0.06 (Requested 0.50 of 0.03 -> 0.01 or 0.02 remains depending on lot step)
+   MT5 Position SL: 1.14835 (Should be advanced)
+
+--- [5] AT EXIT ---
+Closing remaining volume manually to finalize trade...
+   final_exit_reason in DB: None
+
+--- [6] FINAL VERIFICATION ---
+Checking DB Trade Events for duplicate partials...
+   (No events found? Check if they were committed correctly)
+
+========================================
+   [7] RESTART-PROOF TEST (Protection Gap)
+========================================
+Failed to open second trade for gap test.
+
+--- DEMO COMPLETE ---

@@ -1,0 +1,35 @@
+Task 1 — Audit the current strategy logic first
+
+
+Inspect my real trading bot codebase and explain the current strategy logic before changing anything.
+
+Important:
+- Work in the real codebase
+- Do not create a separate project
+- Do not modify code yet unless needed for small debug logs
+- I want understanding first
+
+Please inspect these files first:
+- backend/app/strategy/families/smc.py
+- backend/app/worker/bot_worker.py
+- backend/app/risk/manager.py
+- backend/app/execution/executor.py
+- backend/app/storage/models.py
+
+I want a clear report on:
+1. how BUY entries are triggered
+2. how SELL entries are triggered
+3. which strategies are continuation
+4. which strategies are reversal
+5. whether entries use closed candles or live candles
+6. whether re-entry after SL is blocked or not
+7. whether the bot checks nearby resistance/support before entry
+8. which strategies are most likely to enter too early
+9. which functions and files are responsible for each trade decision
+
+Give me:
+- file names
+- function names
+- exact decision flow
+- weak points in the current logic
+- which strategies should likely be paused first

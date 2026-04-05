@@ -1,0 +1,42 @@
+Task 5 — Tighten reversal entry confirmation
+
+Tighten reversal entry confirmation in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Do not change continuation strategies unless needed
+- Focus on reversal strategies first
+
+Target strategies:
+- MSS Shift
+- Exhaustion
+- Sweep Reclaim
+- VSA Shift
+- Breaker Block
+
+Goal:
+Reduce early reversal entries and false fades.
+
+Required improvements:
+- use closed candle confirmation only
+- do not enter only because price touched a level
+- require stronger confirmation before reversal entry, such as:
+  - rejection candle
+  - close back through confirmation level
+  - lower high for SELL when possible
+  - higher low for BUY when possible
+  - break of recent micro structure where appropriate
+
+I want you to inspect each reversal strategy separately and tighten it carefully.
+
+For each strategy, tell me:
+- what the old rule was
+- what the new rule is
+- why the old rule could enter too early
+- what was changed in code
+
+Show me:
+1. strategy functions changed
+2. exact conditions updated
+3. which reversal strategies are still risky
+4. how these changes should reduce weak entries

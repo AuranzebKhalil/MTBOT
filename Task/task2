@@ -1,0 +1,39 @@
+Task 2 — Add cooldown after stop loss
+
+Implement a cooldown after stop loss in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Do not create a demo-only version
+- Keep current demo/live safety checks as they are
+- Show me exactly which files and functions you changed
+
+Goal:
+After a trade closes at stop loss, block new entries on the same symbol and same direction for a configurable number of candles.
+
+Required behavior:
+- if a BUY trade hits SL, block new BUY entries on that symbol for a set number of bars
+- if a SELL trade hits SL, block new SELL entries on that symbol for a set number of bars
+- store enough state to know:
+  - symbol
+  - direction
+  - strategy
+  - stop-loss time
+  - cooldown expiry
+  - timeframe/candles remaining if needed
+
+Suggested config:
+- enable_post_sl_cooldown = true
+- cooldown_bars_after_sl = 5
+
+Also:
+- add rejection logs like REJECTED_COOLDOWN
+- include symbol, direction, strategy, cooldown expiry
+- expose this data for frontend/API later
+
+Please update the real backend logic and show me:
+1. files changed
+2. functions changed
+3. model changes
+4. config changes
+5. exact rejection log example

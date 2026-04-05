@@ -1,0 +1,42 @@
+Task 4 — Add do-not-trade-into-level filter
+
+Implement a do-not-trade-into-level filter in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Use real strategy structure and recent swing data
+- Do not use fake placeholder levels
+
+Goal:
+Before entry, reject a trade if price is too close to a key level in the direction of the trade.
+
+Required behavior:
+- for BUY:
+  - detect nearest overhead resistance/liquidity/swing high
+  - reject if there is not enough room to that level
+- for SELL:
+  - detect nearest downside support/liquidity/swing low
+  - reject if there is not enough room to that level
+
+Suggested config:
+- enable_level_distance_filter = true
+- min_reward_to_nearest_level_rr = 1.2
+
+Add rejection log:
+- REJECTED_NEAR_LEVEL
+
+Include:
+- symbol
+- direction
+- strategy
+- entry price
+- nearest level
+- distance
+- calculated reward/risk to that level
+
+Show me:
+1. files changed
+2. functions changed
+3. how the nearest level is found
+4. how rejection is calculated
+5. example logs

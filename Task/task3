@@ -1,0 +1,45 @@
+Task 3 — Add same-zone re-entry block
+
+
+Implement a same-zone re-entry block in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Do not create mock logic
+- Keep it tied to real trade history and real strategy flow
+
+Goal:
+If a trade is stopped out, do not allow another trade in the same direction too close to the same failed zone unless there is fresh structure confirmation.
+
+Required behavior:
+- after SL, store the failed trade zone
+- zone should be based on entry price plus/minus a configurable distance
+- reject re-entry if:
+  - same symbol
+  - same direction
+  - price is still inside or near the failed zone
+  - no fresh structure change happened
+- allow re-entry only if a truly new setup forms
+
+Suggested config:
+- enable_same_zone_block = true
+- same_zone_distance_atr_multiplier = 0.25
+- same_zone_block_bars = 5
+
+Add logs like:
+- REJECTED_SAME_ZONE
+
+Include in the log:
+- symbol
+- direction
+- strategy
+- failed zone range
+- current price
+- why it was rejected
+
+Show me:
+1. files changed
+2. functions changed
+3. model changes
+4. config added
+5. exact rule used to compare zone distance

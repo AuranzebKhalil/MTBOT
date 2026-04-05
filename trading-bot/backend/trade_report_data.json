@@ -1,0 +1,30 @@
+{
+  "ticket": 569091930,
+  "symbol": "XAUUSD",
+  "strategy": "VOLUME",
+  "ai_confidence": 0.4820782904156002,
+  "bid_at_entry": 5005.83,
+  "ask_at_entry": 5006.36,
+  "spread_at_entry": 0.5299999999997453,
+  "entry_price": 5005.82,
+  "requested_entry": null,
+  "sl": 5009.12,
+  "tp": 4998.56,
+  "tp1": null,
+  "tp2": null,
+  "stage1_partial_done": true,
+  "stage1_sl_done": false,
+  "stage2_partial_done": false,
+  "stage2_sl_done": false,
+  "exit_price": 4998.47,
+  "final_exit_reason": "STOP_OUT",
+  "events": [
+    {
+      "timestamp": "2026-03-17T10:39:56.697221",
+      "type": "STAGE_1_SKIPPED_LOT_SIZE",
+      "old": 0.01,
+      "new": 0.01
+    }
+  ],
+  "execution": []
+}

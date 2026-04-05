@@ -1,0 +1,29 @@
+Task 10 — Full validation pass in the real codebase
+
+Now perform a full validation pass on the real codebase after all the above changes.
+
+Important:
+
+- Use the real backend
+- Use the real frontend
+- Do not rely on fake demo scripts as final proof
+- Use real runtime behavior and real logs where possible
+
+I want a final implementation report that tells me:
+
+1. which filters are now active
+2. which strategies were tightened
+3. how re-entry is blocked
+4. how nearby level filtering works
+5. how session filtering works
+6. how news filtering works
+7. how the frontend shows all of this
+8. what still needs live demo validation
+9. what strategies should stay enabled first
+10. what strategies should stay disabled until more data is collected
+
+Also give me:
+
+- a recommended safe starting config
+- which 2 or 3 strategies should stay active first
+- which strategies should be paused first

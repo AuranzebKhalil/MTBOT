@@ -1,0 +1,58 @@
+--- STARTING TRADE CAPTURE DEMO ---
+1. Validating symbol EURUSD...
+
+2. Executing Entry Order...
+   Filled! Ticket: 569440450, Price: 1.15278
+
+--- AT ENTRY ---
+ticket: 569440450
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15257
+ask: 1.15277
+spread: 0.00019999999999997797
+requested entry: 1.15277
+actual fill: 1.15278
+SL: 1.1475700000000002
+TP: 1.15777
+TP1: None
+TP2: None
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- DURING MANAGEMENT (Simulating Price Moves) ---
+
+-> Simulating 65% progress (Stage 1 triggers)...
+After Stage 1 Trigger:
+stage1_partial_done: False
+stage1_sl_done: False
+MT5 Position Vol: 0.06, SL: 1.14757
+
+-> Simulating 85% progress (Stage 2 triggers)...
+After Stage 2 Trigger:
+stage2_partial_done: False
+stage2_sl_done: False
+MT5 Position Vol: 0.06, SL: 1.14757
+
+--- AT EXIT ---
+Closing remaining volume manually to finalize trade...
+final_exit_reason: None
+
+--- VERIFICATION ---
+Checking DB Trade Events for duplicate partials...
+
+========================================
+RESTART-PROOF / HYBRID SCENARIO TEST
+========================================
+Opening another trade to test protection gap behavior...
+Created Trade #569440461 with stage1_partial_done=True, stage1_sl_done=False
+Simulating bot restart... calling manage_open_positions again
+After Restart Logic Applied:
+stage1_partial_done: True
+stage1_sl_done: False
+MT5 Position Vol: 0.04 (should remain 0.04 because partial was skipped)
+MT5 Position SL: 1.14777 (should be updated to break-even + buffer)
+Done!

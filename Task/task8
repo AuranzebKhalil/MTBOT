@@ -1,0 +1,39 @@
+Task 8 — Add per-strategy reporting in backend
+
+Implement per-strategy reporting in my real backend codebase.
+
+Important:
+- Work in the real codebase
+- Use real trade data and real stored outcomes
+- Do not use fake analytics
+
+Goal:
+Track performance separately for each strategy.
+
+Required metrics per strategy:
+- total trades
+- win rate
+- average RR
+- average win
+- average loss
+- SL hit count
+- TP2 hit count
+- Stage 1 hit rate
+- Stage 2 hit rate
+- average hold time
+- session performance
+- symbol performance
+- rejection counts by reason
+
+Please update:
+- models
+- storage logic
+- reporting logic
+- API if needed
+
+Show me:
+1. backend files changed
+2. models changed
+3. reporting functions added
+4. API changes if any
+5. how I can later use this in the frontend

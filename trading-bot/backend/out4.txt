@@ -1,0 +1,149 @@
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569447819
+   >>> Requested: 1.15263 | Actual Fill: 1.15263
+
+--- [3] STATE AT ENTRY ---
+ticket: 569447819
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15243
+ask: 1.15263
+spread: 0.00019999999999997797
+requested entry: 1.15263
+actual fill: 1.15263
+SL: 1.1474300000000002
+TP: 1.16263
+TP1: 1.15663
+TP2: 1.16063
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- [4] DURING MANAGEMENT (SIMULATING PROGRESS) ---
+Current Market Bid: 1.15243
+
+-> TRIGGERING STAGE 1: Simulating 65% progress...
+   (Calculated Progress: (Bid 1.15243 - Entry 1.14593) / (TP1 1.15593 - Entry 1.14593))
+   Expected Progress: 65.00%
+
+[VERIFYING STAGE 1]
+   DB stage1_partial_done: False
+   DB stage1_sl_done: False
+   MT5 Position Vol: 0.06 (Requested 0.50 of 0.06 -> 0.03 remains)
+   MT5 Position SL: 1.14743 (Should be near entry 1.14593)
+
+-> TRIGGERING STAGE 2: Simulating 85% progress...
+   (Calculated Progress: (Bid 1.15243 - Entry 1.14393) / (TP1 1.15393 - Entry 1.14393))
+   Expected Progress: 85.00%
+
+[VERIFYING STAGE 2]
+   DB stage2_partial_done: False
+   DB stage2_sl_done: False
+   MT5 Position Vol: 0.06 (Requested 0.50 of 0.03 -> 0.01 or 0.02 remains depending on lot step)
+   MT5 Position SL: 1.14743 (Should be advanced)
+
+--- [5] AT EXIT ---
+Closing remaining volume manually to finalize trade...
+   final_exit_reason in DB: None
+
+--- [6] FINAL VERIFICATION ---
+Checking DB Trade Events for duplicate partials...
+   (No events found? Check if they were committed correctly)
+
+========================================
+   [7] RESTART-PROOF TEST (Protection Gap)
+========================================
+Failed to open second trade for gap test.
+
+--- DEMO COMPLETE ---
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569447826
+   >>> Requested: 1.15263 | Actual Fill: 1.15262
+Traceback (most recent call last):
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: trades.ticket_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 373, in <module>
+    capture_trade()
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 134, in capture_trade
+    worker._save_trade_enhanced(signal, ex, tick_dict, m15_df)
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\app\worker\bot_worker.py", line 634, in _save_trade_enhanced
+    db.commit()
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 1311, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 1286, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 4331, in flush
+    self._flush(objects)
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\session.py", line 4427, in _flush
+    flush_context.execute()
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\Auranzeb Khalil\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: trades.ticket_id
+[SQL: INSERT INTO trades (ticket_id, symbol, type, volume, initial_volume, entry_price, exit_price, sl, tp, tp1, tp2, profit, commission, swap, time, status, strategy_name, rationale, bid_at_entry, ask_at_entry, spread_at_entry, slippage_points, session, market_regime, ai_score, final_exit_reason, stage1_executed, stage1_partial_done, stage1_sl_done, stage1_trigger_time, stage2_executed, stage2_partial_done, stage2_sl_done, stage2_trigger_time, breakeven_done, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: (569447826, 'EURUSD', 'BUY', 0.06, 0.06, 1.15262, None, 1.1474300000000002, 1.16263, 1.15662, 1.16062, 0.0, 0.0, 0.0, '2026-03-17 14:38:38.705930', 'OPEN', 'DEMO_STRATEGY', None, 1.15243, 1.15263, 0.00019999999999997797, None, 'OVERLAP', 'MarketRegime.RANGING_EXPANDED', 0.85, None, 0, 0, 0, None, 0, 0, 0, None, 0, 1)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

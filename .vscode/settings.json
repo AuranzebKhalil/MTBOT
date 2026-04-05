@@ -1,0 +1,9 @@
+{
+    "python.analysis.extraPaths": [
+        "c:/Users/Auranzeb Khalil/OneDrive/Desktop/My project/trading-bot/backend"
+    ],
+    "python.autoComplete.extraPaths": [
+        "c:/Users/Auranzeb Khalil/OneDrive/Desktop/My project/trading-bot/backend"
+    ],
+    "python.analysis.typeCheckingMode": "basic"
+}

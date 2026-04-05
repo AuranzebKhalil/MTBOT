@@ -1,0 +1,67 @@
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:app.ai.predictor:AI model and scaler loaded successfully
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:BotWorker:
+------------------------------
+INFO:BotWorker:\U0001f195 NEW TRADE CAPTURED: #569492515
+INFO:BotWorker:   Symbol: EURUSD
+INFO:BotWorker:   Bid/Ask: 1.15305/1.15324 (Spread: 0.00019)
+INFO:BotWorker:   Requested: 1.15324 | Filled: 1.15324
+INFO:BotWorker:   SL: 1.14805 | TP1: 1.15724 | TP2: 1.16124
+INFO:BotWorker:   Initial Stages: stage1_partial_done: False, stage1_sl_done: False
+INFO:BotWorker:   AI Conf: 0.85 (Threshold: 0.48)
+INFO:BotWorker:------------------------------
+
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569492515, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15305, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 0}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.0s: OrderSendResult(retcode=10030, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Unsupported filling mode', request_id=0, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15305, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=0, type_time=0, expiration=0, comment='Bot Partial', position=569492515, position_by=0))
+ERROR:app.market_data.mt5_client:DEBUG: send_order FAILED. Retcode: 10030, Comment: Unsupported filling mode
+ERROR:app.market_data.mt5_client:DEBUG: Partial close FOK failed: Unsupported filling mode. Trying IOC...
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569492515, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15305, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 1}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3104438781738281s: OrderSendResult(retcode=10009, deal=764244544, order=569492528, volume=0.03, price=1.15303, bid=1.15303, ask=1.15322, comment='Request executed', request_id=3473760962, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15305, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=1, type_time=0, expiration=0, comment='Bot Partial', position=569492515, position_by=0))
+INFO:app.market_data.mt5_client:DEBUG: Partial close SUCCESS for #569492515
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+DB Cleared for fresh run.
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569492515
+   >>> Requested: 1.15324 | Actual Fill: 1.15324
+
+--- [3] STATE AT ENTRY ---
+ticket: 569492515
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15305
+ask: 1.15324
+spread: 0.0001900000000001345
+requested entry: 1.15324
+actual fill: 1.15324
+SL: 1.14805
+TP: 1.16324
+TP1: 1.15724
+TP2: 1.16124
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- [4] DURING MANAGEMENT (SIMULATING PROGRESS) ---
+Current Market Bid: 1.15305
+
+-> TRIGGERING STAGE 1: Simulating 65% progress...
+   (Calculated Progress: (Bid 1.15305 - Entry 1.14655) / (TP1 1.15655 - Entry 1.14655))
+   Expected Progress: 65.00%
+Traceback (most recent call last):
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 384, in <module>
+    capture_trade()
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\capture_full_trade_demo.py", line 203, in capture_trade
+    worker._manage_open_positions(symbol, m1_df, m15_df)
+  File "C:\Users\Auranzeb Khalil\OneDrive\Desktop\My project\trading-bot\backend\app\worker\bot_worker.py", line 484, in _manage_open_positions
+    sym_info = self.mt5.get_symbol_info(symbol)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MT5Client' object has no attribute 'get_symbol_info'

@@ -1,0 +1,23 @@
+{
+    "total_trades": 15,
+    "win_rate": 53.333333333333336,
+    "net_profit": 92.93212064653562,
+    "strategy_breakdown": {
+        "LOSS": {
+            "1. VAS (Ultra-Absorption)": 3.0,
+            "10. OBM (Institutional OB)": 2.0,
+            "11. SND (Primary Mitigation)": 0.0,
+            "3. LSR (Nested Sweep)": 1.0,
+            "4. SBC (OB-Continuation)": 1.0,
+            "9. PDF (Sovereign Zone)": 0.0
+        },
+        "WIN": {
+            "1. VAS (Ultra-Absorption)": 0.0,
+            "10. OBM (Institutional OB)": 4.0,
+            "11. SND (Primary Mitigation)": 2.0,
+            "3. LSR (Nested Sweep)": 1.0,
+            "4. SBC (OB-Continuation)": 0.0,
+            "9. PDF (Sovereign Zone)": 1.0
+        }
+    }
+}

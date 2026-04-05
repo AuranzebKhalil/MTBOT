@@ -1,0 +1,112 @@
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:app.ai.predictor:AI model and scaler loaded successfully
+INFO:app.market_data.mt5_client:Successfully connected to MT5
+INFO:BotWorker:
+------------------------------
+INFO:BotWorker:\U0001f195 NEW TRADE CAPTURED: #569509190
+INFO:BotWorker:   Symbol: EURUSD
+INFO:BotWorker:   Bid/Ask: 1.15283/1.15303 (Spread: 0.00020)
+INFO:BotWorker:   Requested: 1.15303 | Filled: 1.15303
+INFO:BotWorker:   SL: 1.1478300000000001 | TP1: 1.15703 | TP2: 1.16103
+INFO:BotWorker:   Initial Stages: stage1_partial_done: False, stage1_sl_done: False
+INFO:BotWorker:   AI Conf: 0.85 (Threshold: 0.48)
+INFO:BotWorker:------------------------------
+
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569509190, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15283, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 0}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.0s: OrderSendResult(retcode=10030, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Unsupported filling mode', request_id=0, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15283, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=0, type_time=0, expiration=0, comment='Bot Partial', position=569509190, position_by=0))
+ERROR:app.market_data.mt5_client:DEBUG: send_order FAILED. Retcode: 10030, Comment: Unsupported filling mode
+ERROR:app.market_data.mt5_client:DEBUG: Partial close FOK failed: Unsupported filling mode. Trying IOC...
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569509190, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15283, 'magic': 123456, 'comment': 'Bot Partial', 'type_time': 0, 'type_filling': 1}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.28664183616638184s: OrderSendResult(retcode=10009, deal=764261085, order=569509194, volume=0.03, price=1.15283, bid=1.15283, ask=1.15303, comment='Request executed', request_id=3473760973, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15283, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=1, type_time=0, expiration=0, comment='Bot Partial', position=569509190, position_by=0))
+INFO:app.market_data.mt5_client:DEBUG: Partial close SUCCESS for #569509190
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 6, 'position': 569509190, 'sl': 1.14663}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.2925090789794922s: OrderSendResult(retcode=10009, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Request executed', request_id=3473760974, retcode_external=0, request=TradeRequest(action=6, magic=0, order=0, symbol='', volume=0.0, price=0.0, stoplimit=0.0, sl=1.14663, tp=0.0, deviation=0, type=0, type_filling=0, type_time=0, expiration=0, comment='', position=569509190, position_by=0))
+INFO:BotWorker:\U0001f3af STAGE 1 LOG: [ticket=#569509190] stage1_partial_done=T, stage1_sl_done=T, stage1_executed=T
+INFO:BotWorker:\U0001f3af SL Secured at 1.14663
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569509190, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15282, 'magic': 123456, 'comment': 'Bot Full Exit', 'type_time': 0, 'type_filling': 0}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.0s: OrderSendResult(retcode=10030, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Unsupported filling mode', request_id=0, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15282, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=0, type_time=0, expiration=0, comment='Bot Full Exit', position=569509190, position_by=0))
+ERROR:app.market_data.mt5_client:DEBUG: send_order FAILED. Retcode: 10030, Comment: Unsupported filling mode
+ERROR:app.market_data.mt5_client:DEBUG: Partial close FOK failed: Unsupported filling mode. Trying IOC...
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 1, 'position': 569509190, 'symbol': 'EURUSD', 'volume': 0.03, 'type': 1, 'price': 1.15282, 'magic': 123456, 'comment': 'Bot Full Exit', 'type_time': 0, 'type_filling': 1}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.3075287342071533s: OrderSendResult(retcode=10009, deal=764261092, order=569509200, volume=0.03, price=1.15282, bid=1.15282, ask=1.15303, comment='Request executed', request_id=3473760975, retcode_external=0, request=TradeRequest(action=1, magic=123456, order=0, symbol='EURUSD', volume=0.03, price=1.15282, stoplimit=0.0, sl=0.0, tp=0.0, deviation=0, type=1, type_filling=1, type_time=0, expiration=0, comment='Bot Full Exit', position=569509190, position_by=0))
+INFO:app.market_data.mt5_client:DEBUG: Partial close SUCCESS for #569509190
+INFO:BotWorker:\U0001f680 STAGE 2 CLOSED_FULL: EURUSD #569509190
+INFO:app.market_data.mt5_client:DEBUG: MT5 client calling mt5.order_send with {'action': 6, 'position': 569509203, 'sl': 1.146625}
+INFO:app.market_data.mt5_client:DEBUG: MT5 client mt5.order_send returned in 0.277815580368042s: OrderSendResult(retcode=10009, deal=0, order=0, volume=0.0, price=0.0, bid=0.0, ask=0.0, comment='Request executed', request_id=3473760977, retcode_external=0, request=TradeRequest(action=6, magic=0, order=0, symbol='', volume=0.0, price=0.0, stoplimit=0.0, sl=1.146625, tp=0.0, deviation=0, type=0, type_filling=0, type_time=0, expiration=0, comment='', position=569509203, position_by=0))
+INFO:BotWorker:\U0001f3af STAGE 1 LOG: [ticket=#569509203] stage1_partial_done=T, stage1_sl_done=T, stage1_executed=T
+INFO:BotWorker:\U0001f3af SL Secured at 1.14663
+============================================================
+   COMPLETE TRADE CAPTURE & VERIFICATION DEMO
+============================================================
+DB Cleared for fresh run.
+
+[1] INITIALIZING: Using EURUSD
+Config set: Stage 1 @ 60.0%, Stage 2 @ 80.0%
+
+[2] ENTRY EXECUTION
+   >>> Ticket: 569509190
+   >>> Requested: 1.15303 | Actual Fill: 1.15303
+
+--- [3] STATE AT ENTRY ---
+ticket: 569509190
+symbol: EURUSD
+strategy: DEMO_STRATEGY
+AI confidence: 0.85
+bid: 1.15283
+ask: 1.15303
+spread: 0.00019999999999997797
+requested entry: 1.15303
+actual fill: 1.15303
+SL: 1.1478300000000001
+TP: 1.16303
+TP1: 1.15703
+TP2: 1.16103
+stage1_partial_done: False
+stage1_sl_done: False
+stage2_partial_done: False
+stage2_sl_done: False
+
+--- [4] DURING MANAGEMENT (SIMULATING PROGRESS) ---
+Current Market Bid: 1.15283
+
+-> TRIGGERING STAGE 1: Simulating 65% progress...
+   (Calculated Progress: (Bid 1.15283 - Entry 1.14633) / (TP1 1.15633 - Entry 1.14633))
+   Expected Progress: 65.00%
+
+[VERIFYING STAGE 1]
+   DB stage1_partial_done: True
+   DB stage1_sl_done: True
+   MT5 Position Vol: 0.03 (Requested 0.50 of 0.06 -> 0.03 remains)
+   MT5 Position SL: 1.14663 (Should be near entry 1.14633)
+
+-> TRIGGERING STAGE 2: Simulating 85% progress...
+   (Calculated Progress: (Bid 1.15283 - Entry 1.14433) / (TP1 1.15433 - Entry 1.14433))
+   Expected Progress: 85.00%
+
+[VERIFYING STAGE 2]
+   DB stage2_partial_done: True
+   DB stage2_sl_done: True
+
+--- [5] AT EXIT ---
+Closing remaining volume manually to finalize trade...
+   final_exit_reason in DB: STAGE_2_CLOSED_FULL
+
+--- [6] FINAL VERIFICATION ---
+Checking DB Trade Events for duplicate partials...
+   Event 1: STAGE_1_SUCCESS (Vol 0.06 -> 0.03)
+   Event 2: STAGE_2_CLOSED_FULL (Vol 0.03 -> 0.0)
+
+========================================
+   [7] RESTART-PROOF TEST (Protection Gap)
+========================================
+Opening second trade for Gap Test...
+Opened Trade #569509203 for Gap Test
+Set DB: stage1_partial_done=True, stage1_sl_done=False
+Calling _manage_open_positions to trigger retry...
+RESULT:
+   DB stage1_partial_done: True
+   DB stage1_sl_done: True (Should be True now)
+   MT5 SL: 1.14663 (Requested security SL)
+   MT5 Vol: 0.04 (Should still be 0.04, no second partial sent)
+
+--- DEMO COMPLETE ---

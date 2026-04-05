@@ -1,0 +1,64 @@
+TRADING BOT: TECHNICAL ARCHITECTURE & OPERATIONS GUIDE
+=======================================================
+
+1. PROJECT OVERVIEW
+-------------------
+The bot is an automated trading system for MetaTrader 5 (MT5), specializing in Smart Money Concepts (SMC). It identifies institutional footprints like liquidity sweeps, order blocks, and market structure shifts. It currently runs on a specialized "BotWorker" engine in Python.
+
+2. FULL TRADE LIFECYCLE
+-----------------------
+- STARTUP: Connects to MT5, validates Demo-Only status.
+- SYNC: Fetches M1, M5, M15 candle data.
+- SCAN: Evaluates 8 SMC strategies against closed candles.
+- AI CHECK: Filters trades based on a 0.48 confidence threshold.
+- RISK CHECK: Guards on spread (max 55), stale ticks (<10s), and late entry (<70% move).
+- ORDER: Sends order using IOC/RETURN/FOK retry logic.
+- MANAGEMENT: 
+  * Stage 1: Close 50% at 60% progress, move SL to Break-even. 
+  * Stage 2: Close 25% at 80% progress, advance SL.
+- SYNC: Identifies broker-side exits and records final exit reason (TP2, SL, etc.).
+
+3. ENTRY LOGIC (STRATEGIES)
+---------------------------
+- Sweep Reclaim: Detects sweeps of M15 High/Low on M1.
+- VSA Shift: Volume spikes at Supply/Demand zones.
+- Continuation: Trend continuation via M5 Order Block mitigation.
+- Mitigation: Touching M15 FVG boundaries.
+- MSS Shift: Market Structure Shift on M1 timeframe.
+- Breaker Block: Retest of a failed Order Block.
+- Exhaustion: Oversold/Overbought reversal via RSI + CHoCH.
+- Volume Flow: Price interaction with Volume Profile POC.
+
+4. STOP LOSS AND TAKE PROFIT
+----------------------------
+- SL: Structural (Swing H/L) + buffer. Fallback to 1.5x ATR.
+- TP: Two targets calculated (TP1/TP2). TP2 is the hard MT5 target.
+- MONOTONIC GUARD: SL can only move in favor of protection (never backwards).
+- PROGRESS: Calculated as (Price - Entry) / (TP1 - Entry).
+
+5. PARTIAL CLOSE MATH
+---------------------
+- VOLUMES: Stage 1 = 0.50x, Stage 2 = 0.25x (of initial).
+- CLOSED_FULL: Triggered if remaining volume would be < 0.01 lot step.
+- RECOVERY: Bot halts new trades if an SL update fails after a partial, retrying until safe.
+
+6. RISK FILTERS
+---------------
+- SPREAD: Max 55 points (override for Gold).
+- RE-ENTRY: Skips symbol scan if an open trade is detected.
+- GAP LOCK: Prevents toxic risk if protection updates fail.
+
+7. CONFIRMATION STATUS
+----------------------
+- SL Guard: Confirmed (Strict implementation).
+- Volume Math: Confirmed (Handles XM lot steps).
+- Filling Modes: Confirmed (IOC retry logic).
+- AI Score: Logic integrated, needs long-term demo validation.
+
+8. KNOWN RISKS
+--------------
+- news spikes can cause false "Absorption" signals.
+- No cooldown exists immediately after an SL hit if the setup reforms.
+- High-impact news can hit the spread filter and block trades.
+
+[Document Source: trading_bot_architecture.md]

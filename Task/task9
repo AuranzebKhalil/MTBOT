@@ -1,0 +1,71 @@
+Task 9 — Add frontend tracking for filters, rejections, and trade state
+
+
+Implement frontend tracking for the new bot filters and trade state in my real frontend codebase.
+
+Important:
+- Work in the real frontend, not a fake dashboard
+- Use real backend data
+- Do not create placeholder-only UI
+- Update the screens/components I already use to track trades
+
+Frontend requirements:
+1. Rejection reasons panel/table
+Show:
+- symbol
+- strategy
+- direction
+- rejection reason
+- key values used
+Examples:
+- REJECTED_COOLDOWN
+- REJECTED_SAME_ZONE
+- REJECTED_NEAR_LEVEL
+- REJECTED_NEWS_WINDOW
+- REJECTED_SESSION_FILTER
+- REJECTED_SPREAD
+- REJECTED_LATE_ENTRY
+
+2. Live trade state
+Show:
+- entry
+- SL
+- TP
+- TP1
+- TP2
+- stage1_partial_done
+- stage1_sl_done
+- stage2_partial_done
+- stage2_sl_done
+- final_exit_reason
+- AI score
+- session
+- market regime
+
+3. Cooldown and blocked zone visibility
+Show:
+- active cooldowns
+- blocked zones
+- expiry/candles remaining
+- symbol + direction lockouts
+
+4. Strategy performance section
+Show:
+- per-strategy win rate
+- average RR
+- rejections by strategy
+- session performance
+- top losing strategy
+- top performing strategy
+
+Please inspect and update the real frontend files, including:
+- frontend/app/page.js
+- frontend/app/settings/page.js
+- frontend/app/components/BotContext.js
+- any actual dashboard components being used
+
+Show me:
+1. frontend files changed
+2. backend API routes used or added
+3. how the frontend gets the new data
+4. what screens now show the new tracking info

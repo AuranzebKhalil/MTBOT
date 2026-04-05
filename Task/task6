@@ -1,0 +1,34 @@
+Task 6 — Add high-impact news filter
+
+
+Implement a high-impact news filter in my real trading bot codebase.
+
+Important:
+- Work in the real codebase
+- Keep trade management active for already-open trades
+- Only block new entries during the news window
+
+Goal:
+Prevent new trades around major scheduled economic news.
+
+Required behavior:
+- block new entries before and after high-impact news events
+- configurable time window
+- high-impact only
+- if news provider is not yet integrated, add a clean real service/interface layer in the codebase so integration can be added properly
+
+Suggested config:
+- enable_news_filter = true
+- news_block_minutes_before = 20
+- news_block_minutes_after = 20
+- high_impact_only = true
+
+Add rejection log:
+- REJECTED_NEWS_WINDOW
+
+Show me:
+1. files changed
+2. service/interface added
+3. config added
+4. backend flow for checking the news window
+5. what still needs external integration if the provider is not connected yet

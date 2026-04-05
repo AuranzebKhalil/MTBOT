@@ -1,0 +1,202 @@
+2026-03-17 21:17:12,568 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 21:17:13,261 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 21:17:13,311 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.03 comment='Bot Partial'
+2026-03-17 21:17:13,600 - INFO -   TRY FILLING IOC: retcode=10009 time=0.289s comment=Request executed
+2026-03-17 21:17:13,600 - INFO -   SUCCESS: #569631936 filled via IOC
+2026-03-17 21:17:13,611 - INFO - ORDER SLTP: ticket=#569631920 symbol=EURUSD sl=1.1488749999999999 tp=1.16244
+2026-03-17 21:17:13,893 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 21:17:14,924 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.01 comment='Bot Partial'
+2026-03-17 21:17:15,226 - INFO -   TRY FILLING IOC: retcode=10009 time=0.302s comment=Request executed
+2026-03-17 21:17:15,229 - INFO -   SUCCESS: #569631990 filled via IOC
+2026-03-17 21:17:15,275 - INFO - ORDER SLTP: ticket=#569631920 symbol=EURUSD sl=1.15079 tp=1.16244
+2026-03-17 21:17:15,564 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 21:17:16,939 - INFO - ORDER SLTP: ticket=#569632074 symbol=EURUSD sl=1.14867 tp=1.1574399999999998
+2026-03-17 21:17:17,244 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 22:10:33,454 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:10:34,096 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:15:25,520 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:15:26,146 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:15:26,192 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.03 comment='Bot Partial'
+2026-03-17 22:15:26,485 - INFO -   TRY FILLING IOC: retcode=10009 time=0.292s comment=Request executed
+2026-03-17 22:15:26,485 - INFO -   SUCCESS: #569704819 filled via IOC
+2026-03-17 22:15:26,491 - INFO - ORDER SLTP: ticket=#569704815 symbol=EURUSD sl=1.14916 tp=1.16278
+2026-03-17 22:15:26,778 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 22:15:27,801 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.01 comment='Bot Partial'
+2026-03-17 22:15:28,111 - INFO -   TRY FILLING IOC: retcode=10009 time=0.310s comment=Request executed
+2026-03-17 22:15:28,112 - INFO -   SUCCESS: #569704837 filled via IOC
+2026-03-17 22:15:28,124 - INFO - ORDER SLTP: ticket=#569704815 symbol=EURUSD sl=1.15106 tp=1.16278
+2026-03-17 22:15:28,429 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 22:15:29,767 - INFO - ORDER SLTP: ticket=#569704852 symbol=EURUSD sl=1.1488749999999999 tp=1.1577799999999998
+2026-03-17 22:15:30,073 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-03-17 22:17:53,412 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:18:02,463 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-17 22:18:02,776 - INFO -   TRY FILLING IOC: retcode=10009 time=0.311s comment=Request executed
+2026-03-17 22:18:02,777 - INFO -   SUCCESS: #569706396 filled via IOC
+2026-03-17 22:21:03,321 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-17 22:21:03,623 - INFO -   TRY FILLING IOC: retcode=10009 time=0.302s comment=Request executed
+2026-03-17 22:21:03,624 - INFO -   SUCCESS: #569708891 filled via IOC
+2026-03-17 22:23:35,399 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:23:35,421 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-17 22:25:08,952 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:09,258 - INFO -   TRY FILLING IOC: retcode=10009 time=0.306s comment=Request executed
+2026-03-17 22:25:09,259 - INFO -   SUCCESS: #569714570 filled via IOC
+2026-03-17 22:25:10,988 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:11,285 - INFO -   TRY FILLING IOC: retcode=10009 time=0.297s comment=Request executed
+2026-03-17 22:25:11,285 - INFO -   SUCCESS: #569714617 filled via IOC
+2026-03-17 22:25:15,064 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:15,348 - INFO -   TRY FILLING IOC: retcode=10009 time=0.284s comment=Request executed
+2026-03-17 22:25:15,349 - INFO -   SUCCESS: #569714663 filled via IOC
+2026-03-17 22:25:31,924 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:32,242 - INFO -   TRY FILLING IOC: retcode=10009 time=0.318s comment=Request executed
+2026-03-17 22:25:32,242 - INFO -   SUCCESS: #569715063 filled via IOC
+2026-03-17 22:25:35,808 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:36,106 - INFO -   TRY FILLING IOC: retcode=10016 time=0.298s comment=Invalid stops
+2026-03-17 22:25:37,540 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:37,837 - INFO -   TRY FILLING IOC: retcode=10009 time=0.296s comment=Request executed
+2026-03-17 22:25:37,837 - INFO -   SUCCESS: #569715182 filled via IOC
+2026-03-17 22:25:39,671 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:39,959 - INFO -   TRY FILLING IOC: retcode=10009 time=0.289s comment=Request executed
+2026-03-17 22:25:39,960 - INFO -   SUCCESS: #569715227 filled via IOC
+2026-03-17 22:25:41,706 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VSA_SHIFT'
+2026-03-17 22:25:42,008 - INFO -   TRY FILLING IOC: retcode=10009 time=0.300s comment=Request executed
+2026-03-17 22:25:42,008 - INFO -   SUCCESS: #569715273 filled via IOC
+2026-03-17 22:33:04,145 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-17 22:33:04,488 - INFO -   TRY FILLING IOC: retcode=10009 time=0.343s comment=Request executed
+2026-03-17 22:33:04,488 - INFO -   SUCCESS: #569723531 filled via IOC
+2026-03-17 23:50:35,968 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:19:59,480 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:21:51,575 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:21:51,591 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:21:57,866 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:21:57,887 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:24:45,331 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:30:26,005 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:31:01,768 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:32:32,303 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:32:32,323 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:33:40,979 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:41:38,464 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:41:38,496 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:41:40,046 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:41:40,066 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 00:42:53,048 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 12:44:02,212 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 19:35:48,474 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:44:23,378 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:45:34,207 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:46:33,294 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:48:27,103 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:53:50,539 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:55:55,519 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:58:06,425 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:58:06,450 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 22:59:03,850 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-18 22:59:04,179 - INFO -   TRY FILLING IOC: retcode=10009 time=0.329s comment=Request executed
+2026-03-18 22:59:04,180 - INFO -   SUCCESS: #571419059 filled via IOC
+2026-03-18 23:02:27,326 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-18 23:02:27,617 - INFO -   TRY FILLING IOC: retcode=10009 time=0.290s comment=Request executed
+2026-03-18 23:02:27,617 - INFO -   SUCCESS: #571431449 filled via IOC
+2026-03-18 23:15:30,948 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 23:34:48,346 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-18 23:34:49,692 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-18 23:34:49,974 - INFO -   TRY FILLING IOC: retcode=10009 time=0.281s comment=Request executed
+2026-03-18 23:34:49,975 - INFO -   SUCCESS: #571491519 filled via IOC
+2026-03-19 00:00:08,352 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-19 00:00:08,639 - INFO -   TRY FILLING IOC: retcode=10009 time=0.286s comment=Request executed
+2026-03-19 00:00:08,640 - INFO -   SUCCESS: #571541600 filled via IOC
+2026-03-19 00:01:40,452 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 00:01:40,470 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 00:02:09,409 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 00:02:09,427 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 00:24:01,643 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-19 00:24:01,960 - INFO -   TRY FILLING IOC: retcode=10009 time=0.316s comment=Request executed
+2026-03-19 00:24:01,960 - INFO -   SUCCESS: #571579408 filled via IOC
+2026-03-19 00:49:01,831 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-19 00:49:02,103 - INFO -   TRY FILLING IOC: retcode=10009 time=0.271s comment=Request executed
+2026-03-19 00:49:02,103 - INFO -   SUCCESS: #571610650 filled via IOC
+2026-03-19 01:15:04,077 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-19 01:15:04,363 - INFO -   TRY FILLING IOC: retcode=10009 time=0.285s comment=Request executed
+2026-03-19 01:15:04,363 - INFO -   SUCCESS: #571647908 filled via IOC
+2026-03-19 23:02:24,068 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 23:09:16,118 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-19 23:09:16,171 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-25 13:33:15,075 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-25 13:48:09,617 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-25 13:48:10,674 - INFO -   TRY FILLING IOC: retcode=10009 time=1.056s comment=Request executed
+2026-03-25 13:48:10,675 - INFO -   SUCCESS: #582944967 filled via IOC
+2026-03-25 13:49:08,635 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-25 13:49:08,661 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-25 14:03:06,339 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-25 14:03:06,568 - INFO -   TRY FILLING IOC: retcode=10009 time=0.229s comment=Request executed
+2026-03-25 14:03:06,569 - INFO -   SUCCESS: #582972721 filled via IOC
+2026-03-25 15:06:54,598 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-25 15:06:54,614 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-26 13:24:31,147 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-26 13:25:07,324 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-26 13:25:07,609 - INFO -   TRY FILLING IOC: retcode=10009 time=0.285s comment=Request executed
+2026-03-26 13:25:07,609 - INFO -   SUCCESS: #584959267 filled via IOC
+2026-03-26 15:44:09,725 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-26 15:44:10,065 - INFO -   TRY FILLING IOC: retcode=10009 time=0.340s comment=Request executed
+2026-03-26 15:44:10,065 - INFO -   SUCCESS: #585189449 filled via IOC
+2026-03-26 15:54:14,932 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-26 15:54:14,995 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-26 15:55:20,435 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-26 15:55:20,754 - INFO -   TRY FILLING IOC: retcode=10009 time=0.319s comment=Request executed
+2026-03-26 15:55:20,755 - INFO -   SUCCESS: #585210789 filled via IOC
+2026-03-28 21:35:16,732 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-28 21:55:26,298 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-28 21:55:26,339 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-28 21:57:53,251 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-28 21:58:03,529 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-28 21:59:47,907 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-29 21:47:17,513 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-29 21:47:31,592 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-29 21:47:31,669 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-29 21:48:46,220 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:37:27,792 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:42,915 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:48,558 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:48,613 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:51,538 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:51,668 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:53,263 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:40:53,318 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 15:42:03,648 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 15:42:03,937 - INFO -   TRY FILLING IOC: retcode=10009 time=0.289s comment=Request executed
+2026-03-30 15:42:03,937 - INFO -   SUCCESS: #589859357 filled via IOC
+2026-03-30 16:07:04,554 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 16:07:04,844 - INFO -   TRY FILLING IOC: retcode=10009 time=0.290s comment=Request executed
+2026-03-30 16:07:04,845 - INFO -   SUCCESS: #589899113 filled via IOC
+2026-03-30 16:19:03,480 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-30 16:19:03,760 - INFO -   TRY FILLING IOC: retcode=10009 time=0.280s comment=Request executed
+2026-03-30 16:19:03,761 - INFO -   SUCCESS: #589923902 filled via IOC
+2026-03-30 16:58:44,217 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 16:58:44,415 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 17:31:03,956 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-03-30 17:31:04,256 - INFO -   TRY FILLING IOC: retcode=10009 time=0.300s comment=Request executed
+2026-03-30 17:31:04,257 - INFO -   SUCCESS: #590119577 filled via IOC
+2026-03-30 18:11:28,137 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 18:11:28,427 - INFO -   TRY FILLING IOC: retcode=10009 time=0.288s comment=Request executed
+2026-03-30 18:11:28,427 - INFO -   SUCCESS: #590220496 filled via IOC
+2026-03-30 18:28:02,148 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 18:28:02,456 - INFO -   TRY FILLING IOC: retcode=10009 time=0.308s comment=Request executed
+2026-03-30 18:28:02,457 - INFO -   SUCCESS: #590254217 filled via IOC
+2026-03-30 19:45:07,391 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 19:45:07,688 - INFO -   TRY FILLING IOC: retcode=10009 time=0.296s comment=Request executed
+2026-03-30 19:45:07,688 - INFO -   SUCCESS: #590533976 filled via IOC
+2026-03-30 20:33:03,737 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-30 20:33:04,059 - INFO -   TRY FILLING IOC: retcode=10009 time=0.322s comment=Request executed
+2026-03-30 20:33:04,059 - INFO -   SUCCESS: #590658636 filled via IOC
+2026-03-30 20:45:44,851 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-30 20:45:44,922 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:43:30,025 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:45:11,867 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:45:49,891 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:45:49,918 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:49:09,078 - INFO - STARTUP: Connected to account #336014389 (Mode: 0)
+2026-03-31 23:51:04,124 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-03-31 23:51:04,404 - INFO -   TRY FILLING IOC: retcode=10009 time=0.278s comment=Request executed
+2026-03-31 23:51:04,405 - INFO -   SUCCESS: #593474250 filled via IOC
+2026-04-01 00:03:03,925 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-01 00:03:04,474 - INFO -   TRY FILLING IOC: retcode=10009 time=0.549s comment=Request executed
+2026-04-01 00:03:04,475 - INFO -   SUCCESS: #593489845 filled via IOC
