@@ -204,3 +204,36 @@ class SMCIndicators:
         poc_price = price_min + (poc_idx + 0.5) * bin_width
         df.at[df.index[-1], 'poc'] = poc_price
         return df
+    @staticmethod
+    def calculate_bollinger_bands(series, period=20, num_std=2):
+        sma = series.rolling(window=period).mean()
+        std = series.rolling(window=period).std()
+        upper_band = sma + (std * num_std)
+        lower_band = sma - (std * num_std)
+        return upper_band, sma, lower_band
+
+    @staticmethod
+    def calculate_adx(df, period=14):
+        """Standard Average Directional Index (ADX) implementation."""
+        if len(df) < period * 2:
+            return pd.Series([0.0] * len(df), index=df.index)
+            
+        high, low, close = df['high'], df['low'], df['close']
+        
+        plus_dm = high.diff()
+        minus_dm = low.diff()
+        plus_dm[plus_dm < 0] = 0
+        plus_dm[plus_dm < minus_dm] = 0
+        minus_dm[minus_dm < 0] = 0
+        minus_dm[minus_dm < plus_dm] = 0
+        
+        tr = np.maximum(high - low, 
+             np.maximum(np.abs(high - close.shift(1)), 
+                        np.abs(low - close.shift(1))))
+        
+        atr = tr.rolling(window=period).mean()
+        plus_di = 100 * (plus_dm.rolling(window=period).mean() / atr)
+        minus_di = 100 * (minus_dm.rolling(window=period).mean() / atr)
+        dx = (np.abs(plus_di - minus_di) / (plus_di + minus_di)) * 100
+        adx = dx.rolling(window=period).mean()
+        return adx

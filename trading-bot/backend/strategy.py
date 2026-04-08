@@ -21,6 +21,7 @@ class SMCStrategy:
         
         # 1. Pipeline Status Tracking
         pipeline_status = {
+            "MAD Trend Loop": {"status": "Waiting", "reason": "No MAD logic triggered", "score": 0},
             "Sweep Reclaim": {"status": "Waiting", "reason": "No sweep detected", "score": 0},
             "VSA Shift": {"status": "Waiting", "reason": "Volume below 2x avg", "score": 0},
             "Continuation": {"status": "Waiting", "reason": "No BOS detected", "score": 0},
@@ -75,12 +76,16 @@ class SMCStrategy:
         sig5, name5, det5 = self._exhaustion_reversal(df_p, bias)
         if sig5 != "WAIT": pipeline_status["Exhaustion"].update({"status": "Setup Found", "reason": det5.get('ent'), "score": 65})
 
+        # Strategy 6 Check (Mean Deviation Loop)
+        sig6, name6, det6 = self._mean_deviation_loop(df_p)
+        if sig6 != "WAIT": pipeline_status["MAD Trend Loop"].update({"status": "Setup Found", "reason": det6.get('ent'), "score": 90})
+
         # 4. Result Selection (Priority Based)
         final_signal = "WAIT"
         final_name = "No setups qualified"
         final_details = {"pipeline": pipeline_status, "bias": bias_str}
 
-        for sig, name, details in [(sig1, name1, det1), (sig2, name2, det2), (sig3, name3, det3), (sig4, name4, det4), (sig5, name5, det5)]:
+        for sig, name, details in [(sig6, name6, det6), (sig1, name1, det1), (sig2, name2, det2), (sig3, name3, det3), (sig4, name4, det4), (sig5, name5, det5)]:
             if sig != "WAIT":
                 final_signal = sig
                 final_name = name
@@ -91,6 +96,21 @@ class SMCStrategy:
             return self._finalize(final_signal, final_name, final_details, df_p)
 
         return final_signal, price, final_name, final_details
+
+    def _mean_deviation_loop(self, df):
+        """Family 6: Mean Deviation Loop Lyro RS."""
+        from app.strategy.custome_indicator import MeanDeviationLoopStrategy
+        df_ind = MeanDeviationLoopStrategy.apply_indicator(df)
+        if df_ind.empty: return "WAIT", "", {}
+        
+        latest = df_ind.iloc[-1]
+        
+        if latest.get('buy_signal', False):
+            return "BUY", "Mean Deviation Loop | Lyro RS", {"ent": "MAD Indicator Buy Signal", "conf": "High"}
+        if latest.get('sell_signal', False):
+            return "SELL", "Mean Deviation Loop | Lyro RS", {"ent": "MAD Indicator Sell Signal", "conf": "High"}
+            
+        return "WAIT", "", {}
 
     def _preprocess(self, df):
         df = self.indicators.detect_liquidity_sweeps(df)

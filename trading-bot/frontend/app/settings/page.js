@@ -159,7 +159,7 @@ export default function Settings() {
         maxWidth: isMobile ? "100%" : "800px",
         overflowX: isMobile ? "auto" : "visible"
       }}>
-        <TabButton active={activeTab === "risk"} onClick={() => setActiveTab("risk")} label="Risk" icon={<Shield size={16} />} isMobile={isMobile} />
+        <TabButton active={activeTab === "risk"} onClick={() => setActiveTab("risk")} label="Intelligence" icon={<Cpu size={16} />} isMobile={isMobile} />
         <TabButton active={activeTab === "management"} onClick={() => setActiveTab("management")} label="Trade" icon={<Activity size={16} />} isMobile={isMobile} />
         <TabButton active={activeTab === "assets"} onClick={() => setActiveTab("assets")} label="Assets" icon={<Globe size={16} />} isMobile={isMobile} />
         <TabButton active={activeTab === "volume"} onClick={() => setActiveTab("volume")} label="Volume" icon={<Target size={16} />} isMobile={isMobile} />
@@ -174,91 +174,6 @@ export default function Settings() {
               gap: isMobile ? "15px" : "25px",
             }}
           >
-            {/* --- INSTITUTIONAL RISK PROFILE --- */}
-            <div className="glass-panel" style={{ padding: "30px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "25px" }}>
-                <div style={{ background: "rgba(0, 255, 189, 0.1)", border: "1px solid rgba(0, 255, 189, 0.2)", padding: "10px", borderRadius: "10px" }}>
-                  <Shield size={20} color="var(--profit)" />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: "15px", fontWeight: "600" }}>Risk Mitigation Profile</h3>
-                  <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Capital preservation and trade execution limits</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {/* Risk Per Trade */}
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--text-main)" }}>Risk Per Trade (%)</span>
-                    <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--profit)" }}>{riskParams.risk_per_trade}%</span>
-                  </div>
-                  <input
-                    type="range" min="0.1" max="5.0" step="0.1"
-                    value={riskParams.risk_per_trade}
-                    onChange={(e) => setRiskParams({ ...riskParams, risk_per_trade: e.target.value })}
-                    style={{ width: "100%", accentColor: "var(--profit)" }}
-                  />
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px" }}>
-                  {/* Max Open Trades */}
-                  <div className="inner-panel" style={{ padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px", border: "1px solid var(--glass-border)" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                      <Target size={14} color="var(--primary)" />
-                      <span style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.5px" }}>MAX OPEN TRADES</span>
-                    </div>
-                    <input
-                      type="number" min="1" max="10"
-                      value={riskParams.max_trades}
-                      onChange={(e) => setRiskParams({ ...riskParams, max_trades: e.target.value })}
-                      style={{ width: "100%", background: "transparent", border: "none", borderBottom: "1px solid var(--glass-border)", fontSize: "18px", fontWeight: "700", color: "var(--text-main)" }}
-                    />
-                  </div>
-
-                  {/* Trades Per Day */}
-                  <div className="inner-panel" style={{ padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px", border: "1px solid var(--glass-border)" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                      <Activity size={14} color="var(--primary)" />
-                      <span style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.5px" }}>DAILY TRADE LIMIT</span>
-                    </div>
-                    <input
-                      type="number" min="1" max="50"
-                      value={riskParams.max_daily_trades}
-                      onChange={(e) => setRiskParams({ ...riskParams, max_daily_trades: e.target.value })}
-                      style={{ width: "100%", background: "transparent", border: "none", borderBottom: "1px solid var(--glass-border)", fontSize: "18px", fontWeight: "700", color: "var(--text-main)" }}
-                    />
-                  </div>
-                </div>
-
-                {/* Daily Loss Limit */}
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--text-main)" }}>Daily Drawdown Limit (%)</span>
-                    <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--loss)" }}>{riskParams.daily_loss}%</span>
-                  </div>
-                  <input
-                    type="range" min="1" max="30" step="1"
-                    value={riskParams.daily_loss}
-                    onChange={(e) => setRiskParams({ ...riskParams, daily_loss: e.target.value })}
-                    style={{ width: "100%", accentColor: "var(--loss)" }}
-                  />
-                </div>
-
-                {/* Risk Reward Ratio */}
-                <div>
-                  <h4 style={{ fontSize: "12px", fontWeight: "600", marginBottom: "10px", color: "var(--text-sub)", letterSpacing: "1px" }}>TARGET RISK:REWARD</h4>
-                  <RRRatioDropdown
-                    value={riskParams.risk_reward_ratio}
-                    onChange={(val) => setRiskParams({ ...riskParams, risk_reward_ratio: val })}
-                  />
-                </div>
-
-                <button onClick={saveRiskProfile} className="premium-btn" style={{ marginTop: "10px", width: "100%", padding: "15px", borderRadius: "12px", display: "flex", justifyContent: "center", alignItems: "center", gap: "10px" }}>
-                  <Save size={18} /> SAVE RISK PROFILE
-                </button>
-              </div>
-            </div>
 
             {/* --- AI DETECTION ENGINE --- */}
             <div style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
@@ -597,20 +512,20 @@ export default function Settings() {
                        }}>
                          <span style={{ fontSize: "10px", fontWeight: "700", color: "var(--text-sub)", textTransform: "uppercase", letterSpacing: "1px" }}>Value</span>
                          <div style={{ fontSize: isMobile ? "16px" : "16px", fontWeight: "600", color: "var(--text-sub)", marginTop: isMobile ? 0 : "4px" }}>
-                            ${(manualVolume * (symbolInfo.contract_size || 100000) * currentPrice).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                            ${(parseFloat(manualVolume || 0.01) * (symbolInfo.contract_size || 1000) * currentPrice).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                          </div>
                        </div>
                        <div style={{ textAlign: isMobile ? "left" : "right", display: isMobile ? 'flex' : 'block', justifyContent:'space-between', alignItems:'center' }}>
                          <span style={{ fontSize: "10px", fontWeight: "700", color: "#ff7675", textTransform: "uppercase", letterSpacing: "1px" }}>Risk (20P)</span>
                          <div style={{ fontSize: isMobile ? "18px" : "22px", fontWeight: "600", color: "#eb4d4b", marginTop: isMobile ? 0 : "4px" }}>
-                            ${(manualVolume * (symbolInfo.contract_size || 100000) * (symbolInfo.point * 200 || 0.002)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            ${(parseFloat(manualVolume || 0.01) * (symbolInfo.contract_size || 1000) * (symbolInfo.point * 200 || 0.2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                          </div>
                        </div>
                     </div>
                     <label style={{ display: "block", fontSize: "10px", fontWeight: "700", color: "var(--text-sub)", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>Execution Lot Precision</label>
                     <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "repeat(auto-fill, minmax(110px, 1fr))", gap: "10px" }}>
                       {[0.01, 0.05, 0.1, 0.25, 0.5, 1.0].map(vol => {
-                        const isSelected = Math.abs(parseFloat(manualVolume) - vol) < 0.0001;
+                        const isSelected = Math.abs(parseFloat(manualVolume || 0.01) - vol) < 0.0001;
                         return (
                           <button 
                             key={vol} onClick={() => updateSymbolManualVolume(selectedPair, vol)}
@@ -619,12 +534,13 @@ export default function Settings() {
                               background: isSelected ? "var(--primary)" : "var(--divider)",
                               borderColor: isSelected ? "var(--primary)" : "var(--border)",
                               color: isSelected ? "black" : "var(--text-main)",
-                              transition: "all 0.2s ease"
+                              transition: "all 0.2s ease",
+                              boxShadow: isSelected ? "0 4px 15px rgba(0,122,255,0.3)" : "none"
                             }}
                             className="hover-lift"
                           >
-                             <div style={{ fontSize: "18px", fontWeight: "600" }}>{vol}</div>
-                             <div style={{ fontSize: "10px", opacity: 0.6, marginTop: "2px" }}>LOTS</div>
+                            <div style={{ fontSize: "14px", fontWeight: "900" }}>{vol}</div>
+                            <div style={{ fontSize: "9px", fontWeight: "700", opacity: 0.6, marginTop: "2px" }}>LOTS</div>
                           </button>
                         );
                       })}
@@ -635,29 +551,6 @@ export default function Settings() {
         )}
       </div>
 
-      {/* --- MAINTENANCE --- */}
-      <div className="glass-panel" style={{ marginTop: "40px", padding: "30px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "25px" }}>
-          <AlertTriangle size={20} color="#eb4d4b" />
-          <h3 style={{ fontSize: "16px", fontWeight: "600" }}>Maintenance & Recovery</h3>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(300px, 1fr))", gap: isMobile ? "12px" : "20px" }}>
-          <button onClick={resetRiskProfile} className="inner-panel" style={{ display: "flex", alignItems: "center", gap: "15px", padding: "20px", background: "rgba(255,255,255,0.02)", border: "1px solid var(--glass-border)", borderRadius: "12px", cursor: "pointer", transition: "0.3s" }}>
-            <RotateCcw size={20} color="#3498db" />
-            <div>
-              <p style={{ fontSize: "14px", fontWeight: "600", color: "white" }}>Restore Risk Defaults</p>
-              <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Reset to strict 1% risk & 5-trade limit</p>
-            </div>
-          </button>
-          <button onClick={resetTradeHistory} className="inner-panel" style={{ display: "flex", alignItems: "center", gap: "15px", padding: "20px", background: "rgba(235, 77, 75, 0.05)", border: "1px solid rgba(235, 77, 75, 0.2)", borderRadius: "12px", cursor: "pointer", transition: "0.3s" }}>
-            <Trash2 size={20} color="#eb4d4b" />
-            <div>
-              <p style={{ fontSize: "14px", fontWeight: "600", color: "white" }}>Reset Trade History</p>
-              <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Permanently wipe all past trade logs</p>
-            </div>
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

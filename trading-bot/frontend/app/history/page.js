@@ -1,14 +1,33 @@
 "use client";
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useAuth } from "../components/AuthContext";
 import { useBot } from "../components/BotContext";
 import { useMediaQuery } from "../lib/useMediaQuery";
-import { TrendingUp, TrendingDown, Clock, Hash, Zap, Trash2 } from "lucide-react";
+import {
+  TrendingUp,
+  TrendingDown,
+  Clock,
+  Hash,
+  Zap,
+  Trash2,
+} from "lucide-react";
 
 export default function History() {
   const { user } = useAuth();
-  const { history, deleteTradeHistoryItem } = useBot();
+  const { history, deleteTradeHistoryItem, resetTradeHistory } = useBot();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const [selectedStrategy, setSelectedStrategy] = useState("ALL");
+
+  const uniqueStrategies = useMemo(() => {
+    const strats = new Set(history.map(t => t.strategy || "Manual"));
+    return ["ALL", ...Array.from(strats)];
+  }, [history]);
+
+  const filteredHistory = useMemo(() => {
+    if (selectedStrategy === "ALL") return history;
+    return history.filter(t => (t.strategy || "Manual") === selectedStrategy);
+  }, [history, selectedStrategy]);
 
   if (!user) return null;
 
@@ -16,7 +35,12 @@ export default function History() {
     <div className="animate-fade-in">
       <div
         className="glass-panel"
-        style={{ padding: isMobile ? "20px" : "30px", minHeight: "600px", border: isMobile ? "none" : "1px solid var(--border)", background: isMobile ? "transparent" : "var(--bg-card)" }}
+        style={{
+          padding: isMobile ? "20px" : "30px",
+          minHeight: "600px",
+          border: isMobile ? "none" : "1px solid var(--border)",
+          background: isMobile ? "transparent" : "var(--bg-card)",
+        }}
       >
         <div
           style={{
@@ -25,65 +49,278 @@ export default function History() {
             justifyContent: "space-between",
             alignItems: isMobile ? "flex-start" : "center",
             marginBottom: "25px",
-            gap: isMobile ? "8px" : "0"
+            gap: isMobile ? "8px" : "0",
           }}
         >
-          <h2 style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: "800", color: "var(--text-main)" }}>
+          <h2
+            style={{
+              fontSize: isMobile ? "20px" : "24px",
+              fontWeight: "800",
+              color: "var(--text-main)",
+            }}
+          >
             Closed Deal Logs
           </h2>
-          <div style={{ fontSize: "12px", color: "var(--text-sub)", fontWeight: "600" }}>
-            {history.length} TRADES ANALYZED (30D)
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              flexWrap: "wrap",
+              justifyContent: isMobile ? "flex-start" : "flex-end"
+            }}
+          >
+            <select
+              value={selectedStrategy}
+              onChange={(e) => setSelectedStrategy(e.target.value)}
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid var(--border)",
+                color: "var(--text-main)",
+                padding: "6px 12px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                outline: "none",
+                cursor: "pointer",
+              }}
+              className="hover-lift"
+            >
+              {uniqueStrategies.map(strat => (
+                <option key={strat} value={strat} style={{ background: "var(--bg-card)", color: "var(--text-main)" }}>
+                  {strat === "ALL" ? "All Strategies" : strat}
+                </option>
+              ))}
+            </select>
+            <span style={{ fontSize: "12px", color: "var(--text-sub)", fontWeight: "600" }}>
+              {filteredHistory.length} TRADES ANALYZED (30D)
+            </span>
+            <button
+               onClick={resetTradeHistory}
+               className="hover-lift"
+               style={{
+                 background: "rgba(255, 69, 58, 0.05)",
+                 border: "1px solid rgba(255, 69, 58, 0.1)",
+                 color: "var(--loss)",
+                 padding: "6px 12px",
+                 borderRadius: "8px",
+                 fontSize: "10px",
+                 fontWeight: "800",
+                 cursor: "pointer",
+                 display: "flex",
+                 alignItems: "center",
+                 gap: "6px",
+                 textTransform: "uppercase",
+                 letterSpacing: "0.5px"
+               }}
+            >
+              <Trash2 size={12} />
+              Reset Full History
+            </button>
           </div>
         </div>
 
         {isMobile ? (
           /* Mobile Card View */
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {history.map((trade, i) => (
-              <div key={trade.id ?? i} className="glass-panel" style={{ padding: "16px", borderRadius: "16px", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                     <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: trade.type === "BUY" ? "rgba(50, 215, 75, 0.1)" : "rgba(255, 69, 58, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {trade.type === "BUY" ? <TrendingUp size={16} color="var(--success)" /> : <TrendingDown size={16} color="var(--loss)" />}
-                     </div>
-                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontWeight: "800", fontSize: "14px" }}>{trade.symbol}</span>
-                        <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>{trade.type} • {trade.strategy}</span>
-                     </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          >
+            {filteredHistory.map((trade, i) => (
+              <div
+                key={trade.id ?? i}
+                className="glass-panel"
+                style={{
+                  padding: "16px",
+                  borderRadius: "16px",
+                  border: "1px solid var(--border)",
+                  background: "rgba(255,255,255,0.02)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "8px",
+                        background:
+                          trade.type === "BUY"
+                            ? "rgba(50, 215, 75, 0.1)"
+                            : "rgba(255, 69, 58, 0.1)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {trade.type === "BUY" ? (
+                        <TrendingUp size={16} color="var(--success)" />
+                      ) : (
+                        <TrendingDown size={16} color="var(--loss)" />
+                      )}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span style={{ fontWeight: "800", fontSize: "14px" }}>
+                        {trade.symbol}
+                      </span>
+                      <span
+                        style={{ fontSize: "10px", color: "var(--text-sub)" }}
+                      >
+                        {trade.type} • {trade.strategy}
+                      </span>
+                    </div>
                   </div>
-                  <div style={{ textAlign: "right", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontWeight: "900", color: trade.profit >= 0 ? "var(--profit)" : "var(--loss)", fontSize: "16px" }}>
+                  <div
+                    style={{
+                      textAlign: "right",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: "900",
+                        color:
+                          trade.profit >= 0 ? "var(--profit)" : "var(--loss)",
+                        fontSize: "16px",
+                      }}
+                    >
                       {trade.profit >= 0 ? "+" : ""}${trade.profit.toFixed(2)}
                     </span>
-                    <button 
+                    <button
                       onClick={() => deleteTradeHistoryItem(trade.id)}
-                      style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--loss)", padding: "4px", display: "flex", alignItems: "center" }}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--loss)",
+                        padding: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                       title="Delete Trade"
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
-                
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", borderTop: "1px solid var(--divider)", paddingTop: "12px" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                    <span style={{ fontSize: "8px", fontWeight: "700", color: "var(--text-sub)", textTransform: "uppercase" }}>Ticket ID</span>
-                    <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--text-main)", fontFamily: "monospace" }}>#{trade.id}</span>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "12px",
+                    borderTop: "1px solid var(--divider)",
+                    paddingTop: "12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "8px",
+                        fontWeight: "700",
+                        color: "var(--text-sub)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Ticket ID
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        color: "var(--text-main)",
+                        fontFamily: "monospace",
+                      }}
+                    >
+                      #{trade.id}
+                    </span>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                    <span style={{ fontSize: "8px", fontWeight: "700", color: "var(--text-sub)", textTransform: "uppercase" }}>Lot Size</span>
-                    <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--text-main)" }}>{trade.volume.toFixed(2)}</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "8px",
+                        fontWeight: "700",
+                        color: "var(--text-sub)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Lot Size
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        color: "var(--text-main)",
+                      }}
+                    >
+                      {trade.volume.toFixed(2)}
+                    </span>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", gridColumn: "span 2" }}>
-                    <span style={{ fontSize: "8px", fontWeight: "700", color: "var(--text-sub)", textTransform: "uppercase" }}>Execution Time</span>
-                    <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--text-main)" }}>{trade.time}</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      gridColumn: "span 2",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "8px",
+                        fontWeight: "700",
+                        color: "var(--text-sub)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Execution Time
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        color: "var(--text-main)",
+                      }}
+                    >
+                      {trade.time}
+                    </span>
                   </div>
                 </div>
               </div>
             ))}
-            {history.length === 0 && (
-              <div style={{ padding: "40px 0", textAlign: "center", opacity: 0.5, fontSize: "12px" }}>
-                 No historical deals found.
+            {filteredHistory.length === 0 && (
+              <div
+                style={{
+                  padding: "40px 0",
+                  textAlign: "center",
+                  opacity: 0.5,
+                  fontSize: "12px",
+                }}
+              >
+                No historical deals found.
               </div>
             )}
           </div>
@@ -117,8 +354,8 @@ export default function History() {
               </tr>
             </thead>
             <tbody>
-              {history.length > 0 ? (
-                history.map((trade, i) => (
+              {filteredHistory.length > 0 ? (
+                filteredHistory.map((trade, i) => (
                   <tr
                     key={trade.id}
                     style={{
@@ -137,18 +374,26 @@ export default function History() {
                     >
                       #{trade.id}
                     </td>
-                    <td style={{ fontWeight: "700", color: "var(--text-main)" }}>{trade.symbol}</td>
+                    <td
+                      style={{ fontWeight: "700", color: "var(--text-main)" }}
+                    >
+                      {trade.symbol}
+                    </td>
                     <td
                       style={{
                         color:
-                          trade.type === "BUY" ? "var(--profit)" : "var(--loss)",
+                          trade.type === "BUY"
+                            ? "var(--profit)"
+                            : "var(--loss)",
                         fontWeight: "800",
                         fontSize: "12px",
                       }}
                     >
                       {trade.type}
                     </td>
-                    <td style={{ color: "var(--text-main)" }}>{trade.volume.toFixed(2)}</td>
+                    <td style={{ color: "var(--text-main)" }}>
+                      {trade.volume.toFixed(2)}
+                    </td>
                     <td
                       style={{
                         color: "var(--brand-accent, #6366f1)",
@@ -181,20 +426,38 @@ export default function History() {
                     >
                       {trade.profit >= 0 ? "+" : ""}${trade.profit.toFixed(2)}
                     </td>
-                    <td
-                      style={{ color: "var(--text-sub)", fontSize: "13px" }}
-                    >
+                    <td style={{ color: "var(--text-sub)", fontSize: "13px" }}>
                       {trade.time}
                     </td>
-                    <td style={{ padding: "0 15px", textAlign: "right", verticalAlign: "middle" }}>
-                      <button 
-                         onClick={() => deleteTradeHistoryItem(trade.id)}
-                         style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--loss)", padding: "4px", opacity: 0.7, transition: "opacity 0.2s", display: "inline-flex", alignItems: "center" }}
-                         onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
-                         onMouseLeave={(e) => e.currentTarget.style.opacity = 0.7}
-                         title="Delete Trade"
+                    <td
+                      style={{
+                        padding: "0 15px",
+                        textAlign: "right",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      <button
+                        onClick={() => deleteTradeHistoryItem(trade.id)}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          color: "var(--loss)",
+                          padding: "4px",
+                          opacity: 0.7,
+                          transition: "opacity 0.2s",
+                          display: "inline-flex",
+                          alignItems: "center",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.opacity = 1)
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.opacity = 0.7)
+                        }
+                        title="Delete Trade"
                       >
-                         <Trash2 size={16} />
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>

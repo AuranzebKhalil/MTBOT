@@ -2,12 +2,13 @@
 import React from "react";
 import { useBot } from "../components/BotContext";
 import { useAuth } from "../components/AuthContext";
-import { Shield, Target, AlertTriangle, RefreshCcw, Hash, Trash2 } from "lucide-react";
+import { Shield, Target, AlertTriangle, RefreshCcw, Hash, Trash2, RotateCcw } from "lucide-react";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import RRRatioDropdown from "../components/RRRatioDropdown";
 
 export default function RiskControl() {
   const { user } = useAuth();
-  const { riskParams, setRiskParams, saveRiskProfile, clearRiskEvents } = useBot();
+  const { riskParams, setRiskParams, saveRiskProfile, clearRiskEvents, resetRiskProfile } = useBot();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   if (!user) return null;
@@ -148,8 +149,88 @@ export default function RiskControl() {
           Risk Management
         </h1>
         <p style={{ color: "var(--text-sub)", fontSize: isMobile ? "13px" : "15px" }}>
-          Configure the safety protocols for the Alpha Core execution engine.
+          Configure the safety protocols and environment for the Alpha Core engine.
         </p>
+      </div>
+
+      {/* --- ENVIRONMENT TOGGLE --- */}
+      <div 
+        className="glass-card" 
+        style={{ 
+          marginBottom: "30px", 
+          padding: "20px", 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center",
+          border: riskParams.trading_mode === "REAL" ? "1px solid rgba(255, 69, 58, 0.3)" : "1px solid var(--glass-border)",
+          background: riskParams.trading_mode === "REAL" ? "rgba(255, 69, 58, 0.02)" : "rgba(255, 255, 255, 0.01)"
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+          <div style={{
+            width: "42px",
+            height: "42px",
+            borderRadius: "10px",
+            background: riskParams.trading_mode === "REAL" ? "rgba(255, 69, 58, 0.1)" : "rgba(0, 255, 189, 0.1)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: riskParams.trading_mode === "REAL" ? "var(--loss)" : "var(--profit)"
+          }}>
+            <Shield size={20} />
+          </div>
+          <div>
+             <h4 style={{ fontSize: "14px", fontWeight: "800", marginBottom: "2px" }}>
+               ENVIRONMENT: {riskParams.trading_mode === "REAL" ? "LIVE CAPITAL" : "DEMO SANDBOX"}
+             </h4>
+             <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>
+               {riskParams.trading_mode === "REAL" 
+                 ? "Execution on real market liquidity. High risk." 
+                 : "Virtual liquidity simulation. Zero capital risk."}
+             </p>
+          </div>
+        </div>
+
+        <div style={{ 
+          display: "flex", 
+          background: "rgba(0,0,0,0.2)", 
+          padding: "4px", 
+          borderRadius: "12px", 
+          border: "1px solid var(--glass-border)" 
+        }}>
+          <button
+            onClick={() => setRiskParams({ ...riskParams, trading_mode: "DEMO" })}
+            style={{
+              padding: "8px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontSize: "10px",
+              fontWeight: "900",
+              cursor: "pointer",
+              background: riskParams.trading_mode === "DEMO" ? "var(--profit)" : "transparent",
+              color: riskParams.trading_mode === "DEMO" ? "black" : "var(--text-sub)",
+              transition: "0.3s"
+            }}
+          >
+            DEMO
+          </button>
+          <button
+            onClick={() => setRiskParams({ ...riskParams, trading_mode: "REAL" })}
+            style={{
+              padding: "8px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontSize: "10px",
+              fontWeight: "900",
+              cursor: "pointer",
+              background: riskParams.trading_mode === "REAL" ? "var(--loss)" : "transparent",
+              color: riskParams.trading_mode === "REAL" ? "white" : "var(--text-sub)",
+              transition: "0.3s"
+            }}
+          >
+            REAL
+          </button>
+        </div>
       </div>
 
       {/* Institutional note */}
@@ -216,14 +297,14 @@ export default function RiskControl() {
         />
 
         <RiskItem
-          title="Max Losing Attempts"
-          sub="Daily halt threshold for losing trades."
+          title="Daily Trade Limit"
+          sub="Maximum total execution attempts per 24h cycle."
           icon={Hash}
           value={riskParams.max_daily_trades}
           min="1"
-          max="20"
+          max="50"
           step="1"
-          extremeThreshold={10}
+          extremeThreshold={30}
           onChange={(e) =>
             setRiskParams({ ...riskParams, max_daily_trades: e.target.value })
           }
@@ -231,7 +312,7 @@ export default function RiskControl() {
 
         <RiskItem
           title="Daily Drawdown"
-          sub="Account equity circuit breaker."
+          sub="Account equity circuit breaker threshold."
           icon={AlertTriangle}
           value={riskParams.daily_loss}
           step="0.5"
@@ -244,61 +325,135 @@ export default function RiskControl() {
           }
         />
 
+        {/* Risk Reward Ratio */}
+        <div
+          className="glass-card"
+          style={{
+            padding: isMobile ? "20px" : "25px",
+            marginBottom: "32px",
+            border: "1px solid var(--glass-border)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "15px" }}>
+            <div
+              style={{
+                width: isMobile ? "40px" : "50px",
+                height: isMobile ? "40px" : "50px",
+                borderRadius: "12px",
+                background: "rgba(91, 134, 229, 0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--primary)",
+              }}
+            >
+              <Target size={isMobile ? 20 : 24} />
+            </div>
+            <div>
+              <h4 style={{ fontSize: isMobile ? "14px" : "16px", marginBottom: "2px", fontWeight:"800" }}>Target RR Ratio</h4>
+              <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Efficiency threshold for institutional order flow.</p>
+            </div>
+          </div>
+          <RRRatioDropdown
+            value={riskParams.risk_reward_ratio}
+            onChange={(val) => setRiskParams({ ...riskParams, risk_reward_ratio: val })}
+          />
+        </div>
+
+        {/* Primary Action */}
         <button
           onClick={saveRiskProfile}
-          className="glass-panel"
+          className="premium-btn hover-lift"
           style={{
-            marginTop: "10px",
+            width: "100%",
             background: "var(--gradient-primary)",
             border: "none",
             color: "black",
-            padding: isMobile ? "18px" : "22px",
-            borderRadius: "18px",
+            padding: "24px",
+            borderRadius: "20px",
             fontWeight: "900",
             cursor: "pointer",
-            fontSize: isMobile ? "14px" : "15px",
+            fontSize: "16px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             gap: "12px",
-            boxShadow: "0 15px 30px rgba(91, 134, 229, 0.25)",
-            animation: "pulseShadow 3s infinite",
+            boxShadow: "0 20px 40px rgba(0, 122, 255, 0.2)",
+            marginBottom: "40px",
+            textTransform: "uppercase",
+            letterSpacing: "1px"
           }}
         >
-          <RefreshCcw size={isMobile ? 18 : 20} />
-          SYNCHRONIZE PROTOCOLS
+          <RefreshCcw size={20} />
+          Synchronize Risk Protocols
         </button>
 
-        <button
-          onClick={clearRiskEvents}
-          className="glass-panel"
-          style={{
-            marginTop: "12px",
-            background: "rgba(255, 50, 50, 0.1)",
-            border: "1px solid rgba(255, 50, 50, 0.2)",
-            color: "#ff4d4d",
-            padding: isMobile ? "16px" : "18px",
-            borderRadius: "18px",
-            fontWeight: "700",
-            cursor: "pointer",
-            fontSize: isMobile ? "13px" : "14px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            transition: "all 0.3s ease",
-          }}
-        >
-          <Trash2 size={isMobile ? 16 : 18} />
-          PURGE SECURITY LOGS
-        </button>
+        {/* Maintenance Section */}
+        <div style={{ 
+          marginTop: "20px", 
+          padding: "32px", 
+          background: "rgba(255,255,255,0.01)", 
+          borderRadius: "24px", 
+          border: "1px solid var(--divider)" 
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+             <AlertTriangle size={18} color="#eb4d4b" />
+             <h3 style={{ fontSize: "14px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px" }}>System Maintenance</h3>
+          </div>
+          
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
+            gap: "16px" 
+          }}>
+            <button
+              onClick={resetRiskProfile}
+              className="glass-panel hover-lift"
+              style={{
+                padding: "20px",
+                borderRadius: "16px",
+                border: "1px solid var(--border)",
+                background: "transparent",
+                color: "var(--text-main)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer"
+              }}
+            >
+              <RotateCcw size={20} color="var(--primary)" />
+              <span style={{ fontSize: "12px", fontWeight: "700" }}>Restore Defaults</span>
+              <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>Reset to core standards</span>
+            </button>
+
+            <button
+              onClick={clearRiskEvents}
+              className="glass-panel hover-lift"
+              style={{
+                padding: "20px",
+                borderRadius: "16px",
+                border: "1px solid rgba(255, 69, 58, 0.1)",
+                background: "rgba(255, 69, 58, 0.02)",
+                color: "var(--loss)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer"
+              }}
+            >
+              <Trash2 size={20} color="var(--loss)" />
+              <span style={{ fontSize: "12px", fontWeight: "700" }}>Purge Logs</span>
+              <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>Clear security events</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <style jsx>{`
-        @keyframes pulseShadow {
-          0% { box-shadow: 0 15px 30px rgba(91, 134, 229, 0.25); }
-          50% { box-shadow: 0 15px 45px rgba(91, 134, 229, 0.45); }
-          100% { box-shadow: 0 15px 30px rgba(91, 134, 229, 0.25); }
+        .premium-btn:active {
+          transform: scale(0.98);
         }
       `}</style>
     </div>

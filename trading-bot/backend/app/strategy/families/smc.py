@@ -24,6 +24,15 @@ class SMCStrategyFamily:
         df = self.indicators.detect_mss(df)
         df = self.indicators.detect_breaker_blocks(df)
         df = self.indicators.detect_volume_profile(df)
+        
+        # New Hybrid Indicators
+        upper, mid, lower = self.indicators.calculate_bollinger_bands(df['close'])
+        df['bb_upper'] = upper
+        df['bb_mid'] = mid
+        df['bb_lower'] = lower
+        df['rsi'] = self.indicators.calculate_rsi(df['close'])
+        df['adx'] = self.indicators.calculate_adx(df)
+        
         return df
 
     def check_sweep_reclaim(self, data: Dict[str, pd.DataFrame], bias: int, symbol: str) -> Optional[Signal]:

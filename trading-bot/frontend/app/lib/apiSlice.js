@@ -4,9 +4,9 @@ import { getApiBaseUrl, getWsBaseUrl } from './config';
 export const tradingApi = createApi({
   reducerPath: 'tradingApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: getApiBaseUrl(),
+    baseUrl: `${getApiBaseUrl()}/v1`, // getApiBaseUrl() returns "/api" -> "/api/v1"
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('quant_token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -16,9 +16,8 @@ export const tradingApi = createApi({
   tagTypes: ['Status', 'Trades', 'History', 'Strategy', 'EngineConfig'],
   endpoints: (builder) => ({
     getMultiStatus: builder.query({
-      query: () => '/multi-status',
+      query: () => '/legacy/multi-status',
       providesTags: ['Status'],
-      // Keep data for 1 minute in cache, but poll every 3s
       keepUnusedDataFor: 60,
       async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
         const ws = new WebSocket(`${getWsBaseUrl()}/ws/status`);
@@ -42,32 +41,31 @@ export const tradingApi = createApi({
       providesTags: ['Trades'],
     }),
     getHistory: builder.query({
-      query: () => '/history',
+      query: () => '/legacy/history',
       providesTags: ['History'],
     }),
     getRisk: builder.query({
       query: () => '/risk',
     }),
     getEngineConfig: builder.query({
-      query: () => '/symbols/engine-config',
+      query: () => '/legacy/symbols/engine-config',
       providesTags: ['EngineConfig'],
     }),
     getStrategySettings: builder.query({
-      query: () => '/settings/strategy',
+      query: () => '/legacy/settings/strategy',
       providesTags: ['Strategy'],
     }),
     getStrategies: builder.query({
-      query: () => '/strategies',
+      query: () => '/legacy/strategies',
       providesTags: ['Strategy'],
     }),
     searchSymbols: builder.query({
-      query: (q) => `/symbols/search?q=${q}`,
+      query: (q) => `/legacy/symbols/search?q=${q}`,
     }),
     
-    // Mutations for updates
     toggleBot: builder.mutation({
       query: (endpoint) => ({
-        url: `/${endpoint}`,
+        url: `/bot/${endpoint}`,
         method: 'POST',
       }),
       invalidatesTags: ['Status'],
@@ -81,7 +79,7 @@ export const tradingApi = createApi({
     }),
     updateStrategy: builder.mutation({
       query: (update) => ({
-        url: '/settings/strategy',
+        url: '/legacy/settings/strategy',
         method: 'POST',
         body: update,
       }),
@@ -89,7 +87,7 @@ export const tradingApi = createApi({
     }),
     addStrategy: builder.mutation({
       query: (newStrategy) => ({
-        url: '/strategies',
+        url: '/legacy/strategies',
         method: 'POST',
         body: newStrategy,
       }),
@@ -97,14 +95,14 @@ export const tradingApi = createApi({
     }),
     deleteStrategy: builder.mutation({
       query: (id) => ({
-        url: `/strategies/${id}`,
+        url: `/legacy/strategies/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Strategy'],
     }),
     updateSymbolVolume: builder.mutation({
       query: (update) => ({
-        url: '/settings/symbol',
+        url: '/legacy/settings/symbol',
         method: 'POST',
         body: update,
       }),
@@ -112,24 +110,31 @@ export const tradingApi = createApi({
     }),
     resetHistory: builder.mutation({
       query: () => ({
-        url: '/reset/history',
+        url: '/legacy/reset/history',
         method: 'POST',
       }),
       invalidatesTags: ['History', 'Trades'],
     }),
     deleteHistoryItem: builder.mutation({
       query: (ticketId) => ({
-        url: `/history/${ticketId}`,
+        url: `/legacy/history/${ticketId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['History'],
     }),
     resetRisk: builder.mutation({
       query: () => ({
-        url: '/reset/risk',
+        url: '/legacy/reset/risk',
         method: 'POST',
       }),
       invalidatesTags: ['Status'],
+    }),
+    closeTrade: builder.mutation({
+      query: (ticketId) => ({
+        url: `/trades/${ticketId}/close`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Trades', 'Status'],
     }),
   }),
 });
@@ -152,4 +157,5 @@ export const {
   useUpdateSymbolVolumeMutation,
   useSearchSymbolsQuery,
   useDeleteHistoryItemMutation,
+  useCloseTradeMutation,
 } = tradingApi;

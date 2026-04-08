@@ -87,6 +87,9 @@ class RiskManager:
                 cooldown_block = True
                 expiry = cd.get("expiry")
                 if expiry:
+                    if isinstance(expiry, str):
+                        expiry = datetime.datetime.fromisoformat(expiry.replace("Z", "+00:00"))
+                    
                     expiry_info = expiry.strftime("%H:%M:%S")
                     rem = (expiry - datetime.datetime.now(datetime.timezone.utc)).total_seconds() / 60
                     bars_rem = max(0, int(rem))
@@ -169,7 +172,30 @@ class RiskManager:
                 if current_rr < min_rr:
                     return RiskDecision(is_approved=False, reason=f"REJECTED_RR_FILTER: {current_rr:.2f} (Min: {min_rr})", lot_size=0.0)
 
-        # 10. Do-not-trade-into-level Filter
+        # 10. HTF Trend Alignment Filter (SENTINEL)
+        if user_settings.get("enable_htf_filter", True):
+            market_bias = context.get("market_bias") # Expected: "BULLISH", "BEARISH", "NEUTRAL"
+            signal_dir = "BULLISH" if signal.side == OrderSide.BUY else "BEARISH"
+            
+            logger.info(f"[{eval_id}] [RISK] Trend Check: HTF Bias={market_bias}, Signal={signal_dir} -> {'PASS' if market_bias == signal_dir or market_bias == 'NEUTRAL' else 'FAIL'}")
+            
+            if market_bias != "NEUTRAL" and market_bias != signal_dir:
+                reason = f"REJECTED_HTF_ALIGNMENT: Signal {signal_dir} is against HTF Bias ({market_bias}). Win probability too low."
+                return RiskDecision(is_approved=False, reason=reason, lot_size=0.0)
+
+        # 11. Volatility Buffer Check (ATR Protection)
+        if user_settings.get("enable_volatility_filter", True):
+            atr = context.get("atr", 0.0)
+            if atr > 0:
+                point = symbol_spec.get("point", 0.0001) if symbol_spec else 0.0001
+                sl_dist = abs(exec_price - sl)
+                # If SL is tighter than 0.5 * ATR, it's likely to be hunted by noise
+                min_sl_atr = user_settings.get("min_sl_atr_multiplier", 0.5)
+                if sl_dist < (atr * min_sl_atr):
+                    reason = f"REJECTED_VOLATILITY_NOISE: SL dist ({sl_dist/point:.1f}pts) is too tight for current ATR ({atr/point:.1f}pts). Exposure to hunt is high."
+                    return RiskDecision(is_approved=False, reason=reason, lot_size=0.0)
+
+        # 12. Do-not-trade-into-level Filter
         if user_settings.get("enable_level_distance_filter", True):
             nearest_level_data = context.get("nearest_level") # Dict: {"price", "type", "tf"}
             if nearest_level_data:
@@ -208,10 +234,14 @@ class RiskManager:
         )
 
     def _get_manual_volume(self, symbol: str, settings_dict: Dict) -> Optional[float]:
+        # 1. Check if the value is directly in the dict (flat settings passed from loop)
+        if "manual_volume" in settings_dict:
+            return settings_dict["manual_volume"]
+
         sym_upper = symbol.upper()
-        # exact match
-        if sym_upper in settings_dict and "manual_volume" in settings_dict[sym_upper]:
-            return settings_dict[sym_upper]["manual_volume"]
+        # 2. Check for exact symbol match as a key
+        if sym_upper in settings_dict and isinstance(settings_dict[sym_upper], dict):
+            return settings_dict[sym_upper].get("manual_volume")
             
         # aliases
         base_sym = sym_upper.split(".")[0]

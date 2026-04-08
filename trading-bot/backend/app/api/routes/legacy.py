@@ -175,11 +175,7 @@ def legacy_depth(symbol: str = "GOLD"):
 
 @router.get("/strategies")
 def legacy_strategies():
-    return [
-        {"id": 1, "name": "CRT Volatility Breakout", "status": "ACTIVE", "accuracy": 82},
-        {"id": 2, "name": "LSR Liquidity Sweep", "status": "ACTIVE", "accuracy": 78},
-        {"id": 3, "name": "2BR Institutional Reversal", "status": "MONITORING", "accuracy": 85}
-    ]
+    return []
 
 @router.get("/risk")
 def legacy_get_risk(db: Session = Depends(get_db)):
@@ -263,6 +259,31 @@ def legacy_reset_history(db: Session = Depends(get_db)):
     db.query(Trade).delete()
     db.commit()
     return {"message": "Success"}
+
+@router.delete("/history/{trade_id}")
+def delete_history_item(trade_id: str, db: Session = Depends(get_db)):
+    # Try by internal DB ID first
+    try:
+        db_id = int(trade_id)
+        trade = db.query(Trade).filter(Trade.id == db_id).first()
+    except ValueError:
+        trade = None
+
+    # Fallback: Try by MT5 Ticket ID
+    if not trade:
+        try:
+            ticket = int(trade_id)
+            trade = db.query(Trade).filter(Trade.ticket_id == ticket).first()
+        except ValueError:
+            trade = None
+            
+    if not trade:
+        # Final check: search symbol or other string-based IDs if needed
+        raise HTTPException(status_code=404, detail=f"Trade record {trade_id} not found in Alpha database.")
+        
+    db.delete(trade)
+    db.commit()
+    return {"status": "deleted", "id": trade_id}
 
 @router.post("/reset/risk")
 def legacy_reset_risk(db: Session = Depends(get_db)):
@@ -353,7 +374,14 @@ def get_strategy_settings(db: Session = Depends(get_db)):
         "SMC_MSS": {"name": "Market Structure Shift (MSS)", "enabled": False, "ai_threshold": 0.75},
         "SMC_BREAKER": {"name": "Breaker Block (BB)", "enabled": False, "ai_threshold": 0.8},
         "SMC_VOLUME": {"name": "Volume Profile & Order Flow", "enabled": False, "ai_threshold": 0.7},
-        "SMC_TREND": {"name": "MTF Trend Continuation", "enabled": True, "ai_threshold": 0.65}
+        "SMC_TREND": {"name": "MTF Trend Continuation", "enabled": True, "ai_threshold": 0.65},
+        "SMC_MITIGATION": {"name": "First Touch Mitigation", "enabled": True, "ai_threshold": 0.7},
+        "SMC_VSA": {"name": "Absorption Shift", "enabled": True, "ai_threshold": 0.7},
+        "HYBRID_MASTER": {"name": "Hybrid Master Switcher (Auto-Regime)", "enabled": True, "ai_threshold": 0.5},
+        "HYBRID_REVERSION": {"name": "Mean Reversion (BB/RSI)", "enabled": True, "ai_threshold": 0.7},
+        "HYBRID_SR": {"name": "Advanced S/R Reversal", "enabled": True, "ai_threshold": 0.7},
+        "HYBRID_BREAKOUT": {"name": "Momentum Breakout", "enabled": True, "ai_threshold": 0.7},
+        "MAD_TREND_LOOP": {"name": "MAD - Trend Loop (Lyro RS)", "enabled": True, "ai_threshold": 0.5},
     }
     
     current = user.strategy_settings or {}

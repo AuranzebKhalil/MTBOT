@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from app.core.config import settings
 from app.storage.models import Base
 import logging
+import bcrypt
 
 logger = logging.getLogger(__name__)
 
@@ -157,10 +158,70 @@ def init_db():
                 try:
                     conn.execute(text("ALTER TABLE bot_state ADD COLUMN strategy_analytics JSON DEFAULT '{}'"))
                 except OperationalError: pass
-                
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN role VARCHAR DEFAULT 'user'"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN is_breached BOOLEAN DEFAULT 0"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN username VARCHAR"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN total_profit FLOAT DEFAULT 0.0"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN current_balance FLOAT DEFAULT 0.0"))
+                except OperationalError: pass
+
                 conn.commit()
+            
+            # Seed default institutional operators
+            try:
+                from app.storage.models import User
+                with SessionLocal() as db:
+                    # 1. Master Superadmin
+                    if not db.query(User).filter(User.email == "admin@alertli.ai").first():
+                        logger.info("🛡️ SEEDING MASTER SUPERADMIN")
+                        hashed = bcrypt.hashpw("Alertli@2026".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                        db.add(User(
+                            email="admin@alertli.ai",
+                            username="Superadmin",
+                            hashed_password=hashed,
+                            role="superadmin",
+                            is_active=True
+                        ))
+                    
+                    # 2. Institutional Admin Operator
+                    if not db.query(User).filter(User.email == "admin_operator@alertli.ai").first():
+                        logger.info("🛡️ SEEDING ADMIN OPERATOR")
+                        hashed = bcrypt.hashpw("Admin@2026".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                        db.add(User(
+                            email="admin_operator@alertli.ai",
+                            username="Admin_Operator",
+                            hashed_password=hashed,
+                            role="admin",
+                            is_active=True
+                        ))
+
+                    # 3. Bot Execution Agent
+                    if not db.query(User).filter(User.email == "bot_agent@alertli.ai").first():
+                        logger.info("🤖 SEEDING BOT EXECUTION AGENT")
+                        hashed = bcrypt.hashpw("BotAgent@2026".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                        db.add(User(
+                            email="bot_agent@alertli.ai",
+                            username="Bot_Agent_Alpha",
+                            hashed_password=hashed,
+                            role="user",
+                            is_active=True
+                        ))
+                    
+                    db.commit()
+            except Exception as se:
+                logger.warning(f"Seeding operators failed: {se}")
+
         except Exception as e:
-            logger.debug(f"Migration skip: {e}")
+            logger.error(f"Migration error: {e}")
 
 def get_db():
     db = SessionLocal()

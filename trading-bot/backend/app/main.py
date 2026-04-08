@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.routes import bot, trades, risk, health, legacy, auth, charts, sockets
+from app.api.routes import bot, trades, risk, health, legacy, auth, charts, sockets, admin, support
 from app.storage.db import init_db
 import logging
 
@@ -37,6 +37,8 @@ app.include_router(trades.router, prefix=f"{settings.API_V1_STR}/trades", tags=[
 app.include_router(risk.router, prefix=f"{settings.API_V1_STR}/risk", tags=["risk"])
 app.include_router(health.router, prefix=f"{settings.API_V1_STR}/health", tags=["health"])
 app.include_router(charts.router, prefix=f"{settings.API_V1_STR}/charts", tags=["charts"])
-app.include_router(auth.router, tags=["auth"])
-app.include_router(legacy.router, tags=["legacy"])
-app.include_router(sockets.router, tags=["sockets"])
+app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
+app.include_router(legacy.router, prefix=f"{settings.API_V1_STR}/legacy", tags=["legacy"])
+app.include_router(admin.router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])
+app.include_router(support.router, prefix=f"{settings.API_V1_STR}/support", tags=["support"])
+app.include_router(sockets.router, tags=["sockets"]) # Sockets usually at /ws

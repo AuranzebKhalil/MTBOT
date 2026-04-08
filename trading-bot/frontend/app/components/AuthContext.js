@@ -19,12 +19,34 @@ export function AuthProvider({ children }) {
 
     if (storedToken) {
       setToken(storedToken);
-      setUser({ email: "active_session" });
-    } else if (!isPublicPath) {
-      router.push("/login");
+      fetchUser(storedToken);
+    } else {
+      if (!isPublicPath) router.push("/login");
+      setLoading(false);
     }
-    setLoading(false);
   }, [pathname]);
+
+  const fetchUser = async (authToken) => {
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/v1/auth/me`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+        return true;
+      } else if (res.status === 401) {
+        logout();
+        return false;
+      }
+      return false;
+    } catch (err) {
+      console.error("Profile Fetch Exception:", err);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const login = async (email, password) => {
     try {
@@ -32,7 +54,7 @@ export function AuthProvider({ children }) {
       params.append("username", email);
       params.append("password", password);
 
-      const res = await fetch(`${getApiBaseUrl()}/token`, {
+      const res = await fetch(`${getApiBaseUrl()}/v1/auth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -44,11 +66,16 @@ export function AuthProvider({ children }) {
         const data = await res.json();
         localStorage.setItem("quant_token", data.access_token);
         setToken(data.access_token);
-        setUser({ email });
-        toast.success("Welcome back, Quant");
-        router.push("/");
+        const success = await fetchUser(data.access_token);
+        if (success) {
+           toast.success("Welcome back, Quant");
+           router.push("/");
+        } else {
+           toast.error("Account Profile Fault. Reload required.");
+        }
       } else {
-        toast.error("Invalid Credentials");
+        const data = await res.json().catch(() => ({}));
+        toast.error(data.detail || "Invalid Credentials");
       }
     } catch (err) {
       toast.error("Auth Server Offline");
@@ -57,7 +84,7 @@ export function AuthProvider({ children }) {
 
   const register = async (email, password) => {
     try {
-      const res = await fetch(`${getApiBaseUrl()}/register`, {
+      const res = await fetch(`${getApiBaseUrl()}/v1/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -87,6 +114,51 @@ export function AuthProvider({ children }) {
       value={{ user, token, login, register, logout, loading }}
     >
       {!loading && children}
+      {user?.is_breached && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.9)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2rem',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            background: 'var(--bg-card)',
+            border: '2px solid #ef4444',
+            padding: '3rem',
+            borderRadius: '24px',
+            maxWidth: '500px',
+            boxShadow: '0 0 50px rgba(239, 68, 68, 0.3)'
+          }}>
+            <h1 style={{ color: '#ef4444', fontSize: '2rem', marginBottom: '1rem', fontWeight: '900' }}>ACCOUNT SUSPENDED</h1>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-main)', marginBottom: '2rem', lineHeight: '1.6' }}>
+              Your account has been suspended by the Risk Control department. Access to the trading infrastructure is currently restricted.
+            </p>
+            <button 
+              onClick={() => router.push('/support')}
+              style={{
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                padding: '12px 32px',
+                borderRadius: '12px',
+                fontWeight: '700',
+                cursor: 'pointer'
+              }}>
+              Contact Support
+            </button>
+            <div style={{ marginTop: '1.5rem' }}>
+               <button onClick={logout} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', textDecoration: 'underline' }}>Log Out</button>
+            </div>
+          </div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 }

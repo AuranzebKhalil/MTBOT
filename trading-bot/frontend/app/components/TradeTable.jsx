@@ -1,5 +1,5 @@
 import { useBot } from "./BotContext";
-import { AlertCircle, TrendingUp, TrendingDown, Target, Zap } from "lucide-react";
+import { AlertCircle, TrendingUp, TrendingDown, Target, Zap, X } from "lucide-react";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
 const fmt = (val, decimals = 2) => {
@@ -8,7 +8,7 @@ const fmt = (val, decimals = 2) => {
 };
 
 export default function TradeTable({ trades, selectedSymbol }) {
-  const { recentRejections } = useBot();
+  const { recentRejections, handleCloseTrade } = useBot();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const safeList = Array.isArray(trades) ? trades : [];
 
@@ -60,7 +60,7 @@ export default function TradeTable({ trades, selectedSymbol }) {
                      </div>
                      <div style={{ display: "flex", flexDirection: "column" }}>
                         <span style={{ fontWeight: "800", fontSize: "14px" }}>{trade.symbol}</span>
-                        <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>{trade.type} • {trade.strategy}</span>
+                        <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>{trade.type} • {trade.strategy_name || trade.strategy || "Manual"}</span>
                      </div>
                   </div>
                   <div style={{ textAlign: "right" }}>
@@ -74,8 +74,29 @@ export default function TradeTable({ trades, selectedSymbol }) {
                   <MobileStat label="Entry" value={`$${fmt(trade.entry_price ?? trade.entry, (trade.entry_price ?? trade.entry) < 10 ? 5 : 2)}`} />
                   <MobileStat label="Volume" value={`${fmt(trade.volume, 2)} LOT`} />
                   <MobileStat label="SL / TP" value={`${trade.sl ? fmt(trade.sl, trade.sl < 10 ? 5 : 2) : "—"} / ${trade.tp ? fmt(trade.tp, trade.tp < 10 ? 5 : 2) : "—"}`} />
-                  <MobileStat label="AI Score" value={`${fmt(trade.ai_score * 100, 0)}%`} color={trade.ai_score > 0.7 ? "var(--success)" : "var(--text-main)"} />
+                  <MobileStat label="AI Score" value={`${fmt((trade.ai_score || 0) * 100, 0)}%`} color={trade.ai_score > 0.7 ? "var(--success)" : "var(--text-main)"} />
                 </div>
+                
+                <button 
+                  onClick={() => handleCloseTrade(trade.ticket_id)}
+                  style={{ 
+                    marginTop: '16px', 
+                    width: '100%', 
+                    padding: '12px', 
+                    borderRadius: '12px', 
+                    background: 'rgba(255, 69, 58, 0.1)', 
+                    border: '1px solid rgba(255, 69, 58, 0.2)', 
+                    color: 'var(--loss)', 
+                    fontWeight: '800', 
+                    fontSize: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  <X size={14} /> HALT POSITION
+                </button>
               </div>
             );
           })}
@@ -107,6 +128,7 @@ export default function TradeTable({ trades, selectedSymbol }) {
               <th style={{ paddingBottom: "15px" }}>AI/METADATA</th>
               <th style={{ paddingBottom: "15px" }}>SL / TP</th>
               <th style={{ paddingBottom: "15px" }}>PROFIT</th>
+              <th style={{ paddingBottom: "15px", textAlign: "right" }}>ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -118,6 +140,7 @@ export default function TradeTable({ trades, selectedSymbol }) {
               
               const stage1 = trade.stage1_executed;
               const stage2 = trade.stage2_executed;
+              const strategyName = trade.strategy_name || trade.strategy || "Manual";
 
               return (
                 <tr
@@ -150,7 +173,7 @@ export default function TradeTable({ trades, selectedSymbol }) {
                   </td>
                   <td style={{ fontSize: "12px", fontWeight: "700", color: "var(--primary)", textTransform: "uppercase" }}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span>{trade.strategy || "Manual"}</span>
+                      <span>{strategyName}</span>
                       <span style={{ fontSize: "9px", color: "var(--text-secondary)", fontWeight: "500" }}>{trade.session || "ASIA"} SESSION</span>
                     </div>
                   </td>
@@ -170,6 +193,28 @@ export default function TradeTable({ trades, selectedSymbol }) {
                     <span style={{ fontWeight: "800", color: pnl >= 0 ? "var(--profit)" : "var(--loss)", fontSize: "15px" }}>
                       {pnl >= 0 ? "+" : ""}${fmt(pnl)}
                     </span>
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    <button 
+                      onClick={() => handleCloseTrade(trade.ticket_id)}
+                      title="Terminate on MT5"
+                      style={{ 
+                        background: 'rgba(255, 69, 58, 0.1)', 
+                        border: '1px solid rgba(255, 69, 58, 0.1)', 
+                        width: '32px', 
+                        height: '32px', 
+                        borderRadius: '8px', 
+                        display: 'inline-flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        color: 'var(--loss)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                      className="hover-lift"
+                    >
+                      <X size={16} strokeWidth={2.5} />
+                    </button>
                   </td>
                 </tr>
               );

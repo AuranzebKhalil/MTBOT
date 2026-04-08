@@ -28,6 +28,10 @@ class StrategyFamily(str, Enum):
     MSS = "Market Structure Shift"
     BREAKER = "Breaker Block Retest"
     VOLUME = "Volume Profile POC"
+    MEAN_REVERSION = "Mean Reversion (BB/RSI)"
+    SUPPORT_RESISTANCE = "Support & Resistance"
+    BREAKOUT = "Breakout Momentum"
+    HYBRID = "Hybrid Dynamic Switcher"
 
 class SetupFamily(str, Enum):
     """Core logic family identifiers."""
@@ -39,6 +43,10 @@ class SetupFamily(str, Enum):
     MSS = "MSS"
     BREAKER = "BREAKER"
     VOLUME = "VOLUME"
+    MEAN_REVERSION = "MEAN_REVERSION"
+    SUPPORT_RESISTANCE = "SUPPORT_RESISTANCE"
+    BREAKOUT = "BREAKOUT"
+    HYBRID = "HYBRID"
 
 class SignalStatus(str, Enum):
     DETECTED = "DETECTED"

@@ -200,3 +200,796 @@
 2026-04-01 00:03:03,925 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
 2026-04-01 00:03:04,474 - INFO -   TRY FILLING IOC: retcode=10009 time=0.549s comment=Request executed
 2026-04-01 00:03:04,475 - INFO -   SUCCESS: #593489845 filled via IOC
+2026-04-06 15:56:32,943 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 15:56:44,362 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:44,362 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:46,803 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:46,803 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:49,150 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:49,150 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:51,379 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:51,380 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:52,820 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:52,821 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:54,805 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:54,805 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:56:57,004 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:57,005 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 15:56:58,820 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:56:58,820 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 15:57:01,019 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 15:57:01,020 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:02,017 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:02,017 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:04,084 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:04,084 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:06,163 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:06,163 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:08,140 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:08,140 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:10,187 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:10,187 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:12,187 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:12,187 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:14,202 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:14,203 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:16,364 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:16,366 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:20,244 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:20,244 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:22,262 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:22,264 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:38,492 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:38,492 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:40,526 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:40,527 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:01:42,541 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:01:42,541 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:02,936 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:02,936 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:04,878 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:04,878 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:06,945 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:06,945 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:08,937 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:08,937 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:10,985 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:10,985 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:13,124 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:13,124 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:14,996 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:14,996 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:02:16,981 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:02:16,981 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:06:40,415 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:06:40,415 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:06:46,441 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:06:46,441 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:06:56,522 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:06:56,522 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:06:58,596 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:06:58,596 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:07:00,724 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:07:00,725 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:02,393 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:02,394 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:04,360 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:04,362 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:06,477 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:06,478 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:08,327 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:08,327 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:10,477 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:10,477 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:12,448 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:12,448 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:14,436 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:14,437 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:16,570 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:16,570 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:18,516 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:18,517 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:20,468 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:20,468 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:22,512 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:22,512 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:24,559 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:24,560 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:20:26,659 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:26,659 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:28,594 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:28,595 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:30,610 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:30,611 - INFO -   TRY FILLING IOC: retcode=10027 time=0.002s comment=AutoTrading disabled by client
+2026-04-06 16:20:32,749 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:32,749 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:34,614 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:34,614 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:36,614 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:36,614 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:38,644 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:38,645 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:40,774 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:40,775 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:42,775 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:42,775 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:44,776 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:44,776 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:46,795 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:46,796 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:48,982 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:48,983 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:20:50,878 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:50,879 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:20:53,048 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:53,049 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:20:54,968 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:54,968 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:56,931 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:56,931 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:20:59,235 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:20:59,235 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:21:01,070 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:21:01,070 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:02,647 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:02,649 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:28:04,940 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:04,940 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:06,821 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:06,821 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:08,841 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:08,841 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:10,836 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:10,836 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:12,873 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:12,874 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:14,959 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:14,959 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:17,054 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:17,054 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:19,050 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:19,050 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:21,545 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:28:21,578 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:28:21,685 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:21,685 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:23,760 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:23,760 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:26,019 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:26,020 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:28:27,890 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:27,892 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:29,217 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:29,217 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:31,324 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:31,324 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:33,220 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:33,222 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:35,287 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:35,288 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:37,324 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:37,324 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:39,275 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:39,276 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:28:41,996 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:41,997 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:43,840 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:43,840 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:45,636 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:45,636 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:28:47,753 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:47,754 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:49,552 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:49,552 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:52,082 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:52,082 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:53,911 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:53,912 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:28:56,008 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:56,009 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:57,786 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:57,787 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:28:59,815 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:28:59,816 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:02,809 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:02,809 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:04,113 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:04,114 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:06,228 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:06,230 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:08,074 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:08,074 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:10,119 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:10,119 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:12,101 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:12,102 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:14,191 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:14,192 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:16,122 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:16,122 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:18,141 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:18,141 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:20,238 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:20,238 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:22,268 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:22,268 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:24,281 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:24,281 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:26,291 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:26,291 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:28,349 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:28,350 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:30,396 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:30,396 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:32,419 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:32,419 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:34,409 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:34,409 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:36,714 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:36,714 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:38,476 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:38,476 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:40,867 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:40,867 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:42,942 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:42,942 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:44,766 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:44,766 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:47,038 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:47,038 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:49,150 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:49,151 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:50,905 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:50,905 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:52,720 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:52,720 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:54,779 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:54,780 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:29:56,959 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:56,959 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:29:58,878 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:29:58,878 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:30:01,514 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:30:01,514 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:31:17,856 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:31:17,890 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:32:03,665 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:03,666 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:05,662 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:05,662 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:07,431 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:07,432 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:09,451 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:09,452 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:11,759 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:11,760 - INFO -   TRY FILLING IOC: retcode=10027 time=0.002s comment=AutoTrading disabled by client
+2026-04-06 16:32:13,342 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:13,342 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:15,239 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:15,239 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:17,451 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:17,452 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:19,253 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:19,254 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:21,198 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:21,199 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:23,314 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:23,314 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:25,501 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:25,502 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:27,653 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:27,653 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:29,633 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:29,633 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:31,662 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:31,662 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:33,613 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:33,614 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:35,488 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:35,490 - INFO -   TRY FILLING IOC: retcode=10027 time=0.002s comment=AutoTrading disabled by client
+2026-04-06 16:32:38,597 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:38,598 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:32:40,020 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:40,021 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:42,170 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:42,171 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:44,549 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:44,550 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:32:46,423 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:46,423 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:49,367 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:49,369 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:32:51,173 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:51,174 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:52,603 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:52,604 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:32:54,805 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:54,805 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:56,690 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:56,690 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:32:59,027 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:32:59,027 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:33:01,082 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:33:01,082 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:02,237 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:02,237 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:05,689 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:05,689 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:07,338 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:07,339 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:12,678 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:12,679 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:14,350 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:14,350 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:16,630 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:16,630 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:19,916 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:19,916 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:22,505 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:22,506 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:24,871 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:24,871 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:27,056 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:27,058 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:28,762 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:28,763 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:30,623 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:30,625 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:32,451 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:32,452 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:34,779 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:34,781 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 16:34:36,636 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:36,636 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:41,004 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:41,004 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:43,070 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:43,070 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:44,331 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:44,331 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:46,905 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:46,906 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:49,919 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:49,919 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:51,396 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:51,398 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:53,719 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:53,719 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:34:57,762 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:34:57,766 - INFO -   TRY FILLING IOC: retcode=10027 time=0.003s comment=AutoTrading disabled by client
+2026-04-06 16:35:01,527 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:35:01,527 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:02,930 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:02,930 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:04,949 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:04,951 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:07,108 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:07,109 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:09,262 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:09,264 - INFO -   TRY FILLING IOC: retcode=10027 time=0.002s comment=AutoTrading disabled by client
+2026-04-06 16:40:11,069 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:11,071 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:13,304 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:13,304 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:40:15,345 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 16:40:15,345 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 16:53:16,772 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:53:16,849 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:53:57,941 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:53:57,982 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:54:27,923 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:54:57,922 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:55:27,932 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:55:57,926 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:56:27,924 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:56:57,924 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:57:28,148 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:57:58,133 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:58:48,184 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 16:59:48,151 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:00:48,129 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:01:48,153 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:02:48,162 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:03:48,155 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:04:48,151 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:05:48,171 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:06:48,153 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:07:48,157 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:08:48,156 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:09:48,144 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:10:48,145 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:11:48,161 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:12:48,139 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:13:48,143 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:14:48,151 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:15:48,130 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:16:48,153 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:17:48,139 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:18:48,143 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:19:48,139 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:20:48,154 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:21:48,140 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:22:48,151 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:23:48,132 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:24:48,155 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:25:48,137 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:26:48,163 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:27:48,143 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:28:48,139 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:29:48,138 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:30:48,166 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:31:48,147 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:32:48,161 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:33:48,146 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:34:48,141 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:35:48,137 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:36:48,140 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:37:48,140 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:38:48,169 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:39:48,143 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:40:48,151 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:41:48,135 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:42:48,136 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:43:48,142 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:44:48,147 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:45:48,154 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:46:48,157 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:47:48,134 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:48:48,156 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:49:48,142 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:50:48,157 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:51:48,138 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:52:48,139 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:53:48,148 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:54:48,137 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:55:48,146 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:56:03,419 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:03,419 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:56:05,473 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:05,473 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:56:07,552 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:07,552 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:56:09,427 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:09,427 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:56:11,561 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:11,562 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:56:48,145 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:56:54,098 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:56:54,098 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:57:00,155 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 17:57:00,155 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 17:57:48,170 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 17:58:08,531 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:01:40,830 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:01:40,830 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:18,438 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:18,439 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:20,451 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:20,453 - INFO -   TRY FILLING IOC: retcode=10027 time=0.002s comment=AutoTrading disabled by client
+2026-04-06 18:03:22,557 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:22,558 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:24,946 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:24,947 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:27,312 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:27,313 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:28,969 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:28,969 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:31,451 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:31,451 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:32,998 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:32,999 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:34,814 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:34,814 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:39,110 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:39,111 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:41,710 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:41,710 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:03:43,216 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:43,216 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:45,254 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:45,254 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:47,363 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:47,365 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:49,021 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:49,021 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:51,348 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:51,348 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:53,655 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:53,655 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:55,539 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:55,540 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:57,647 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:57,656 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:03:59,567 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:03:59,567 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:18:44,480 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:23,428 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:25,686 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:26,119 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:27,875 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:28,872 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:29,607 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:30,421 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:31,193 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:31,731 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:32,567 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:33,536 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:34,095 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:34,629 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:34,988 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:35,637 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:39,526 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:41,447 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:43,794 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:22:44,438 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:31:01,653 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:01,653 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:03,593 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:03,595 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:31:05,551 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:05,552 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:31:07,512 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:07,512 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:10,052 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:10,054 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:12,189 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:12,190 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:14,546 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:14,548 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:15,836 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:15,837 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:17,892 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:17,894 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:20,188 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:20,189 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:22,190 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:22,191 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:24,370 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:24,370 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:26,005 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:26,005 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:28,163 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:28,164 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:31:30,380 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:30,380 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:32,095 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:32,095 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:31:34,005 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:34,007 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:36,552 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:36,553 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:40,586 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:40,586 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:44,472 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:44,472 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:46,483 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:46,484 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:31:49,184 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:49,184 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:31:54,896 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:31:54,896 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:00,293 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 18:32:00,302 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:06,198 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:06,198 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:09,422 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:09,423 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:32:11,748 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:11,748 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:13,158 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:13,158 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:15,496 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:15,496 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:17,115 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:17,116 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:19,089 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:19,089 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:27,844 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:27,845 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:29,229 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:29,230 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:31,478 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:31,478 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:35,690 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:35,691 - INFO -   TRY FILLING IOC: retcode=10027 time=0.001s comment=AutoTrading disabled by client
+2026-04-06 18:32:37,597 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:37,598 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:39,567 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:39,568 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:41,681 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:41,681 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:43,518 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:43,518 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:51,368 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:51,369 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:32:56,929 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:32:56,930 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:33:00,350 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:33:00,351 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:09,491 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:09,492 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:11,523 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:11,524 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:13,768 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:13,768 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:15,811 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:15,812 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:18,049 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:18,050 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:20,279 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:20,280 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:21,969 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:21,969 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:24,620 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:24,621 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:27,006 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:27,009 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:29,452 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:29,452 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:31,949 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:31,949 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:34,079 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:34,079 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:39:36,300 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 18:39:36,301 - INFO -   TRY FILLING IOC: retcode=10027 time=0.000s comment=AutoTrading disabled by client
+2026-04-06 18:40:31,328 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:40:56,366 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:40:56,409 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 18:42:36,804 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 19:01:55,656 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 19:06:22,454 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 19:57:03,165 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 19:57:03,446 - INFO -   TRY FILLING IOC: retcode=10009 time=0.281s comment=Request executed
+2026-04-06 19:57:03,446 - INFO -   SUCCESS: #599718189 filled via IOC
+2026-04-06 20:23:01,660 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 20:23:01,954 - INFO -   TRY FILLING IOC: retcode=10009 time=0.293s comment=Request executed
+2026-04-06 20:23:01,955 - INFO -   SUCCESS: #599805888 filled via IOC
+2026-04-06 20:38:06,450 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-06 20:38:06,744 - INFO -   TRY FILLING IOC: retcode=10009 time=0.294s comment=Request executed
+2026-04-06 20:38:06,744 - INFO -   SUCCESS: #599840395 filled via IOC
+2026-04-06 21:05:02,718 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 21:05:03,027 - INFO -   TRY FILLING IOC: retcode=10009 time=0.310s comment=Request executed
+2026-04-06 21:05:03,029 - INFO -   SUCCESS: #599896727 filled via IOC
+2026-04-06 21:18:02,738 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 21:18:03,021 - INFO -   TRY FILLING IOC: retcode=10009 time=0.283s comment=Request executed
+2026-04-06 21:18:03,022 - INFO -   SUCCESS: #599920121 filled via IOC
+2026-04-06 22:05:08,686 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:06:38,949 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:06:45,339 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:06:48,624 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:08:43,266 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:09:54,814 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:09:54,893 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:02,103 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:03,161 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:11,711 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:13,650 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:14,513 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:15,035 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:15,519 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:15,968 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:16,397 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:16,840 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:20,164 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:21,491 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:21,969 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:11:24,555 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:12:13,438 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:12:33,729 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:12:33,754 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:01,606 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:01,648 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:11,227 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:11,269 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:12,531 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:13:12,563 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:14:50,239 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:14:58,163 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:14:58,197 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:41:01,988 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-06 22:41:02,280 - INFO -   TRY FILLING IOC: retcode=10009 time=0.293s comment=Request executed
+2026-04-06 22:41:02,280 - INFO -   SUCCESS: #700056582 filled via IOC
+2026-04-06 22:45:14,366 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:45:14,403 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:45:23,499 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:45:23,529 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:55:02,614 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:55:02,652 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 22:55:16,048 - INFO - STARTUP: Connected to account #336195466 (Mode: 0)
+2026-04-06 23:11:28,492 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-06 23:39:06,442 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-06 23:40:14,221 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='CONTINUATION'
+2026-04-06 23:40:14,521 - INFO -   TRY FILLING IOC: retcode=10009 time=0.299s comment=Request executed
+2026-04-06 23:40:14,521 - INFO -   SUCCESS: #700127469 filled via IOC
+2026-04-06 23:40:16,018 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='CONTINUATION'
+2026-04-06 23:40:16,309 - INFO -   TRY FILLING IOC: retcode=10009 time=0.291s comment=Request executed
+2026-04-06 23:40:16,309 - INFO -   SUCCESS: #700127544 filled via IOC
+2026-04-06 23:41:52,086 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-06 23:41:52,122 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:05:05,768 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:18:08,427 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:32:46,918 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:42:29,126 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:42:47,786 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 00:51:37,665 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 02:07:56,679 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 02:08:56,976 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 17:06:39,533 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 17:08:59,002 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-07 17:08:59,315 - INFO -   TRY FILLING IOC: retcode=10009 time=0.312s comment=Request executed
+2026-04-07 17:08:59,316 - INFO -   SUCCESS: #701293499 filled via IOC
+2026-04-07 17:22:40,104 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-07 17:22:40,386 - INFO -   TRY FILLING IOC: retcode=10009 time=0.282s comment=Request executed
+2026-04-07 17:22:40,386 - INFO -   SUCCESS: #701320370 filled via IOC
+2026-04-07 17:56:03,461 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='MSS'
+2026-04-07 17:56:03,758 - INFO -   TRY FILLING IOC: retcode=10009 time=0.297s comment=Request executed
+2026-04-07 17:56:03,758 - INFO -   SUCCESS: #701379706 filled via IOC
+2026-04-07 18:31:28,082 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 18:50:58,517 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 18:51:00,806 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='MSS'
+2026-04-07 18:51:01,628 - INFO -   TRY FILLING IOC: retcode=10009 time=0.821s comment=Request executed
+2026-04-07 18:51:01,628 - INFO -   SUCCESS: #701499996 filled via IOC
+2026-04-07 18:56:15,854 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 19:07:04,176 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-07 19:07:04,471 - INFO -   TRY FILLING IOC: retcode=10009 time=0.294s comment=Request executed
+2026-04-07 19:07:04,472 - INFO -   SUCCESS: #701556566 filled via IOC
+2026-04-07 19:10:40,449 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 19:25:04,601 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='CONTINUATION'
+2026-04-07 19:25:04,905 - INFO -   TRY FILLING IOC: retcode=10009 time=0.302s comment=Request executed
+2026-04-07 19:25:04,906 - INFO -   SUCCESS: #701614100 filled via IOC
+2026-04-07 19:33:53,708 - INFO - ORDER SLTP: ticket=#701499996 symbol=GBPUSD sl=1.3252099999999998 tp=1.32634
+2026-04-07 19:33:53,998 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-07 19:50:50,994 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='CONTINUATION'
+2026-04-07 19:50:51,265 - INFO -   TRY FILLING IOC: retcode=10009 time=0.272s comment=Request executed
+2026-04-07 19:50:51,266 - INFO -   SUCCESS: #701677725 filled via IOC
+2026-04-07 19:59:05,831 - INFO - ORDER SLTP: ticket=#701677725 symbol=GOLD sl=4643.565 tp=4628.67
+2026-04-07 19:59:06,109 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-07 19:59:09,274 - INFO - ORDER SLTP: ticket=#701677725 symbol=GOLD sl=4635.717 tp=4628.67
+2026-04-07 19:59:09,538 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-07 20:00:03,613 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='CONTINUATION'
+2026-04-07 20:00:03,884 - INFO -   TRY FILLING IOC: retcode=10009 time=0.269s comment=Request executed
+2026-04-07 20:00:03,884 - INFO -   SUCCESS: #701704320 filled via IOC
+2026-04-07 21:14:54,241 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 21:14:54,243 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='Bot Full Exit'
+2026-04-07 21:14:54,536 - INFO -   TRY FILLING IOC: retcode=10009 time=0.294s comment=Request executed
+2026-04-07 21:14:54,536 - INFO -   SUCCESS: #701863694 filled via IOC
+2026-04-07 21:18:01,883 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='VOLUME'
+2026-04-07 21:18:02,189 - INFO -   TRY FILLING IOC: retcode=10009 time=0.307s comment=Request executed
+2026-04-07 21:18:02,189 - INFO -   SUCCESS: #701867313 filled via IOC
+2026-04-07 22:07:27,168 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 22:55:24,845 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 23:20:09,491 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 23:22:27,859 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 23:22:44,482 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-07 23:22:44,807 - INFO -   TRY FILLING IOC: retcode=10009 time=0.325s comment=Request executed
+2026-04-07 23:22:44,808 - INFO -   SUCCESS: #702047512 filled via IOC
+2026-04-07 23:24:01,926 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-07 23:54:15,236 - INFO - ORDER SLTP: ticket=#702047512 symbol=GBPUSD sl=1.3264300000000002 tp=1.32561
+2026-04-07 23:54:15,535 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-07 23:55:14,190 - INFO - ORDER SLTP: ticket=#702047512 symbol=GBPUSD sl=1.3261545000000001 tp=1.32561
+2026-04-07 23:55:14,480 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-07 23:59:36,739 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='SUPPORT_RESISTA'
+2026-04-07 23:59:37,017 - INFO -   TRY FILLING IOC: retcode=10009 time=0.279s comment=Request executed
+2026-04-07 23:59:37,017 - INFO -   SUCCESS: #702092043 filled via IOC
+2026-04-08 00:09:51,874 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='SUPPORT_RESISTA'
+2026-04-08 00:09:52,155 - INFO -   TRY FILLING IOC: retcode=10009 time=0.281s comment=Request executed
+2026-04-08 00:09:52,155 - INFO -   SUCCESS: #702104164 filled via IOC
+2026-04-08 00:15:15,315 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='SUPPORT_RESISTA'
+2026-04-08 00:15:15,597 - INFO -   TRY FILLING IOC: retcode=10009 time=0.281s comment=Request executed
+2026-04-08 00:15:15,599 - INFO -   SUCCESS: #702109205 filled via IOC
+2026-04-08 00:19:14,028 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='HYBRID'
+2026-04-08 00:19:14,311 - INFO -   TRY FILLING IOC: retcode=10009 time=0.284s comment=Request executed
+2026-04-08 00:19:14,312 - INFO -   SUCCESS: #702116370 filled via IOC
+2026-04-08 00:19:31,877 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.01 comment='HYBRID'
+2026-04-08 00:19:32,149 - INFO -   TRY FILLING IOC: retcode=10009 time=0.271s comment=Request executed
+2026-04-08 00:19:32,150 - INFO -   SUCCESS: #702116872 filled via IOC
+2026-04-08 00:19:39,686 - INFO - ORDER SLTP: ticket=#702116370 symbol=GOLD sl=4682.285 tp=4694.02
+2026-04-08 00:19:39,968 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-08 00:20:05,877 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.01 comment='HYBRID'
+2026-04-08 00:20:06,155 - INFO -   TRY FILLING IOC: retcode=10009 time=0.278s comment=Request executed
+2026-04-08 00:20:06,155 - INFO -   SUCCESS: #702119833 filled via IOC
+2026-04-08 00:20:14,209 - INFO - ORDER SLTP: ticket=#702116370 symbol=GOLD sl=4688.406928571429 tp=4694.02
+2026-04-08 00:20:14,476 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-08 00:29:19,918 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 00:31:37,261 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 00:42:58,643 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)

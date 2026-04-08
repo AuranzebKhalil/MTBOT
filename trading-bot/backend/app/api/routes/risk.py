@@ -18,7 +18,7 @@ class RiskSettings(BaseModel):
     partial_stage_2_trigger: float
     partial_stage_2_close_pct: float
 
-@router.get("/settings", response_model=RiskSettings)
+@router.get("/", response_model=RiskSettings)
 def get_risk_settings(db: Session = Depends(get_db)):
     user = db.query(User).first() # Default user
     if not user:
@@ -40,7 +40,7 @@ def get_risk_settings(db: Session = Depends(get_db)):
         partial_stage_2_close_pct=getattr(user, "partial_stage_2_close_pct", 0.25),
     )
 
-@router.post("/settings")
+@router.post("/")
 def update_risk_settings(settings: RiskSettings, db: Session = Depends(get_db)):
     user = db.query(User).first()
     if not user:

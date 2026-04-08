@@ -19,6 +19,7 @@ import {
   useResetRiskMutation,
   useUpdateSymbolVolumeMutation,
   useDeleteHistoryItemMutation,
+  useCloseTradeMutation,
 } from "../lib/apiSlice";
 import { getApiBaseUrl } from "../lib/config";
 
@@ -61,11 +62,13 @@ export function BotProvider({ children }) {
   const [deleteHistoryItem] = useDeleteHistoryItemMutation();
   const [resetRisk] = useResetRiskMutation();
   const [updateSymbolVolume] = useUpdateSymbolVolumeMutation();
+  const [closeTrade] = useCloseTradeMutation();
 
   // Local state for UI
   const [isEngineSettingsOpen, setIsEngineSettingsOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
+  const [localStrategySettings, setLocalStrategySettings] = useState({});
   const [riskParams, setRiskParams] = useState({
     risk_per_trade: 1,
     max_trades: 5,
@@ -78,6 +81,7 @@ export function BotProvider({ children }) {
     partial_stage_1_close_pct: 50,
     partial_stage_2_trigger: 80,
     partial_stage_2_close_pct: 25,
+    trading_mode: "DEMO"
   });
 
   // Sync server risk data to local state
@@ -94,9 +98,17 @@ export function BotProvider({ children }) {
         partial_stage_1_close_pct: (riskData.partial_stage_1_close_pct || 0.5) * 100,
         partial_stage_2_trigger: (riskData.partial_stage_2_trigger || 0.8) * 100,
         partial_stage_2_close_pct: (riskData.partial_stage_2_close_pct || 0.25) * 100,
+        trading_mode: riskData.trading_mode || "DEMO"
       });
     }
   }, [riskData]);
+  
+  // Sync core strategy settings to local state for instant UI responsiveness
+  useEffect(() => {
+    if (strategySettings && Object.keys(strategySettings).length > 0) {
+      setLocalStrategySettings(prev => ({...strategySettings, ...prev}));
+    }
+  }, [strategySettings]);
 
   // Derived UI State
   const botStatus = multiData?.status || {
@@ -159,6 +171,7 @@ export function BotProvider({ children }) {
         partial_stage_1_close_pct: parseFloat(riskParams.partial_stage_1_close_pct) / 100,
         partial_stage_2_trigger: parseFloat(riskParams.partial_stage_2_trigger) / 100,
         partial_stage_2_close_pct: parseFloat(riskParams.partial_stage_2_close_pct) / 100,
+        trading_mode: riskParams.trading_mode
       }).unwrap();
       toast.success("Risk Protocol Updated");
     } catch (err) {
@@ -168,7 +181,7 @@ export function BotProvider({ children }) {
 
   const updateBotSettings = async (symbols, tf, session, aiThreshold) => {
     try {
-      await fetch(`${getApiBaseUrl()}/settings`, {
+      await fetch(`${getApiBaseUrl()}/v1/settings`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -241,11 +254,48 @@ export function BotProvider({ children }) {
           }
         },
         engineConfig,
-        strategySettings,
-        updateStrategySetting: (id, update) => updateStrategy({ strategy_id: id, ...update }).unwrap().then(() => toast.success("Strategy Updated")),
+        strategySettings: { ...strategySettings, ...localStrategySettings },
+        updateStrategySetting: (id, update) => {
+          console.log(`📡 Transmitting Strategy Update: ${id}`, update);
+          
+          // Optimistic Update
+          if (update.enabled !== undefined) {
+             setLocalStrategySettings(prev => ({
+               ...prev,
+               [id]: { ...(prev[id] || (strategySettings && strategySettings[id]) || {}), enabled: update.enabled }
+             }));
+          }
+
+          return updateStrategy({ strategy_id: id, ...update })
+            .unwrap()
+            .then((res) => {
+              // Ensure we stay in sync with what the server finally confirmed
+              if (res && res.settings) {
+                setLocalStrategySettings(prev => ({ ...prev, [id]: res.settings }));
+              }
+              toast.success(`${id} Protocol Updated`, { icon: "⚙️" });
+            })
+            .catch((err) => {
+              console.error("❌ Strategy Sync Failure:", err);
+              // Rollback optimistic update
+              if (strategySettings && strategySettings[id]) {
+                setLocalStrategySettings(prev => ({ ...prev, [id]: strategySettings[id] }));
+              }
+              toast.error(`Sync Failed for ${id}`);
+            });
+        },
         updateSymbolManualVolume: (symbol, volume) => updateSymbolVolume({ symbol, manual_volume: volume }).unwrap().then(() => toast.success("Volume Saved")),
         addCustomStrategy: (strat) => addStrategy(strat).unwrap().then(() => toast.success("Strategy Deployed")),
         removeCustomStrategy: (id) => deleteStrategy(id).unwrap().then(() => toast.success("Strategy Purged")),
+        handleCloseTrade: (ticketId) => {
+          if (confirm(`Execute immediate market close for Ticket #${ticketId}?`)) {
+            toast.promise(closeTrade(ticketId).unwrap(), {
+              loading: 'Transmitting Close Order...',
+              success: 'Trade Halted on Terminal',
+              error: 'Market Exit Failed'
+            });
+          }
+        },
       }}
     >
       {children}

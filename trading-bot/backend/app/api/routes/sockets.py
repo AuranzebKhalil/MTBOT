@@ -5,21 +5,43 @@ from app.api.routes.legacy import multi_status
 from starlette.websockets import WebSocketState
 import asyncio
 import logging
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 class ConnectionManager:
     def __init__(self):
+        # Broadcast connections (Status monitoring)
         self.active_connections: list[WebSocket] = []
+        # Support & Security connections (User-specific)
+        self.user_connections: Dict[int, List[WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket, user_id: int = None):
         await websocket.accept()
-        self.active_connections.append(websocket)
+        if user_id:
+            if user_id not in self.user_connections:
+                self.user_connections[user_id] = []
+            self.user_connections[user_id].append(websocket)
+            logger.info(f"User {user_id} connected to real-time notification socket.")
+        else:
+            self.active_connections.append(websocket)
 
-    def disconnect(self, websocket: WebSocket):
-        if websocket in self.active_connections:
+    def disconnect(self, websocket: WebSocket, user_id: int = None):
+        if user_id and user_id in self.user_connections:
+            if websocket in self.user_connections[user_id]:
+                self.user_connections[user_id].remove(websocket)
+        elif websocket in self.active_connections:
             self.active_connections.remove(websocket)
+
+    async def send_to_user(self, user_id: int, message: dict):
+        if user_id in self.user_connections:
+            for connection in self.user_connections[user_id]:
+                try:
+                    await connection.send_json(message)
+                except Exception:
+                    # Connection might be stale
+                    pass
 
     async def broadcast(self, message: dict):
         for connection in list(self.active_connections):
@@ -28,8 +50,6 @@ class ConnectionManager:
                     await connection.send_json(message)
                 except Exception:
                     self.disconnect(connection)
-            else:
-                self.disconnect(connection)
 
 manager = ConnectionManager()
 
@@ -38,36 +58,27 @@ async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            # Check if socket is still connected before processing
             if websocket.client_state != WebSocketState.CONNECTED:
                 break
-                
             with SessionLocal() as db:
-                try:
-                    data = multi_status(db)
-                    await websocket.send_json(data)
-                except (WebSocketDisconnect, asyncio.CancelledError):
-                    break
-                except RuntimeError as e:
-                    if "close message has been sent" in str(e).lower() or "disconnected" in str(e).lower():
-                        break
-                    logger.error(f"WS Runtime Error: {e}")
-                    break
-                except Exception as e:
-                    # Generic catch-all for other sync errors
-                    if "disconnect" in str(e).lower() or "closed" in str(e).lower():
-                        break
-                    logger.error(f"WS Sync Error: {e}", exc_info=True)
-                    break
-            
-            try:
-                await asyncio.sleep(2)
-            except asyncio.CancelledError:
-                # Normal termination during server shutdown
-                return
-    except WebSocketDisconnect:
-        logger.info("Client disconnected normally.")
-    except Exception as e:
-        logger.error(f"WebSocket Loop Error: {e}")
+                data = multi_status(db)
+                await websocket.send_json(data)
+            await asyncio.sleep(2)
+    except Exception:
+        pass
     finally:
         manager.disconnect(websocket)
+
+@router.websocket("/ws/notifications/{user_id}")
+async def notification_endpoint(websocket: WebSocket, user_id: int):
+    await manager.connect(websocket, user_id=user_id)
+    try:
+        while True:
+            # Wait for any incoming client message (keepalive)
+            data = await websocket.receive_text()
+            # Users could send messages here if we wanted bidirectional WS-chat
+            # But we use REST for message submission and WS for push notifications
+    except WebSocketDisconnect:
+        logger.info(f"User {user_id} disconnected from notification socket.")
+    finally:
+        manager.disconnect(websocket, user_id=user_id)

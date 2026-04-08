@@ -11,6 +11,8 @@
   --accent-blue: #007aff;
   --primary-glow: rgba(0, 122, 255, 0.4);
   --primary-light: rgba(0, 122, 255, 0.15);
+  --gradient-primary: linear-gradient(135deg, #007aff 0%, #00f2ff 100%);
+  --gradient-hover: linear-gradient(135deg, #0062cc 0%, #00d2ff 100%);
   
   --accent: #00f2ff;
   --accent-cyan: #00f2ff;

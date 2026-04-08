@@ -16,7 +16,6 @@ import AlphaFluxChart from "./components/AlphaFluxChart";
 import { useBot } from "./components/BotContext";
 import { useAuth } from "./components/AuthContext";
 import FilterStatusPanel from "./components/FilterStatusPanel";
-import StrategyAnalytics from "./components/StrategyAnalytics";
 import { useMediaQuery } from "./lib/useMediaQuery";
 
 export default function Home() {
@@ -83,7 +82,14 @@ export default function Home() {
     <>
       <div
         className="fade-in"
-        style={{ display: "flex", flexDirection: "column", height: "auto", minHeight: "100%", overflowX: "hidden", maxWidth: "100%" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "auto",
+          minHeight: "100%",
+          overflowX: "hidden",
+          maxWidth: "100%",
+        }}
       >
         {/* 5-SEGMENT PERFORMANCE STRIP */}
         <div
@@ -99,12 +105,18 @@ export default function Home() {
             boxShadow: "0 12px 40px rgba(0,0,0,0.2)",
           }}
         >
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: isSmallMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)", 
-            flex: isMobile ? "none" : 4,
-            width: isMobile ? "100%" : "auto"
-          }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isSmallMobile
+                ? "1fr"
+                : isTablet
+                  ? "repeat(2, 1fr)"
+                  : "repeat(4, 1fr)",
+              flex: isMobile ? "none" : 4,
+              width: isMobile ? "100%" : "auto",
+            }}
+          >
             <MetricSegment
               icon={<TrendingUp size={18} />}
               iconClass="icon-green"
@@ -145,7 +157,7 @@ export default function Home() {
               background: "rgba(255,255,255,0.01)",
               borderTop: isTablet ? "1px solid var(--divider)" : "none",
               borderLeft: isTablet ? "none" : "1px solid var(--divider)",
-              textAlign: isTablet ? "center" : "left"
+              textAlign: isTablet ? "center" : "left",
             }}
           >
             <span
@@ -179,8 +191,6 @@ export default function Home() {
         {/* RISK FILTERS PANEL */}
         <FilterStatusPanel />
 
-        {/* STRATEGY PERFORMANCE DASHBOARD */}
-        <StrategyAnalytics />
 
         {/* CHART GRID AREA */}
         <div style={{ flex: 1, minHeight: 0 }}>
@@ -206,7 +216,7 @@ export default function Home() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "flex-start",
-            overflowY: "auto"
+            overflowY: "auto",
           }}
         >
           <div
@@ -216,7 +226,7 @@ export default function Home() {
               height: isMobile ? "auto" : "90vh",
               display: "flex",
               flexDirection: "column",
-              gap: isMobile ? "24px" : "0"
+              gap: isMobile ? "24px" : "0",
             }}
           >
             <div
@@ -225,11 +235,15 @@ export default function Home() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 marginBottom: isMobile ? "0px" : "40px",
-                gap: "16px"
+                gap: "16px",
               }}
             >
               <div
-                style={{ display: "flex", alignItems: "center", gap: isMobile ? "12px" : "24px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: isMobile ? "12px" : "24px",
+                }}
               >
                 <div
                   style={{
@@ -242,7 +256,7 @@ export default function Home() {
                     alignItems: "center",
                     justifyContent: "center",
                     boxShadow: "0 0 30px rgba(0, 122, 255, 0.3)",
-                    flexShrink: 0
+                    flexShrink: 0,
                   }}
                 >
                   <TerminalIcon size={isMobile ? 20 : 28} color="#000" />
@@ -300,7 +314,7 @@ export default function Home() {
                   justifyContent: "center",
                   boxShadow: "var(--shadow-glow)",
                   transition: "all 0.2s ease",
-                  flexShrink: 0
+                  flexShrink: 0,
                 }}
                 className="hover-lift"
               >
@@ -309,7 +323,13 @@ export default function Home() {
             </div>
 
             <div
-              style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "24px" : "40px", flex: isMobile ? "none" : 1, minHeight: 0 }}
+              style={{
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                gap: isMobile ? "24px" : "40px",
+                flex: isMobile ? "none" : 1,
+                minHeight: 0,
+              }}
             >
               <div
                 style={{
@@ -331,7 +351,7 @@ export default function Home() {
                   display: "flex",
                   flexDirection: "column",
                   gap: isMobile ? "16px" : "32px",
-                  minHeight: isMobile ? "400px" : "auto"
+                  minHeight: isMobile ? "400px" : "auto",
                 }}
               >
                 <TerminalBox
@@ -395,7 +415,7 @@ export default function Home() {
               flexDirection: "column",
               padding: isMobile ? "24px" : "40px",
               position: "relative",
-              borderRadius: isMobile ? "0" : "32px"
+              borderRadius: isMobile ? "0" : "32px",
             }}
           >
             <div
@@ -428,7 +448,9 @@ export default function Home() {
                   }}
                 >
                   {expandedLogs.title}{" "}
-                  {!isMobile && <span style={{ opacity: 0.5 }}>System Logs</span>}
+                  {!isMobile && (
+                    <span style={{ opacity: 0.5 }}>System Logs</span>
+                  )}
                 </h3>
               </div>
               <button
@@ -486,12 +508,17 @@ export default function Home() {
                           fontWeight: "700",
                           opacity: 0.8,
                           minWidth: isMobile ? "auto" : "120px",
-                          fontSize: isMobile ? "10px" : "inherit"
+                          fontSize: isMobile ? "10px" : "inherit",
                         }}
                       >
                         {log.split(" - ")[0]}
                       </span>
-                      <span style={{ color: "var(--text-main)", wordBreak: "break-word" }}>
+                      <span
+                        style={{
+                          color: "var(--text-main)",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {log.split(" - ").slice(1).join(" - ")}
                       </span>
                     </div>
@@ -550,7 +577,7 @@ function MetricSegment({ icon, iconClass, label, value, isMobile }) {
               : iconClass === "icon-blue"
                 ? "var(--primary)"
                 : "var(--accent-purple)",
-          flexShrink: 0
+          flexShrink: 0,
         }}
       >
         {React.cloneElement(icon, { size: isMobile ? 16 : 18 })}

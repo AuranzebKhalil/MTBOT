@@ -48,3 +48,17 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     return {"message": "User created"}
+
+from app.api.dependencies import get_current_user
+
+@router.get("/me")
+async def get_me(current_user: User = Depends(get_current_user)):
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "username": current_user.username,
+        "role": current_user.role,
+        "is_breached": current_user.is_breached,
+        "total_profit": current_user.total_profit,
+        "current_balance": current_user.current_balance
+    }

@@ -75,6 +75,7 @@ class RiskUpdate(BaseModel):
     max_trades: Optional[int] = None
     max_daily_trades: Optional[int] = None
     daily_loss_limit: Optional[float] = None
+    trading_mode: Optional[str] = None # DEMO or REAL
 
 class CustomStrategyCreate(BaseModel):
     name: str
@@ -116,7 +117,8 @@ BOT_DATA = {
         "risk_per_trade": 0.01,
         "max_trades": 2,
         "max_daily_trades": 20,
-        "daily_loss_limit": 0.10
+        "daily_loss_limit": 0.10,
+        "trading_mode": "DEMO"
     },
     "trades": [],
     "history": [],
@@ -209,6 +211,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
     BOT_DATA["risk"]["risk_per_trade"] = user.risk_per_trade
     BOT_DATA["risk"]["max_trades"] = user.max_trades
     BOT_DATA["risk"]["daily_loss_limit"] = user.daily_loss_limit
+    BOT_DATA["risk"]["trading_mode"] = user.trading_mode or "DEMO"
     
     access_token = auth.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
@@ -347,6 +350,10 @@ async def update_risk(risk: RiskUpdate, db: Session = Depends(get_db), current_u
     if risk.daily_loss_limit is not None:
         BOT_DATA["risk"]["daily_loss_limit"] = risk.daily_loss_limit
         current_user.daily_loss_limit = risk.daily_loss_limit
+    if risk.trading_mode is not None:
+        mode = risk.trading_mode.upper()
+        BOT_DATA["risk"]["trading_mode"] = mode
+        current_user.trading_mode = mode
     
     db.commit()
     return {"status": "Institutional risk profile synchronized", "data": BOT_DATA["risk"]}
@@ -358,7 +365,8 @@ async def get_risk(current_user: models.User = Depends(get_current_user)):
         "risk_per_trade": current_user.risk_per_trade,
         "max_trades": current_user.max_trades,
         "max_daily_trades": BOT_DATA["risk"].get("max_daily_trades", 20),
-        "daily_loss_limit": current_user.daily_loss_limit
+        "daily_loss_limit": current_user.daily_loss_limit,
+        "trading_mode": current_user.trading_mode or "DEMO"
     }
 
 # --- Custom Strategy Endpoints ---

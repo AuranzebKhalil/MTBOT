@@ -26,6 +26,23 @@ import { useMediaQuery } from "../lib/useMediaQuery";
 
 const strategies = [
   {
+    id: "MAD_TREND_LOOP",
+    name: "MAD - Trend Loop (Lyro RS)",
+    prob: "High",
+    freq: "High",
+    type: "Mean Deviation",
+    icon: Activity,
+    color: "#ff00ff",
+    description: "Mean Absolute Deviation combined with Moving Average loop thresholds for explosive trend trades.",
+    entry: "Combined signal of Bollinger Bands crossover and ALMA momentum score > threshold.",
+    exit: "Close when strategy reverses signal.",
+    steps: ["Compute MAD bounds", "Evaluate momentum loop", "Trigger on composite score", "Execute automatically"],
+    risk: "Medium",
+    note: "Custom Lyro RS Indicator ported from Pine Script.",
+    image: "/strategies/ftm.png",
+  },
+  {
+    id: "SMC_SWEEP",
     name: "SRR - Sweep Reclaim Reversal",
     prob: "High",
     freq: "Daily",
@@ -35,19 +52,20 @@ const strategies = [
     description:
       "Our primary reversal framework. Trades stop-hunt moves that sweep institutional liquidity and immediately reclaim structure.",
     entry:
-      "M15 bias alignment + M5 liquidity sweep of equal highs/lows + M1 candle close back through the swept level + FVG/OB retest.",
+      "M15 bias alignment + M5 liquidity sweep + M1 structural reclaim + displacement.",
     exit: "TP at 1:2 R/R min. SL placed beyond the sweep wick extreme.",
     steps: [
-      "Identify major liquidity pools (equal highs/lows) on M5/M15",
-      "Wait for a fast 'stop-hunt' wick to clear the pool",
-      "Monitor M1 for a structural shift (BOS) back into the range",
-      "Confirm institutional activity via Relative Activity filter",
-      "Execution on first touch of the reclaim-zone (FVG or OB)",
+      "Identify liquidity pools on M5/M15",
+      "Wait for stop-hunt wick",
+      "Monitor M1 for structural shift",
+      "Execution on reclaim-zone (FVG/OB)",
     ],
-    risk: "Low-Medium (Requires Triple-Timeframe Sync)",
-    note: "This family merges Liquidity Sweep, ILC, and PDF into a single high-expectancy reversal engine.",
+    risk: "Low-Medium",
+    note: "High-probability institutional 'Change of Mind' footprint.",
+    image: "/strategies/srr.png",
   },
   {
+    id: "SMC_TREND",
     name: "CR - Continuation Retest",
     prob: "High",
     freq: "High",
@@ -57,41 +75,20 @@ const strategies = [
     description:
       "The main trend-following engine. Captures momentum after clean structural breaks and low-volatility pullbacks.",
     entry:
-      "M15/M5 structural agreement + Clean M1 Break of Structure (BOS) + high-quality retest of the break zone or fresh OB.",
-    exit: "TP at next structural high/low. SL at previous swing point (1:1.5 min R/R).",
+      "M15 bias alignment + M1 BOS + High-quality retest of the break zone or fresh OB.",
+    exit: "TP at next structural high/low. SL at previous swing point.",
     steps: [
-      "Confirm M15 Macro Bias is trending (HH/HL or LL/LH)",
-      "Wait for M1/M5 Break of Structure in the trend direction",
-      "Identify a fresh Order Block or FVG created by the break",
-      "Wait for a controlled, low-activity pullback to the zone",
-      "Rejection candle confirms continuation → Enter with flow",
+      "Confirm HTF Trend",
+      "Wait for LTF BOS",
+      "Identify fresh OB/FVG",
+      "Execute on controlled pullback",
     ],
-    risk: "Low — Highest frequency institutional setup",
-    note: "Merges Structure Break, SSC, and OBM into a unified trend-continuation framework.",
+    risk: "Low",
+    note: "High-frequency setup for trending markets.",
+    image: "/strategies/mss.png",
   },
   {
-    name: "MR - Manipulation Reversal",
-    prob: "Medium-High",
-    freq: "2-4/day",
-    type: "Trap",
-    icon: ArrowRightLeft,
-    color: "#ff9f43",
-    description:
-      "Capitalizes on false breakouts and range-traps. Enters as retail breakout traders are squeezed out by smart money.",
-    entry:
-      "Institutional impulse candle creates a range → price breaks out → price closes back INSIDE the range on the very next candle.",
-    exit: "TP at the opposite side of the manipulation range. SL beyond the trap wick.",
-    steps: [
-      "Large impulse candle establishes a 'Dealing Range'",
-      "Next candle attempts to drive price beyond the range",
-      "Smart money absorbs the move (Relative Activity spike)",
-      "Price snaps back and closes deep inside the original range",
-      "Entry at the close of the snap-back candle",
-    ],
-    risk: "Medium",
-    note: "Consolidates CRT, LTR, and SMR into one 'Manipulation' family. High pain for retail, high gain for Quant.",
-  },
-  {
+    id: "SMC_MITIGATION",
     name: "FTM - First Touch Mitigation",
     prob: "Medium",
     freq: "1-2/day",
@@ -101,19 +98,20 @@ const strategies = [
     description:
       "Trades the first high-quality return into a fresh imbalance zone created by institutional displacement.",
     entry:
-      "Massive displacement creates a supply/demand zone + first-time return to that zone + rejection confirmation on M1.",
-    exit: "TP at the start of the displacement move. SL beyond the zone boundary.",
+      "Massive displacement on M15 + first-time return to the zone + M1 rejection.",
+    exit: "TP at start of move. SL beyond zone boundary.",
     steps: [
-      "Scan for 'Fresh' (unmitigated) supply and demand zones",
-      "The zone must be created by a strong 'Rally-Base-Drop' move",
-      "Wait for price to return for its FIRST touch of the zone",
-      "Rejection candle (long wick) confirms orders are being filled",
-      "Entry at rejection close (Skip if price drifts slowly through)",
+      "Scan for fresh supply/demand",
+      "Detect displacement rally",
+      "Wait for first touch",
+      "Execute on rejection",
     ],
-    risk: "Medium — Freshwater zones have the highest probability",
-    note: "Replaces the old SND and PDF mitigation modules with a stricter 'Freshness' filter.",
+    risk: "Medium",
+    note: "Freshwater zones have the highest order-fill probability.",
+    image: "/strategies/ftm.png",
   },
   {
+    id: "SMC_REVERSAL",
     name: "ER - Exhaustion Reversal",
     prob: "Sniper",
     freq: "Weekly",
@@ -121,62 +119,175 @@ const strategies = [
     icon: Radar,
     color: "#ee5a24",
     description:
-      "A rare, high-threshold sniper setup for catching reversals after a final unstable push into a deep HTF zone.",
+      "Catching reversals after a final unstable overextended push into deep HTF supply/demand zones.",
     entry:
-      "Deep HTF Supply/Demand zone touch + extreme blow-off Relative Activity + full candle engulfment on M1/M5.",
-    exit: "TP at 1:3 R/R. SL at the absolute extreme of the exhaustion wick.",
+      "M15 RSI extreme + M1 CHOCH break + Lower High/Higher Low confirmation.",
+    exit: "TP at 1:3 R/R. SL at extreme of exhaustion wick.",
     steps: [
-      "Price enters a major M30 or H1 institutional interest zone",
-      "Final stab into the zone with extreme tick activity (>3x avg)",
-      "Immediate engulfing candle removes the exhaustion candle",
-      "Macro Confluence Score (MCS) must be > 3 for this setup",
-      "Entry at close of engulfing bar",
+      "Price enters M30/H1 zone",
+      "M5/M15 RSI Overextended",
+      "LTF CHOCH validation",
+      "Execute on engulfment",
     ],
-    risk: "Low Reward/Risk (due to sniper threshold)",
-    note: "The evolution of the IER strategy. Only trades when blood and panic are at extremes.",
+    risk: "Low Reward/Risk",
+    note: "Only trades when market sentiment is at blood-in-the-streets extremes.",
+    image: "/strategies/er.png",
   },
   {
-    name: "2BR - Two-Bar Reversal",
+    id: "SMC_VSA",
+    name: "VSA - Absorption Shift",
+    prob: "Medium",
+    freq: "2-4/day",
+    type: "Momentum",
+    icon: ArrowRightLeft,
+    color: "#ff9f43",
+    description:
+      "Detects institutional order absorption via volume spikes at key structural turning points.",
+    entry:
+      "High-volume spike (2x avg) + Price rejection at demand/supply zone + candle close confirmation.",
+    exit: "TP at next liquidity pool. SL below/above the absorption wick.",
+    steps: [
+      "Identify key S/R zone",
+      "Monitor for volume spikes",
+      "Confirm price rejection",
+      "Execute on session direction",
+    ],
+    risk: "Medium",
+    note: "Classic 'Smart Money' footprint of accumulation or distribution.",
+    image: "/strategies/vsa.png",
+  },
+  {
+    id: "SMC_MSS",
+    name: "MSS - Market Structure Shift",
     prob: "High",
     freq: "Daily",
     type: "Reversal",
-    icon: ArrowRightLeft,
-    color: "#ff4757",
+    icon: ShieldCheck,
+    color: "#34ace0",
     description:
-      "Detects abrupt institutional sentiment shifts using high-volume reversals on adjacent bars.",
+      "Captures the early stages of a trend reversal by identifying the first break of a minor swing point with displacement.",
     entry:
-      "Bar 1 (Impact) followed by Bar 2 (Reaction) with >1.2x average volume. Bar 2 must engulf or heavily retrace Bar 1.",
-    exit: "TP at next structural level. SL beyond the extremes of the 2-bar pattern.",
+      "M1/M5 Displacement MSS + High-volume follow-through + structural confirmation.",
+    exit: "TP at major swing high/low. SL beyond the change of character.",
     steps: [
-      "Identify a significant impulse bar (Bar 1) with high volume",
-      "Wait for the immediate Next bar (Bar 2) to reverse the move",
-      "Volume on Bar 2 should be equally high or higher than Bar 1",
-      "Enter at the close of Bar 2 once reversal is confirmed",
+      "Detect trend exhaustion",
+      "Wait for displacement break",
+      "Verify volume follow-through",
+      "Execute on structural shift",
     ],
-    risk: "Medium — High probability when at major S/R levels",
-    note: "Classic VSA footprint of an institutional 'Change of Mind'.",
+    risk: "Low-Medium",
+    note: "The most reliable early-entry signal for trend changes.",
+    image: "/strategies/mss.png",
   },
   {
-    name: "NSND - No Supply / No Demand",
+    id: "SMC_BREAKER",
+    name: "BB - Breaker Block Retest",
     prob: "Medium-High",
+    freq: "1-2/day",
+    type: "SMC",
+    icon: Layers,
+    color: "#ffb142",
+    description:
+      "Trades failed order blocks that have turned into support/resistance levels during aggressive moves.",
+    entry:
+      "Failed OB break with displacement + return to the 'Breaker' zone + M1 rejection.",
+    exit: "TP at 1.5 R/R. SL beyond the breaker zone boundary.",
+    steps: [
+      "Locate failed OB",
+      "Confirm aggressive break",
+      "Wait for breaker retest",
+      "Execute on price rejection",
+    ],
+    risk: "Medium",
+    note: "Institutions using failed zones to mitigate remaining orders.",
+    image: "/strategies/srr.png",
+  },
+  {
+    id: "SMC_VOLUME",
+    name: "VOL - Order Flow/POC",
+    prob: "High",
     freq: "High",
-    type: "Test",
-    icon: Radar,
+    type: "Volume",
+    icon: TrendingUp,
     color: "#747d8c",
     description:
-      "Identifies the lack of institutional interest in a counter-trend move before a continuation.",
+      "Uses the Point of Control (POC) and Volume Profile to find high-gravity zones where price is likely to react.",
     entry:
-      "Low volume candle (less than previous two) with a small body/spread during a trend pullback.",
-    exit: "Target 1.5 - 2 R/R. SL below/above the test candle.",
+      "Price interaction with high-volume POC + Session bias alignment + rejection confirmation.",
+    exit: "Target 1:1.5 R/R. SL below/above POC zone.",
     steps: [
-      "Observe a trend pullback or temporary reversal",
-      "Identify a small-bodied candle with very low relative volume",
-      "Low volume indicates institutions are not supporting the pullback",
-      "Wait for a confirmation candle in the trend direction",
-      "Entry at confirmation close",
+      "Calculate Session POC",
+      "Wait for price interaction",
+      "Analyze volume delta",
+      "Execute with session flow",
     ],
-    risk: "Low — Best used as a secondary confirmation for other setups",
-    note: "The ultimate 'test' used by professional operators before they push price.",
+    risk: "Low",
+    note: "Trading where the most volume has already been cleared.",
+    image: "/strategies/vsa.png",
+  },
+  {
+    id: "HYBRID_MASTER",
+    name: "Hybrid Master Switcher",
+    prob: "Dynamic",
+    freq: "Adaptive",
+    type: "AI Master",
+    icon: ShieldCheck,
+    color: "#00d2ff",
+    description: "The core engine. Dynamically switches between Reversion, S/R, and Breakout strategies based on real-time market sentiment and volatility audits.",
+    entry: "Automatic selection based on ADX and structure.",
+    exit: "Varies by active sub-strategy.",
+    steps: ["Detect Market Regime (ADX/ATR)", "Assign best-fit strategy", "Execute with AI confirmation", "Manage with dynamic risk"],
+    risk: "Very Low",
+    note: "Optimal for hands-off multi-condition trading.",
+    image: "/strategies/mss.png",
+  },
+  {
+    id: "HYBRID_REVERSION",
+    name: "Mean Reversion (BB/RSI)",
+    prob: "High",
+    freq: "Daily",
+    type: "Reversal",
+    icon: Activity,
+    color: "#a29bfe",
+    description: "Designed for ranging markets. Captures small, high-probability reversals when price deviates significantly from its 20-period average.",
+    entry: "Price touches/closes outside Bollinger Bands + RSI < 30 or > 70.",
+    exit: "TP at Middle BB. SL at 1.5x ATR beyond the band.",
+    steps: ["Confirm low ADX (< 25)", "Wait for BB boundary touch", "Verify RSI extreme", "Execute on candle rejection"],
+    risk: "Low",
+    note: "The 'Rubber Band' effect on price action.",
+    image: "/strategies/er.png",
+  },
+  {
+    id: "HYBRID_SR",
+    name: "Advanced S/R Reversal",
+    prob: "High",
+    freq: "2-3/day",
+    type: "Structure",
+    icon: Layers,
+    color: "#fdcb6e",
+    description: "Focuses on high-timeframe (M15) support and resistance zones. Requires significant price rejection before entering.",
+    entry: "Interaction with M15 swing zone + M1 rejection candle (pin bar/engulfing).",
+    exit: "TP at opposite zone. SL 1x ATR beyond the zone.",
+    steps: ["Identify M15 key zones", "Wait for zone interaction", "Confirm M1 price rejection", "Execute on follow-through"],
+    risk: "Medium",
+    note: "Modern adaptation of classic floor trading principles.",
+    image: "/strategies/srr.png",
+  },
+  {
+    id: "HYBRID_BREAKOUT",
+    name: "Momentum Breakout",
+    prob: "High",
+    freq: "1-2/day",
+    type: "Momentum",
+    icon: Zap,
+    color: "#00b894",
+    description: "Captures explosive price movements out of tight consolidation zones (spring-loading). Requires volume confirmation.",
+    entry: "Close above/below 50-bar consolidation range + 1.5x volume spike.",
+    exit: "1:1.5 R/R or measured move of the range. SL inside the range.",
+    steps: ["Identify consolidation phase", "Monitor for volume expansion", "Wait for clean range exit", "Execute on breakout candle close"],
+    risk: "Medium-High",
+    note: "Designed for high-impact news days and session opens.",
+    image: "/strategies/ftm.png",
   },
 ];
 
@@ -216,9 +327,19 @@ function AddStrategyModal({ isOpen, onClose, onAdd }) {
     >
       <div
         className="glass-panel"
-        style={{ padding: isMobile ? "20px" : "30px", maxWidth: "500px", width: "100%", maxHeight: "90vh", overflowY: "auto" }}
+        style={{
+          padding: isMobile ? "20px" : "30px",
+          maxWidth: "500px",
+          width: "100%",
+          maxHeight: "90vh",
+          overflowY: "auto",
+        }}
       >
-        <h3 style={{ marginBottom: "20px", fontSize: isMobile ? "18px" : "20px" }}>Deploy Custom Stratagem</h3>
+        <h3
+          style={{ marginBottom: "20px", fontSize: isMobile ? "18px" : "20px" }}
+        >
+          Deploy Custom Stratagem
+        </h3>
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "15px" }}
@@ -297,7 +418,7 @@ function AddStrategyModal({ isOpen, onClose, onAdd }) {
                 borderRadius: "10px",
                 background: "var(--divider)",
                 color: "var(--text-main)",
-                fontSize: "13px"
+                fontSize: "13px",
               }}
             >
               Cancel
@@ -316,7 +437,7 @@ function AddStrategyModal({ isOpen, onClose, onAdd }) {
   );
 }
 
-function StrategyModal({ strategy, onClose }) {
+function StrategyModal({ strategy, onClose, isActive, onToggle }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   if (!strategy) return null;
   const Icon = strategy.icon;
@@ -374,7 +495,7 @@ function StrategyModal({ strategy, onClose }) {
             cursor: "pointer",
             color: "var(--text-sub)",
             transition: "all 0.2s",
-            zIndex: 10
+            zIndex: 10,
           }}
         >
           <X size={16} />
@@ -435,11 +556,117 @@ function StrategyModal({ strategy, onClose }) {
             >
               {strategy.description}
             </p>
+
+            {/* Radio Switch in Header */}
+            <div
+              onClick={onToggle}
+              style={{
+                marginTop: "15px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                cursor: "pointer",
+                padding: "8px 16px",
+                background: "var(--divider)",
+                borderRadius: "12px",
+                border: "1px solid var(--glass-border)",
+                width: "fit-content",
+                transition: "all 0.2s",
+              }}
+            >
+              <div
+                style={{
+                  width: "40px",
+                  height: "20px",
+                  background: isActive ? strategy.color : "#1a1c22",
+                  borderRadius: "20px",
+                  position: "relative",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  border: `1px solid ${isActive ? "transparent" : "var(--glass-border)"}`,
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "2px",
+                    left: isActive ? "22px" : "2px",
+                    width: "14px",
+                    height: "14px",
+                    background: isActive ? "white" : "var(--text-sub)",
+                    borderRadius: "50%",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    boxShadow: isActive ? `0 0 10px ${strategy.color}` : "none",
+                  }}
+                />
+              </div>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  color: isActive ? "white" : "var(--text-sub)",
+                  letterSpacing: "1px",
+                }}
+              >
+                {isActive ? "STRATEGY ENGAGED" : "STRATEGY HALTED"}
+              </span>
+            </div>
           </div>
         </div>
 
+        {/* Strategy Image View */}
+        {strategy.image && (
+          <div
+            style={{
+              width: "100%",
+              borderRadius: "16px",
+              overflow: "hidden",
+              marginBottom: "30px",
+              border: `1px solid ${strategy.color}30`,
+              boxShadow: `0 10px 40px ${strategy.color}15`,
+              background: "var(--divider)",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: "12px",
+                left: "12px",
+                background: "rgba(0,0,0,0.6)",
+                backdropFilter: "blur(4px)",
+                padding: "4px 10px",
+                borderRadius: "6px",
+                fontSize: "10px",
+                fontWeight: "700",
+                color: "white",
+                zIndex: 1,
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
+            >
+              LIVE FRAMEWORK EXAMPLE
+            </div>
+            <img
+              src={strategy.image}
+              alt={strategy.name}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                filter: "contrast(1.1) brightness(0.9)",
+              }}
+            />
+          </div>
+        )}
+
         {/* Stats Row */}
-        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: "12px", marginBottom: "30px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: "12px",
+            marginBottom: "30px",
+          }}
+        >
           {[
             {
               icon: TrendingUp,
@@ -471,35 +698,51 @@ function StrategyModal({ strategy, onClose }) {
                 textAlign: "center",
                 display: isMobile ? "flex" : "block",
                 alignItems: "center",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
               }}
             >
-              {!isMobile && <stat.icon
-                size={16}
-                style={{ color: stat.color, marginBottom: "6px" }}
-              />}
+              {!isMobile && (
+                <stat.icon
+                  size={16}
+                  style={{ color: stat.color, marginBottom: "6px" }}
+                />
+              )}
               <div style={{ textAlign: isMobile ? "left" : "center" }}>
-                 <div
-                    style={{
+                <div
+                  style={{
                     fontSize: "10px",
                     color: "var(--text-sub)",
                     letterSpacing: "0.5px",
-                    }}
+                  }}
                 >
-                    {stat.label}
+                  {stat.label}
                 </div>
-                 {isMobile && <div style={{ fontSize: "16px", fontWeight: "900", color: stat.color }}>{stat.value}</div>}
+                {isMobile && (
+                  <div
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "900",
+                      color: stat.color,
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                )}
               </div>
-              {!isMobile && <div
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "900",
-                  color: stat.color,
-                }}
-              >
-                {stat.value}
-              </div>}
-               {isMobile && <stat.icon size={16} style={{ color: stat.color }} />}
+              {!isMobile && (
+                <div
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "900",
+                    color: stat.color,
+                  }}
+                >
+                  {stat.value}
+                </div>
+              )}
+              {isMobile && (
+                <stat.icon size={16} style={{ color: stat.color }} />
+              )}
             </div>
           ))}
         </div>
@@ -564,7 +807,14 @@ function StrategyModal({ strategy, onClose }) {
         </div>
 
         {/* Entry & Exit */}
-        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: "12px", marginBottom: "25px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: "12px",
+            marginBottom: "25px",
+          }}
+        >
           <div
             style={{
               flex: 1,
@@ -688,15 +938,25 @@ function StrategyModal({ strategy, onClose }) {
 export default function StrategyList({ isExpanded }) {
   const [selectedStrategy, setSelectedStrategy] = useState(null);
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const { customStrategies, addCustomStrategy, removeCustomStrategy } =
-    useBot();
+  const {
+    customStrategies,
+    addCustomStrategy,
+    removeCustomStrategy,
+    strategySettings,
+    updateStrategySetting,
+  } = useBot();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <>
       <div
         className="glass-panel"
-        style={{ padding: isMobile ? "20px" : "30px", minHeight: "100%", border: isMobile ? "none" : "1px solid var(--border)", background: isMobile ? "transparent" : "var(--bg-card)" }}
+        style={{
+          padding: isMobile ? "20px" : "30px",
+          minHeight: "100%",
+          border: isMobile ? "none" : "1px solid var(--border)",
+          background: isMobile ? "transparent" : "var(--bg-card)",
+        }}
       >
         <div
           style={{
@@ -705,11 +965,16 @@ export default function StrategyList({ isExpanded }) {
             justifyContent: "space-between",
             alignItems: isMobile ? "flex-start" : "flex-start",
             marginBottom: "25px",
-            gap: isMobile ? "20px" : "0"
+            gap: isMobile ? "20px" : "0",
           }}
         >
           <div>
-            <h2 style={{ fontSize: isMobile ? "18px" : "18px", fontWeight: "800" }}>
+            <h2
+              style={{
+                fontSize: isMobile ? "18px" : "18px",
+                fontWeight: "800",
+              }}
+            >
               Active AI Stratagems
             </h2>
             <p
@@ -722,7 +987,14 @@ export default function StrategyList({ isExpanded }) {
               Master-level Smart Money Frameworks
             </p>
           </div>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center", width: isMobile ? "100%" : "auto" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+              width: isMobile ? "100%" : "auto",
+            }}
+          >
             <button
               onClick={() => setIsAddOpen(true)}
               style={{
@@ -737,7 +1009,7 @@ export default function StrategyList({ isExpanded }) {
                 fontSize: "12px",
                 fontWeight: "700",
                 color: "var(--primary)",
-                flex: isMobile ? 1 : "none"
+                flex: isMobile ? 1 : "none",
               }}
             >
               <Plus size={14} /> ADD
@@ -760,7 +1032,9 @@ export default function StrategyList({ isExpanded }) {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "repeat(auto-fill, minmax(300px, 1fr))",
             gap: isMobile ? "10px" : "12px",
           }}
         >
@@ -770,11 +1044,22 @@ export default function StrategyList({ isExpanded }) {
               key={idx}
               strategy={s}
               onClick={() => setSelectedStrategy(s)}
+              isActive={strategySettings[s.id]?.enabled ?? true}
+              onToggle={(e) => {
+                e.stopPropagation();
+                const currentStatus = strategySettings && strategySettings[s.id] ? strategySettings[s.id].enabled : true;
+                console.log(`Toggling Strategy ${s.id} from ${currentStatus} to ${!currentStatus}`);
+                updateStrategySetting(s.id, {
+                  enabled: !currentStatus,
+                });
+              }}
             />
           ))}
 
           {/* User Strategies */}
-          {customStrategies.map((s, idx) => (
+          {customStrategies
+            .filter(s => !["CRT Volatility Breakout", "LSR Liquidity Sweep", "2BR Institutional Reversal"].includes(s.name))
+            .map((s, idx) => (
             <StrategyCard
               key={`custom-${idx}`}
               strategy={{
@@ -788,6 +1073,14 @@ export default function StrategyList({ isExpanded }) {
                 note: "User defined institutional logic.",
               }}
               onClick={() => setSelectedStrategy(s)}
+              isActive={strategySettings[s.id]?.enabled ?? true}
+              onToggle={(e) => {
+                e.stopPropagation();
+                const currentStatus = strategySettings && strategySettings[s.id] ? strategySettings[s.id].enabled : true;
+                updateStrategySetting(s.id, {
+                  enabled: !currentStatus,
+                });
+              }}
               onDelete={(e) => {
                 e.stopPropagation();
                 removeCustomStrategy(s.id);
@@ -800,6 +1093,16 @@ export default function StrategyList({ isExpanded }) {
       <StrategyModal
         strategy={selectedStrategy}
         onClose={() => setSelectedStrategy(null)}
+        isActive={selectedStrategy ? (strategySettings[selectedStrategy.id]?.enabled ?? true) : true}
+        onToggle={() => {
+          if (selectedStrategy) {
+            const currentStatus = strategySettings && strategySettings[selectedStrategy.id] ? strategySettings[selectedStrategy.id].enabled : true;
+            console.log(`Toggling Modal Strategy ${selectedStrategy.id} from ${currentStatus} to ${!currentStatus}`);
+            updateStrategySetting(selectedStrategy.id, {
+              enabled: !currentStatus,
+            });
+          }
+        }}
       />
 
       <AddStrategyModal
@@ -811,7 +1114,7 @@ export default function StrategyList({ isExpanded }) {
   );
 }
 
-function StrategyCard({ strategy, onClick, onDelete }) {
+function StrategyCard({ strategy, onClick, onDelete, isActive, onToggle }) {
   const Icon = strategy.icon || Activity;
   return (
     <div
@@ -866,6 +1169,57 @@ function StrategyCard({ strategy, onClick, onDelete }) {
           >
             {strategy.type} • {strategy.freq}
           </p>
+          <div
+            onClick={onToggle}
+            style={{
+              marginTop: "8px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              cursor: "pointer",
+              padding: "4px 0", // larger hit area
+              zIndex: 10,
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                width: "28px",
+                height: "14px",
+                background: isActive ? strategy.color : "#1a1c22",
+                borderRadius: "14px",
+                position: "relative",
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                border: `1px solid ${isActive ? "transparent" : "rgba(255,255,255,0.1)"}`,
+                flexShrink: 0,
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "2px",
+                  left: isActive ? "16px" : "2px",
+                  width: "8px",
+                  height: "8px",
+                  background: "white",
+                  borderRadius: "50%",
+                  transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: isActive ? `0 0 5px ${strategy.color}80` : "none",
+                }}
+              />
+            </div>
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: "800",
+                color: isActive ? "white" : "var(--text-sub)",
+                letterSpacing: "0.5px",
+                transition: "all 0.2s",
+              }}
+            >
+              {isActive ? "ACTIVE" : "OFF"}
+            </span>
+          </div>
         </div>
       </div>
       <div style={{ textAlign: "right", minWidth: "55px" }}>

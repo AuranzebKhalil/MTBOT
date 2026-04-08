@@ -26,6 +26,10 @@ from app.strategy.smc import (
     SMCFirstTouchMitigationStrategy, SMCExhaustionReversalStrategy,
     SMCMSSStrategy, SMCBreakerStrategy, SMCVolumeFlowStrategy
 )
+from app.strategy.hybrid_strategies import (
+    MeanReversionStrategy, SupportResistanceStrategy,
+    BreakoutStrategy, HybridSwitcherStrategy, MadTrendLoopStrategy
+)
 
 logger = logging.getLogger("BotWorker")
 
@@ -44,7 +48,7 @@ class BotWorker:
         })
         self.indicators = SMCIndicators()
         
-        # Register ALL 5 Families
+        # Register ALL Families
         self.strategies = [
             SMCSweepReclaimStrategy(self.indicators),
             SMCVsaShiftStrategy(self.indicators),
@@ -53,7 +57,12 @@ class BotWorker:
             SMCExhaustionReversalStrategy(self.indicators),
             SMCMSSStrategy(self.indicators),
             SMCBreakerStrategy(self.indicators),
-            SMCVolumeFlowStrategy(self.indicators)
+            SMCVolumeFlowStrategy(self.indicators),
+            MeanReversionStrategy(self.indicators),
+            SupportResistanceStrategy(self.indicators),
+            BreakoutStrategy(self.indicators),
+            HybridSwitcherStrategy(self.indicators),
+            MadTrendLoopStrategy(self.indicators)
         ]
         
         self.strategy = StrategyEngine(
@@ -149,18 +158,16 @@ class BotWorker:
                         user = db.query(User).first()
                         if user:
                             print("\n" + "="*40)
-                            print("🚀 DEMO LAUNCH RUNTIME CONFIG")
-                            print(f"Max Spread Points: 55 (DEMO OVERRIDE)")
+                            print("🚀 LIVE ALPHA DEPLOYMENT ACTIVE")
+                            print(f"Max Spread Points: 55")
                             print(f"Late Entry Threshold: {user.late_entry_threshold}")
                             print(f"Stage 1 Trigger: {user.partial_stage_1_trigger * 100}%")
                             print(f"Stage 2 Trigger: {user.partial_stage_2_trigger * 100}%")
-                            print(f"Max Open Trades: 1 (DEMO LIMIT)")
-                            print(f"Active Symbol Filter: ['XAUUSD'] (DEMO LIMIT)")
                             print("="*40 + "\n")
                     self._config_printed = True
 
                 if (current_time - float(self._last_heartbeat)) > 60:
-                    self._log_activity("HEALTH", f"Pulse: Engine active. DEMO MODE: XAUUSD only.")
+                    self._log_activity("HEALTH", f"Pulse: Engine active. LIVE MODE: Multi-asset scan active.")
                     self._last_heartbeat = current_time
 
                 self._process_cycle()
@@ -236,7 +243,8 @@ class BotWorker:
                 "preferred_session": preferred_session,
                 "current_session": current_session[0] if current_session else "ASIAN",
                 "ai_confidence_threshold": ai_thr,
-                "filter_status": state.filter_status
+                "filter_status": state.filter_status,
+                "trading_mode": "LIVE"
             }
             state.active_cooldowns = self.loop_cooldowns
             state.active_blocked_zones = self.loop_blocked_zones
@@ -253,26 +261,49 @@ class BotWorker:
         symbol_specs = {}
         with DatabaseContext() as db:
             user = db.query(User).first()
+            user_settings = {}
+            strategy_settings = {}
             global_risk_settings = {
-                "risk_per_trade": user.risk_per_trade if user else 0.01,
-                "max_trades": user.max_trades if user else 1,
-                "daily_loss_limit": user.daily_loss_limit if user else 0.03,
-                "preferred_session": user.preferred_session if user else "ALL",
-                "session_filter_enabled": getattr(user, "session_filter_enabled", True),
-                "news_filter_enabled": getattr(user, "news_filter_enabled", True),
-                "enable_post_sl_cooldown": getattr(user, "enable_post_sl_cooldown", True),
-                "cooldown_bars_after_sl": getattr(user, "cooldown_bars_after_sl", 5),
-                "same_zone_threshold_points": getattr(user, "same_zone_threshold_points", 100),
-                "enable_same_zone_block": getattr(user, "enable_same_zone_block", True),
-                "same_zone_distance_atr_multiplier": getattr(user, "same_zone_distance_atr_multiplier", 0.25),
-                "enable_level_distance_filter": getattr(user, "enable_level_distance_filter", True),
-                "min_reward_to_nearest_level_rr": getattr(user, "min_reward_to_nearest_level_rr", 1.2),
-                "min_reward_to_level_points": getattr(user, "min_reward_to_level_points", 50)
+                "risk_per_trade": 0.01,
+                "max_trades": 1,
+                "daily_loss_limit": 0.03,
+                "preferred_session": "ALL",
+                "session_filter_enabled": True,
+                "news_filter_enabled": True,
+                "enable_post_sl_cooldown": True,
+                "cooldown_bars_after_sl": 5,
+                "same_zone_threshold_points": 100,
+                "enable_same_zone_block": True,
+                "same_zone_distance_atr_multiplier": 0.25,
+                "enable_level_distance_filter": True,
+                "min_reward_to_nearest_level_rr": 1.2,
+                "min_reward_to_level_points": 50
             }
-            user_settings = user.symbol_settings if user else {}
-            strategy_settings = user.strategy_settings if user else {}
+
+            if user:
+                # Eagerly load settings into dictionary to avoid session detachment
+                user_settings = dict(user.symbol_settings) if user.symbol_settings else {}
+                strategy_settings = dict(user.strategy_settings) if user.strategy_settings else {}
+                
+                global_risk_settings.update({
+                    "risk_per_trade": user.risk_per_trade,
+                    "max_trades": user.max_trades,
+                    "daily_loss_limit": user.daily_loss_limit,
+                    "preferred_session": user.preferred_session,
+                    "session_filter_enabled": getattr(user, "session_filter_enabled", True),
+                    "news_filter_enabled": getattr(user, "news_filter_enabled", True),
+                    "enable_post_sl_cooldown": getattr(user, "enable_post_sl_cooldown", True),
+                    "cooldown_bars_after_sl": getattr(user, "cooldown_bars_after_sl", 5),
+                    "same_zone_threshold_points": getattr(user, "same_zone_threshold_points", 100),
+                    "enable_same_zone_block": getattr(user, "enable_same_zone_block", True),
+                    "same_zone_distance_atr_multiplier": getattr(user, "same_zone_distance_atr_multiplier", 0.25),
+                    "enable_level_distance_filter": getattr(user, "enable_level_distance_filter", True),
+                    "min_reward_to_nearest_level_rr": getattr(user, "min_reward_to_nearest_level_rr", 1.2),
+                    "min_reward_to_level_points": getattr(user, "min_reward_to_level_points", 50)
+                })
             
-            # --- DEMO PROTECTION GAP CHECK ---
+            # --- LIVE EXECUTION ACTIVE ---
+            # Check for protective stops gap on open trades
             open_trades = db.query(Trade).filter(Trade.status == "OPEN").all()
             has_gap = any(
                 (t.stage1_partial_done and not t.stage1_sl_done) or 
@@ -282,16 +313,8 @@ class BotWorker:
             if has_gap:
                 self._update_bot_status(action="Halted: Protection Gap", message="Gap found. Fixing SL before new entries.")
                 logger.warning("🚫 NEW ENTRIES HALTED: Protection gap detected on an open trade.")
-                # We still continue the loop to call _manage_open_positions which will try to fix the gap
             
-            # --- DEMO CAPACITY LIMIT ---
-            if len(positions) >= 1:
-                self._update_bot_status(action="Demo Limit: 1 Trade", message="Full capacity reached.")
-                # Force only managing existing positions
-                active_symbols = [p.get('symbol') for p in positions if p.get('symbol')]
-            else:
-                # Force XAUUSD only for demo
-                active_symbols = ["XAUUSD"]
+            # Multi-Symbol scan list is already captured in the beginning of the cycle as 'active_symbols'
 
         for symbol in active_symbols:
             eval_id = uuid.uuid4().hex[:6].upper()
@@ -363,8 +386,16 @@ class BotWorker:
         now = datetime.now(timezone.utc)
         
         # 1. Cooldowns (Time-based blocks)
-        # We store these in state for fast access
-        self.loop_cooldowns = [cd for cd in self.loop_cooldowns if cd.get("expiry") > now]
+        # We store these in state for fast access. Ensure strings are converted back for comparison.
+        cleaned = []
+        for cd in self.loop_cooldowns:
+            expiry = cd.get("expiry")
+            if isinstance(expiry, str):
+                expiry = datetime.fromisoformat(expiry.replace("Z", "+00:00"))
+            
+            if expiry > now:
+                cleaned.append(cd)
+        self.loop_cooldowns = cleaned
         
         # 2. Blocked Zones (Price-based blocks)
         from app.storage.models import BlockedZone
@@ -414,8 +445,8 @@ class BotWorker:
             "symbol": trade.symbol,
             "direction": trade.type,
             "strategy": trade.strategy_name,
-            "sl_time": now,
-            "expiry": expiry
+            "sl_time": now.isoformat(),
+            "expiry": expiry.isoformat()
         })
         
         # 2. Add Blocked Zone (Price-based)
@@ -584,9 +615,10 @@ class BotWorker:
         self._sync_charts(symbol, data["M1"], data_strategy["M1"])
 
         # Check for open positions to prevent double entry
-        has_pos = any(p.get('symbol') == symbol for p in positions)
+        mt5_symbol = self.mt5.resolve_symbol(symbol)
+        has_pos = any(p.get('symbol') == mt5_symbol for p in positions) if mt5_symbol else False
         if has_pos:
-            logger.debug(f"[{eval_id}] [{symbol}] Active position detected. Managing only.")
+            logger.debug(f"[{eval_id}] [{symbol}] Active position detected on {mt5_symbol}. Managing only.")
             self._manage_open_positions(symbol, data["M1"], data_strategy["M15"])
             # In demo mode, if a trade is open, we don't process new signals.
             # This is handled by the _process_cycle logic now.
@@ -652,13 +684,22 @@ class BotWorker:
                 # Also set at root in case RiskManager doesn't handle nesting correctly yet
                 symbol_settings["max_spread_points"] = 55
 
-            # Context for Risk Manager
+            # 1. Higher-Timeframe Context Detection (SENTINEL)
+            m15_regime = self.regime_detector.identify(data_strategy["M15"])
+            m15_bias = m15_regime.metrics.get("market_bias", "NEUTRAL")
+            m15_atr = m15_regime.metrics.get("atr", 0.0)
+            
+            logger.info(f"[{eval_id}] [{symbol}] HTF Context Analysis (M15): Regime={m15_regime.regime.name}, Bias={m15_bias}, ATR={m15_atr:.5f}")
+
+            # 2. Context for Risk Manager
             risk_context = {
                 "active_cooldowns": self.loop_cooldowns,
                 "blocked_zones": self.loop_blocked_zones,
                 "active_news_event": self.news_service.get_active_event(symbol, symbol_settings),
                 "current_session": self._get_current_session(),
                 "nearest_level": self._find_nearest_structural_level(symbol, data_strategy["M15"], signal.side),
+                "market_bias": m15_bias,
+                "atr": m15_atr,
                 "eval_id": eval_id
             }
 
@@ -670,9 +711,8 @@ class BotWorker:
                 self._log_signal(signal, "REJECTED_RISK", decision.reason)
                 continue
 
-            # Overwrite for demo safety
-            decision.lot_size = 0.01 
-            logger.info(f"[{eval_id}] [{symbol}] ✅ RISK APPROVED: Lot={decision.lot_size} | Executing signal...")
+            # Log the final risk outcome
+            logger.info(f"[{eval_id}] [{symbol}] ✅ RISK APPROVED: Lot={decision.lot_size} | Risk={decision.risk_pct*100}% | Executing signal...")
 
             # Execution logic
             self._log_signal(signal, "APPROVED", f"Executing with live tick: Bid={tick['bid']}, Ask={tick['ask']}")
@@ -699,8 +739,11 @@ class BotWorker:
 
     def _manage_open_positions(self, symbol: str, m1_raw: pd.DataFrame, m15_strat: pd.DataFrame):
         """Enhanced Position Management with Staged Closes and Structural Trailing."""
+        mt5_symbol = self.mt5.resolve_symbol(symbol)
+        if not mt5_symbol: return
+
         positions = self.mt5.get_positions()
-        symbol_positions = [p for p in positions if p.get('symbol') == symbol]
+        symbol_positions = [p for p in positions if p.get('symbol') == mt5_symbol]
         if not symbol_positions: return
 
         mt5_symbol = self.mt5.resolve_symbol(symbol)
@@ -727,27 +770,6 @@ class BotWorker:
                 volume = float(pos.get('volume', 0))
                 
                 if tp1 == 0 or entry == tp1: continue
-
-                # Check for exit (not shown in previous view but assumed to be here or in synchronizer)
-                # However, synchronizer is better for detecting closed trades.
-                # Let's ensure the worker checks the synchronizer's findings.
-                pass
-                
-        # After managing, check if any open trades just became CLOSED due to SL
-        with DatabaseContext() as db:
-            # We check trades closed in the last 15 minutes to be safe
-            just_closed_sl = db.query(Trade).filter(
-                Trade.status == "CLOSED",
-                Trade.final_exit_reason.in_(["TRAILING_STOP_HIT", "STOP_OUT"]),
-                Trade.exit_time > datetime.now(timezone.utc) - timedelta(minutes=15)
-            ).all()
-            
-            for t in just_closed_sl:
-                # Check if we already processed this SL hit in memory
-                already_blocked = any(cd["symbol"] == t.symbol and cd["direction"] == t.type for cd in self.loop_cooldowns)
-                if not already_blocked:
-                    self._handle_sl_hit(t, db)
-                    db.commit()
 
                 # RESTORED CALCULATION
                 total_move_tp1 = abs(tp1 - entry)
@@ -895,6 +917,17 @@ class BotWorker:
                             trade.sl = new_sl
                             logger.info(f"🛡️ SL Updated: {symbol} #{ticket} -> {new_sl:.5f}")
                     db.commit() # IMMEDIATE Persistence
+
+            # Post-management: Check for SL hits (to trigger cooldowns)
+            just_closed_sl = db.query(Trade).filter(
+                Trade.status == "CLOSED",
+                Trade.final_exit_reason.in_(["TRAILING_STOP_HIT", "STOP_OUT"]),
+                Trade.exit_time > datetime.now(timezone.utc) - timedelta(minutes=5)
+            ).all()
+            for t in just_closed_sl:
+                if not any(cd["symbol"] == t.symbol and cd["direction"] == t.type for cd in self.loop_cooldowns):
+                    self._handle_sl_hit(t, db)
+                    db.commit()
 
     def _save_trade_enhanced(self, signal, exec_res, tick, m15_df):
         """Deep analytics storage for each trade."""

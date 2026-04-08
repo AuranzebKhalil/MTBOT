@@ -33,23 +33,17 @@ class MT5Client:
             logger.error(f"MT5 initialization failed: {mt5.last_error()}")
             return False
             
-        # XM-DEMO SAFETY CHECK: REFUSE LIVE ACCOUNTS
+        # Account Verification
         acc = mt5.account_info()
         if not acc:
-            logger.error("Could not retrieve MT5 account info for safety check.")
+            logger.error("Could not retrieve MT5 account info.")
             mt5.shutdown()
             self._connected = False
             return False
             
-        if acc.trade_mode not in [mt5.ACCOUNT_TRADE_MODE_DEMO, mt5.ACCOUNT_TRADE_MODE_CONTEST]:
-            msg = f"🛑 FATAL SAFETY BREACH: Non-demo account detected (#{acc.login} on {acc.server}). Bot shutdown."
-            logger.critical(msg)
-            mt5.shutdown()
-            self._connected = False
-            return False
-            
-        logger.info(f"✅ XM-DEMO VERIFIED: Account #{acc.login} ({acc.server})")
-        self.audit_logger.info(f"STARTUP: Connected to account #{acc.login} (Mode: {acc.trade_mode})")
+        mode_str = "DEMO" if acc.trade_mode in [mt5.ACCOUNT_TRADE_MODE_DEMO, mt5.ACCOUNT_TRADE_MODE_CONTEST] else "REAL"
+        logger.info(f"✅ BROKER CONNECTED: Account #{acc.login} ({acc.server}) [Mode: {mode_str}]")
+        self.audit_logger.info(f"STARTUP: Connected to account #{acc.login} (Mode: {mode_str})")
             
         # Optional Login
         if settings.MT5_LOGIN and settings.MT5_PASSWORD:
@@ -72,37 +66,53 @@ class MT5Client:
     def resolve_symbol(self, symbol: str) -> Optional[str]:
         """Resolves a symbol name to the one used by the broker (e.g. XAUUSD -> GOLD)."""
         if not self._connected:
+            self.connect()
+        
+        if not self._connected:
             return None
             
-        # Try direct selection first
-        if mt5.symbol_select(symbol, True):
-            return symbol
-            
-        # Then try uppercase
-        mt5_symbol = symbol.upper()
-        if mt5.symbol_select(mt5_symbol, True):
-            return mt5_symbol
-            
-        # Try common mappings
-        if mt5_symbol == "GOLD":
-            mt5_symbol = "XAUUSD"
-        elif mt5_symbol == "XAUUSD":
-            mt5_symbol = "GOLD"
+        symbol_clean = symbol.upper().strip()
         
-        if mt5.symbol_select(mt5_symbol, True):
-            return mt5_symbol
-            
-        # Try finding similar names (e.g. XAUUSD.m, XAUUSD.raw)
-        raw_symbols = mt5.symbols_get()
-        if raw_symbols:
-            all_names = [s.name for s in raw_symbols]
-            # Look for exact match with any case or symbol with suffixes
-            matches = [n for n in all_names if n.upper().startswith(symbol.upper())]
-            if matches:
-                resolved = matches[0]
-                if mt5.symbol_select(resolved, True):
-                    return resolved
-                    
+        # 1. Direct match (Market Watch already)
+        if mt5.symbol_info(symbol_clean) and mt5.symbol_select(symbol_clean, True):
+            return symbol_clean
+
+        # 2. Hardcoded Common Variations
+        variants = [symbol_clean]
+        if "XAUUSD" in symbol_clean or "GOLD" in symbol_clean:
+            variants.extend(["GOLD", "XAUUSD", "XAUUSD.m", "XAUUSD.raw", "XAUUSD.pro", "XAUUSD.s", "XAUUSD.z", "XAUUSD.", "GOLD.", "GOLD.m"])
+        elif "EURUSD" in symbol_clean:
+            variants.extend(["EURUSD", "EURUSD.m", "EURUSD.raw", "EURUSD.pro", "EURUSD.s", "EURUSD.z", "EURUSD."])
+        elif "GBPUSD" in symbol_clean:
+            variants.extend(["GBPUSD", "GBPUSD.m", "GBPUSD.raw", "GBPUSD.pro", "GBPUSD.s", "GBPUSD.z", "GBPUSD."])
+        elif "USDCAD" in symbol_clean:
+            variants.extend(["USDCAD", "USDCAD.m", "USDCAD.raw", "USDCAD.pro", "USDCAD.s", "USDCAD.z", "USDCAD."])
+
+        for v in variants:
+            if mt5.symbol_info(v) and mt5.symbol_select(v, True):
+                if not self.audit_logger.handlers: # Check if logger is ready
+                    logger.info(f"Symbol {symbol} resolved to {v} via variants.")
+                return v
+
+        # 3. Dynamic Prefix/Suffix Scanning (if symbols_get is working)
+        all_symbols = mt5.symbols_get()
+        if all_symbols:
+            for sym in all_symbols:
+                name = sym.name
+                name_up = name.upper()
+                # Check if it contains the core symbol name
+                if symbol_clean in name_up:
+                    if mt5.symbol_select(name, True):
+                        return name
+
+        # 4. Final attempt: force select common suffixes directly without checking info
+        common_suffixes = [".m", ".raw", ".pro", ".s", ".z", ".", "#"]
+        for sfx in common_suffixes:
+            test_name = symbol_clean + sfx
+            if mt5.symbol_select(test_name, True):
+                return test_name
+
+        logger.error(f"FATAL: Symbol {symbol} could not be resolved on this broker.")
         return None
 
     def get_symbol_info(self, symbol: str):

@@ -2,118 +2,150 @@
 import React, { useState } from "react";
 import { useAuth } from "../components/AuthContext";
 import Link from "next/link";
-import { Zap, Mail, Lock } from "lucide-react";
+import {
+  Zap,
+  Mail,
+  Lock,
+  ShieldCheck,
+  ArrowRight,
+  Loader2,
+} from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    setIsSubmitting(true);
+    try {
+      await login(email, password);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div
       style={{
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
-        background: "var(--background)",
-        padding: "20px"
+        padding: "20px",
+        position: "relative",
+        overflow: "hidden",
+        background: "#05070a",
       }}
     >
+      {/* Decorative pulse glow */}
       <div
-        className="glass-panel animate-fade-in"
         style={{
-          padding: "40px 30px",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "500px",
+          height: "500px",
+          background: "var(--primary)",
+          filter: "blur(150px)",
+          opacity: 0.1,
+          borderRadius: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 0,
+        }}
+      />
+
+      <div
+        className="glass-panel"
+        style={{
           width: "100%",
-          maxWidth: "420px",
-          textAlign: "center",
-          background: "var(--surface)",
+          maxWidth: "440px",
+          padding: "48px 40px",
           borderRadius: "32px",
-          boxShadow: "0 40px 100px rgba(0,0,0,0.5)"
+          zIndex: 1,
+          background: "rgba(13, 17, 23, 0.7)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          boxShadow: "0 40px 100px rgba(0, 0, 0, 0.4)",
         }}
       >
-        <div
-          style={{
-            width: "72px",
-            height: "72px",
-            background: "var(--gradient-primary)",
-            borderRadius: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto 30px",
-            boxShadow: "0 15px 35px rgba(91, 134, 229, 0.4)",
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.15)",
-          }}
-        >
-          <img
-            src="/logo/alertli_logo.png"
-            alt="Alertli Logo"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+          <div
+            style={{
+              width: "80px",
+              height: "80px",
+              background: "var(--gradient-primary)",
+              borderRadius: "24px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 24px",
+              boxShadow: "0 20px 40px rgba(0, 122, 255, 0.3)",
+              padding: "16px",
+            }}
+          >
+            <img
+              src="/logo/alertli_logo.png"
+              alt="Alertli"
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
+          </div>
+          <h1
+            style={{
+              fontSize: "2rem",
+              fontWeight: "900",
+              color: "white",
+              marginBottom: "8px",
+              letterSpacing: "-1px",
+            }}
+          >
+            ALERTLI <span style={{ color: "var(--primary)" }}>ALPHA</span>
+          </h1>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>
+            Secure Operator Authorization
+          </p>
         </div>
-
-        <h2
-          style={{
-            fontSize: "32px",
-            fontWeight: "900",
-            marginBottom: "10px",
-            color: "var(--text-main)",
-            letterSpacing: "-1px",
-          }}
-        >
-          ALERTLI <span className="text-gradient">CORE</span>
-        </h2>
-        <p
-          style={{
-            color: "var(--text-sub)",
-            fontSize: "15px",
-            fontWeight: "500",
-            marginBottom: "35px",
-          }}
-        >
-          Engage institutional execution engine.
-        </p>
 
         <form
           onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+          style={{ display: "flex", flexDirection: "column", gap: "24px" }}
         >
           <div style={{ position: "relative" }}>
             <Mail
               size={18}
               style={{
                 position: "absolute",
-                left: "18px",
+                left: "16px",
                 top: "50%",
                 transform: "translateY(-50%)",
-                color: "var(--text-sub)",
-                opacity: 0.5,
+                color: "var(--text-muted)",
+                opacity: 0.6,
               }}
             />
             <input
               type="email"
-              placeholder="Operator Email"
+              placeholder="Operator ID / Email"
+              required
+              autoComplete="off"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               style={{
                 width: "100%",
-                padding: "16px 16px 16px 50px",
-                background: "var(--glass-bg)",
-                border: "1px solid var(--glass-border)",
-                borderRadius: "14px",
-                color: "var(--text-main)",
-                fontSize: "14px",
-                fontWeight: "500",
+                padding: "16px 16px 16px 48px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "16px",
+                color: "white",
+                fontSize: "15px",
                 outline: "none",
+                transition: "border-color 0.3s",
               }}
+              onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
+              onBlur={(e) =>
+                (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")
+              }
             />
           </div>
 
@@ -122,75 +154,107 @@ export default function LoginPage() {
               size={18}
               style={{
                 position: "absolute",
-                left: "18px",
+                left: "16px",
                 top: "50%",
                 transform: "translateY(-50%)",
-                color: "var(--text-sub)",
-                opacity: 0.5,
+                color: "var(--text-muted)",
+                opacity: 0.6,
               }}
             />
             <input
               type="password"
-              placeholder="Secure Password"
+              placeholder="Security Key"
+              required
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               style={{
                 width: "100%",
-                padding: "16px 16px 16px 50px",
-                background: "var(--glass-bg)",
-                border: "1px solid var(--glass-border)",
-                borderRadius: "14px",
-                color: "var(--text-main)",
-                fontSize: "14px",
-                fontWeight: "500",
+                padding: "16px 16px 16px 48px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "16px",
+                color: "white",
+                fontSize: "15px",
                 outline: "none",
+                transition: "border-color 0.3s",
               }}
+              onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
+              onBlur={(e) =>
+                (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")
+              }
             />
           </div>
 
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{
+              padding: "18px",
+              borderRadius: "16px",
               background: "var(--gradient-primary)",
               color: "white",
-              padding: "18px",
-              borderRadius: "14px",
               border: "none",
-              fontSize: "15px",
+              fontSize: "1rem",
               fontWeight: "800",
               cursor: "pointer",
-              marginTop: "10px",
-              boxShadow: "0 10px 25px rgba(91, 134, 229, 0.4)",
-              transition:
-                "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "12px",
+              transition: "transform 0.2s, box-shadow 0.2s",
+              boxShadow: "0 10px 30px rgba(0, 122, 255, 0.2)",
+              opacity: isSubmitting ? 0.7 : 1,
             }}
-            className="hover-lift"
+            onMouseOver={(e) => {
+              e.target.style.transform = "translateY(-2px)";
+              e.target.style.boxShadow = "0 15px 40px rgba(0, 122, 255, 0.4)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "0 10px 30px rgba(0, 122, 255, 0.2)";
+            }}
           >
-            ENGAGE SESSION
+            {isSubmitting ? (
+              <Loader2 size={24} className="animate-spin" />
+            ) : (
+              <>
+                ENGAGE SESSION <ArrowRight size={20} />
+              </>
+            )}
           </button>
         </form>
 
-        <p
-          style={{
-            marginTop: "30px",
-            fontSize: "14px",
-            color: "var(--text-sub)",
-            fontWeight: "500",
-          }}
-        >
-          New quantitative operator?{" "}
-          <Link
-            href="/register"
-            style={{
-              color: "var(--primary)",
-              textDecoration: "none",
-              fontWeight: "700",
-            }}
-          >
-            Register Now
-          </Link>
-        </p>
+        <div style={{ marginTop: "32px", textAlign: "center" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+            Not an authorized operator?{" "}
+            <Link
+              href="/register"
+              style={{
+                color: "var(--primary)",
+                fontWeight: "700",
+                textDecoration: "none",
+              }}
+            >
+              Apply for License
+            </Link>
+          </p>
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "30px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          color: "var(--text-muted)",
+          fontSize: "0.8rem",
+          letterSpacing: "1px",
+        }}
+      >
+        <ShieldCheck size={14} color="#10b981" /> ENCRYPTED PROTOCOL ACTIVE
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ class User(Base):
     active_symbols = Column(String, default="GOLD") # Comma-separated list for multi-chart support
     preferred_timeframe = Column(String, default="M1")
     preferred_session = Column(String, default="ALL") # ALL, LONDON, NEW YORK, ASIAN
+    trading_mode = Column(String, default="DEMO") # DEMO or REAL
     
     trades = relationship("Trade", back_populates="owner")
     custom_strategies = relationship("CustomStrategy", back_populates="owner")

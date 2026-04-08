@@ -9,8 +9,14 @@ class User(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=True)
     hashed_password = Column(String)
+    role = Column(String, default="user") # "user", "admin", "superadmin"
     is_active = Column(Boolean, default=True)
+    is_breached = Column(Boolean, default=False)
+    
+    total_profit = Column(Float, default=0.0)
+    current_balance = Column(Float, default=0.0)
     
     risk_per_trade = Column(Float, default=0.01)
     max_trades = Column(Integer, default=2)
@@ -55,6 +61,9 @@ class User(Base):
     
     trades = relationship("Trade", back_populates="owner")
     risk_events = relationship("RiskEvent", back_populates="owner")
+    tickets = relationship("SupportTicket", back_populates="owner", foreign_keys="SupportTicket.user_id")
+    assigned_tickets = relationship("SupportTicket", back_populates="assignee", foreign_keys="SupportTicket.assigned_to")
+    messages = relationship("SupportMessage", back_populates="sender")
 
 class Trade(Base):
     __tablename__ = "trades"
@@ -245,6 +254,36 @@ class NewsWindow(Base):
     start_time = Column(DateTime)
     end_time = Column(DateTime)
     is_active = Column(Boolean, default=True)
+
+class SupportTicket(Base):
+    __tablename__ = "support_tickets"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    subject = Column(String)
+    status = Column(String, default="open") # "open", "pending", "resolved", "closed"
+    priority = Column(String, default="normal")
+    assigned_to = Column(Integer, ForeignKey("users.id"), nullable=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    
+    user_id = Column(Integer, ForeignKey("users.id"))
+    owner = relationship("User", back_populates="tickets", foreign_keys=[user_id])
+    assignee = relationship("User", back_populates="assigned_tickets", foreign_keys=[assigned_to])
+    messages = relationship("SupportMessage", back_populates="ticket", cascade="all, delete-orphan")
+
+class SupportMessage(Base):
+    __tablename__ = "support_messages"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    content = Column(Text)
+    is_read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    ticket_id = Column(Integer, ForeignKey("support_tickets.id"))
+    sender_id = Column(Integer, ForeignKey("users.id"))
+    
+    ticket = relationship("SupportTicket", back_populates="messages")
+    sender = relationship("User", back_populates="messages")
 
 class BlockedZone(Base):
     __tablename__ = "blocked_zones"

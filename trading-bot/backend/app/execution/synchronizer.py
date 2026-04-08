@@ -51,10 +51,19 @@ class TradeSynchronizer:
             # 2. Import manual/external trades NOT in DB
             for ticket, pos in mt5_tickets.items():
                 if ticket not in db_tickets:
-                    logger.info(f"Importing external trade {ticket} ({pos.get('symbol')}) to DB")
+                    raw_symbol = pos.get('symbol', '')
+                    # Normalize symbol (remove broker suffixes like .m, .raw, .pro)
+                    # We match prefixes like XAUUSD, EURUSD, etc.
+                    clean_symbol = raw_symbol
+                    for core in ["XAUUSD", "EURUSD", "GBPUSD", "USDCAD", "USDJPY", "BTCUSD", "ETHUSD", "GOLD"]:
+                        if core in raw_symbol.upper():
+                            clean_symbol = core
+                            break
+                            
+                    logger.info(f"Importing external trade {ticket} ({raw_symbol} -> {clean_symbol}) to DB")
                     new_trade = Trade(
                         ticket_id=ticket,
-                        symbol=pos.get('symbol'),
+                        symbol=clean_symbol,
                         type="BUY" if pos.get('type') == 0 else "SELL", # POSITION_TYPE_BUY = 0
                         volume=float(pos.get('volume', 0.0)),
                         initial_volume=float(pos.get('volume', 0.0)),
