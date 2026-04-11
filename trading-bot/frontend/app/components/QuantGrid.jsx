@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AlphaFluxChart from "./AlphaFluxChart";
+import AuralithChart from "./AuralithChart";
 import StrategyExplanation from "./StrategyExplanation";
 import { useBot } from "./BotContext";
 import { useTheme } from "./ThemeContext";
@@ -12,6 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import AssetIcon from "./AssetIcon";
 
 export default function QuantGrid({ onOpenTerminal }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -75,7 +76,9 @@ export default function QuantGrid({ onOpenTerminal }) {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-              <PairIcon symbol={symbol} />
+               <div style={{ width: "40px", display: "flex", justifyContent: "center" }}>
+                 <AssetIcon symbol={symbol} size={18} />
+               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -144,7 +147,7 @@ export default function QuantGrid({ onOpenTerminal }) {
               position: "relative",
             }}
           >
-            <AlphaFluxChart symbol={symbol} />
+            <AuralithChart symbol={symbol} />
           </div>
 
           {/* Terminal Footer */}

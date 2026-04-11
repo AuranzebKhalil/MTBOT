@@ -1,5 +1,6 @@
 import { useBot } from "./BotContext";
 import { AlertCircle, TrendingUp, TrendingDown, Target, Zap, X } from "lucide-react";
+import AssetIcon from "./AssetIcon";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
 const fmt = (val, decimals = 2) => {
@@ -58,9 +59,12 @@ export default function TradeTable({ trades, selectedSymbol }) {
                      <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: trade.type === "BUY" ? "rgba(50, 215, 75, 0.1)" : "rgba(255, 69, 58, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {trade.type === "BUY" ? <TrendingUp size={16} color="var(--success)" /> : <TrendingDown size={16} color="var(--loss)" />}
                      </div>
-                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontWeight: "800", fontSize: "14px" }}>{trade.symbol}</span>
-                        <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>{trade.type} • {trade.strategy_name || trade.strategy || "Manual"}</span>
+                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <AssetIcon symbol={trade.symbol} size={16} />
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                           <span style={{ fontWeight: "800", fontSize: "14px" }}>{trade.symbol}</span>
+                           <span style={{ fontSize: "10px", color: "var(--text-sub)" }}>{trade.type} • {trade.strategy_name || trade.strategy || "Manual"}</span>
+                        </div>
                      </div>
                   </div>
                   <div style={{ textAlign: "right" }}>
@@ -149,9 +153,12 @@ export default function TradeTable({ trades, selectedSymbol }) {
                   style={{ borderTop: "1px solid var(--glass-border)" }}
                 >
                   <td style={{ padding: "18px 0", fontWeight: "700", fontFamily: "var(--font-mono)", fontSize: "13px" }}>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span>{trade.symbol || "—"}</span>
-                      <span style={{ fontSize: "9px", color: "var(--text-secondary)", opacity: 0.6 }}>{trade.type} EXECUTION</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                       <AssetIcon symbol={trade.symbol} size={16} />
+                       <div style={{ display: "flex", flexDirection: "column" }}>
+                         <span>{trade.symbol || "—"}</span>
+                         <span style={{ fontSize: "9px", color: "var(--text-secondary)", opacity: 0.6 }}>{trade.type} EXECUTION</span>
+                       </div>
                     </div>
                   </td>
                   <td style={{ padding: "18px 0" }}>
@@ -261,6 +268,7 @@ export default function TradeTable({ trades, selectedSymbol }) {
               }}>
                 <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? "4px" : "20px" }}>
                   <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                    <AssetIcon symbol={rej.symbol} size={14} />
                     <span style={{ fontFamily: "var(--font-mono)", fontWeight: "700", fontSize: "13px" }}>{rej.symbol}</span>
                     <span style={{ fontWeight: "800", color: rej.direction === "BUY" ? "var(--success)" : "var(--loss)", fontSize: "11px" }}>{rej.direction}</span>
                   </div>

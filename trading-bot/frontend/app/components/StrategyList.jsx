@@ -26,22 +26,6 @@ import { useMediaQuery } from "../lib/useMediaQuery";
 
 const strategies = [
   {
-    id: "MAD_TREND_LOOP",
-    name: "MAD - Trend Loop (Lyro RS)",
-    prob: "High",
-    freq: "High",
-    type: "Mean Deviation",
-    icon: Activity,
-    color: "#ff00ff",
-    description: "Mean Absolute Deviation combined with Moving Average loop thresholds for explosive trend trades.",
-    entry: "Combined signal of Bollinger Bands crossover and ALMA momentum score > threshold.",
-    exit: "Close when strategy reverses signal.",
-    steps: ["Compute MAD bounds", "Evaluate momentum loop", "Trigger on composite score", "Execute automatically"],
-    risk: "Medium",
-    note: "Custom Lyro RS Indicator ported from Pine Script.",
-    image: "/strategies/ftm.png",
-  },
-  {
     id: "SMC_SWEEP",
     name: "SRR - Sweep Reclaim Reversal",
     prob: "High",
@@ -50,15 +34,15 @@ const strategies = [
     icon: Banknote,
     color: "#00ffbd",
     description:
-      "Our primary reversal framework. Trades stop-hunt moves that sweep institutional liquidity and immediately reclaim structure.",
+      "Our primary reversal framework. Trades stop-hunt moves that sweep institutional liquidity and immediately reclaim structure with M1 confirmation.",
     entry:
-      "M15 bias alignment + M5 liquidity sweep + M1 structural reclaim + displacement.",
+      "M15 bias alignment + M5 liquidity sweep + M1 structural reclaim close + M1 MSS confirm.",
     exit: "TP at 1:2 R/R min. SL placed beyond the sweep wick extreme.",
     steps: [
       "Identify liquidity pools on M5/M15",
       "Wait for stop-hunt wick",
-      "Monitor M1 for structural shift",
-      "Execution on reclaim-zone (FVG/OB)",
+      "Monitor M1 for structural reclaim close",
+      "Confirm with M1 MSS before entry",
     ],
     risk: "Low-Medium",
     note: "High-probability institutional 'Change of Mind' footprint.",
@@ -73,88 +57,19 @@ const strategies = [
     icon: Zap,
     color: "#5b86e5",
     description:
-      "The main trend-following engine. Captures momentum after clean structural breaks and low-volatility pullbacks.",
+      "The main trend-following engine. Captures momentum after clean M15 structural breaks and returns to fresh value zones.",
     entry:
-      "M15 bias alignment + M1 BOS + High-quality retest of the break zone or fresh OB.",
-    exit: "TP at next structural high/low. SL at previous swing point.",
+      "M15 trend BOS + fresh M5 OB/FVG + M1 Rejection candle confirmation at the touch.",
+    exit: "TP at next structural high/low. SL at previous swing point or behind OB.",
     steps: [
-      "Confirm HTF Trend",
-      "Wait for LTF BOS",
-      "Identify fresh OB/FVG",
-      "Execute on controlled pullback",
+      "Confirm HTF BOS Trend",
+      "Wait for return to fresh (unmitigated) zone",
+      "Identify M1 rejection or engulfing candle",
+      "Execute on momentum confirmation",
     ],
     risk: "Low",
     note: "High-frequency setup for trending markets.",
     image: "/strategies/mss.png",
-  },
-  {
-    id: "SMC_MITIGATION",
-    name: "FTM - First Touch Mitigation",
-    prob: "Medium",
-    freq: "1-2/day",
-    type: "Precision",
-    icon: Activity,
-    color: "#6c5ce7",
-    description:
-      "Trades the first high-quality return into a fresh imbalance zone created by institutional displacement.",
-    entry:
-      "Massive displacement on M15 + first-time return to the zone + M1 rejection.",
-    exit: "TP at start of move. SL beyond zone boundary.",
-    steps: [
-      "Scan for fresh supply/demand",
-      "Detect displacement rally",
-      "Wait for first touch",
-      "Execute on rejection",
-    ],
-    risk: "Medium",
-    note: "Freshwater zones have the highest order-fill probability.",
-    image: "/strategies/ftm.png",
-  },
-  {
-    id: "SMC_REVERSAL",
-    name: "ER - Exhaustion Reversal",
-    prob: "Sniper",
-    freq: "Weekly",
-    type: "High Qual",
-    icon: Radar,
-    color: "#ee5a24",
-    description:
-      "Catching reversals after a final unstable overextended push into deep HTF supply/demand zones.",
-    entry:
-      "M15 RSI extreme + M1 CHOCH break + Lower High/Higher Low confirmation.",
-    exit: "TP at 1:3 R/R. SL at extreme of exhaustion wick.",
-    steps: [
-      "Price enters M30/H1 zone",
-      "M5/M15 RSI Overextended",
-      "LTF CHOCH validation",
-      "Execute on engulfment",
-    ],
-    risk: "Low Reward/Risk",
-    note: "Only trades when market sentiment is at blood-in-the-streets extremes.",
-    image: "/strategies/er.png",
-  },
-  {
-    id: "SMC_VSA",
-    name: "VSA - Absorption Shift",
-    prob: "Medium",
-    freq: "2-4/day",
-    type: "Momentum",
-    icon: ArrowRightLeft,
-    color: "#ff9f43",
-    description:
-      "Detects institutional order absorption via volume spikes at key structural turning points.",
-    entry:
-      "High-volume spike (2x avg) + Price rejection at demand/supply zone + candle close confirmation.",
-    exit: "TP at next liquidity pool. SL below/above the absorption wick.",
-    steps: [
-      "Identify key S/R zone",
-      "Monitor for volume spikes",
-      "Confirm price rejection",
-      "Execute on session direction",
-    ],
-    risk: "Medium",
-    note: "Classic 'Smart Money' footprint of accumulation or distribution.",
-    image: "/strategies/vsa.png",
   },
   {
     id: "SMC_MSS",
@@ -165,24 +80,47 @@ const strategies = [
     icon: ShieldCheck,
     color: "#34ace0",
     description:
-      "Captures the early stages of a trend reversal by identifying the first break of a minor swing point with displacement.",
+      "Captures the early stages of a trend reversal by identifying the first break of a minor swing point with major displacement.",
     entry:
-      "M1/M5 Displacement MSS + High-volume follow-through + structural confirmation.",
-    exit: "TP at major swing high/low. SL beyond the change of character.",
+      "M1 CHOCH break with >2.0x avg candle displacement + HTF Bias alignment.",
+    exit: "TP at major swing high/low. SL at expansion candle extreme.",
     steps: [
-      "Detect trend exhaustion",
-      "Wait for displacement break",
-      "Verify volume follow-through",
-      "Execute on structural shift",
+      "Detect trend exhaustion near HTF zone",
+      "Wait for displacement break with 2.0x body size",
+      "Verify structural follow-through",
+      "Execute on candle close or shadow retest",
     ],
     risk: "Low-Medium",
     note: "The most reliable early-entry signal for trend changes.",
     image: "/strategies/mss.png",
   },
   {
+    id: "SMC_MITIGATION",
+    name: "FTM - First Touch Mitigation",
+    prob: "Medium-High",
+    freq: "1-2/day",
+    type: "Precision",
+    icon: Activity,
+    color: "#6c5ce7",
+    description:
+      "Trades the first return into a fresh imbalance zone (FVG) created by aggressive institutional displacement candles.",
+    entry:
+      "Strong FVG creation (M15) + First return to 50% equilibrium + M1 momentum confirmation.",
+    exit: "TP at start of move. SL beyond FVG boundary.",
+    steps: [
+      "Scan for fresh, large FVG zones",
+      "Ensure 1.8x+ displacement on creation",
+      "Wait for first touch of 50% midpoint",
+      "Execute on M1 bullish/bearish confirmation",
+    ],
+    risk: "Medium",
+    note: "Freshwater zones have the highest order-fill probability.",
+    image: "/strategies/ftm.png",
+  },
+  {
     id: "SMC_BREAKER",
     name: "BB - Breaker Block Retest",
-    prob: "Medium-High",
+    prob: "Medium",
     freq: "1-2/day",
     type: "SMC",
     icon: Layers,
@@ -193,69 +131,14 @@ const strategies = [
       "Failed OB break with displacement + return to the 'Breaker' zone + M1 rejection.",
     exit: "TP at 1.5 R/R. SL beyond the breaker zone boundary.",
     steps: [
-      "Locate failed OB",
-      "Confirm aggressive break",
-      "Wait for breaker retest",
-      "Execute on price rejection",
+      "Locate failed/broken OB",
+      "Confirm aggressive break through the zone",
+      "Wait for breaker retest touch",
+      "Execute on M1 price rejection candle",
     ],
     risk: "Medium",
     note: "Institutions using failed zones to mitigate remaining orders.",
     image: "/strategies/srr.png",
-  },
-  {
-    id: "SMC_VOLUME",
-    name: "VOL - Order Flow/POC",
-    prob: "High",
-    freq: "High",
-    type: "Volume",
-    icon: TrendingUp,
-    color: "#747d8c",
-    description:
-      "Uses the Point of Control (POC) and Volume Profile to find high-gravity zones where price is likely to react.",
-    entry:
-      "Price interaction with high-volume POC + Session bias alignment + rejection confirmation.",
-    exit: "Target 1:1.5 R/R. SL below/above POC zone.",
-    steps: [
-      "Calculate Session POC",
-      "Wait for price interaction",
-      "Analyze volume delta",
-      "Execute with session flow",
-    ],
-    risk: "Low",
-    note: "Trading where the most volume has already been cleared.",
-    image: "/strategies/vsa.png",
-  },
-  {
-    id: "HYBRID_MASTER",
-    name: "Hybrid Master Switcher",
-    prob: "Dynamic",
-    freq: "Adaptive",
-    type: "AI Master",
-    icon: ShieldCheck,
-    color: "#00d2ff",
-    description: "The core engine. Dynamically switches between Reversion, S/R, and Breakout strategies based on real-time market sentiment and volatility audits.",
-    entry: "Automatic selection based on ADX and structure.",
-    exit: "Varies by active sub-strategy.",
-    steps: ["Detect Market Regime (ADX/ATR)", "Assign best-fit strategy", "Execute with AI confirmation", "Manage with dynamic risk"],
-    risk: "Very Low",
-    note: "Optimal for hands-off multi-condition trading.",
-    image: "/strategies/mss.png",
-  },
-  {
-    id: "HYBRID_REVERSION",
-    name: "Mean Reversion (BB/RSI)",
-    prob: "High",
-    freq: "Daily",
-    type: "Reversal",
-    icon: Activity,
-    color: "#a29bfe",
-    description: "Designed for ranging markets. Captures small, high-probability reversals when price deviates significantly from its 20-period average.",
-    entry: "Price touches/closes outside Bollinger Bands + RSI < 30 or > 70.",
-    exit: "TP at Middle BB. SL at 1.5x ATR beyond the band.",
-    steps: ["Confirm low ADX (< 25)", "Wait for BB boundary touch", "Verify RSI extreme", "Execute on candle rejection"],
-    risk: "Low",
-    note: "The 'Rubber Band' effect on price action.",
-    image: "/strategies/er.png",
   },
   {
     id: "HYBRID_SR",
@@ -265,13 +148,109 @@ const strategies = [
     type: "Structure",
     icon: Layers,
     color: "#fdcb6e",
-    description: "Focuses on high-timeframe (M15) support and resistance zones. Requires significant price rejection before entering.",
-    entry: "Interaction with M15 swing zone + M1 rejection candle (pin bar/engulfing).",
+    description: "Focuses on high-timeframe (M15) support and resistance zones. Requires high displacement from the level.",
+    entry: "Interaction with M15 zone + 1.5x displacement move away from the level.",
     exit: "TP at opposite zone. SL 1x ATR beyond the zone.",
-    steps: ["Identify M15 key zones", "Wait for zone interaction", "Confirm M1 price rejection", "Execute on follow-through"],
+    steps: ["Identify M15 key structural zones", "Wait for zone interaction", "Confirm 1.5x displacement rejection", "Execute on follow-through close"],
     risk: "Medium",
     note: "Modern adaptation of classic floor trading principles.",
     image: "/strategies/srr.png",
+  },
+  {
+    id: "HYBRID_MASTER",
+    name: "Hybrid Master Switcher",
+    prob: "Dynamic",
+    freq: "Adaptive",
+    type: "AI Master",
+    icon: ShieldCheck,
+    color: "#00d2ff",
+    description: "The core engine. Dynamically switches between structural SMC frameworks based on real-time market regime audits.",
+    entry: "Automatic selection based on ADX and structural context.",
+    exit: "Varies by active sub-strategy.",
+    steps: ["Detect Market Regime (ADX/ATR)", "Assign best-fit structural strategy", "Execute with AI confirmation", "Manage with dynamic risk"],
+    risk: "Very Low",
+    note: "Optimal for hands-off multi-condition trading.",
+    image: "/strategies/mss.png",
+  },
+  {
+    id: "MAD_TREND_LOOP",
+    name: "MAD - Trend Loop (Lyro RS)",
+    prob: "High",
+    freq: "High",
+    type: "Score Logic",
+    icon: Activity,
+    color: "#ff00ff",
+    description: "Mean Absolute Deviation score logic. Retired from primary execution due to lower structural confluence.",
+    entry: "Combined signal of MAD crossover and ALMA momentum score sequence.",
+    exit: "Close when strategy reverses signal.",
+    steps: ["Compute MAD bounds", "Evaluate momentum loop", "Trigger on composite score", "Execute automatically"],
+    risk: "Medium",
+    note: "Legacy prop indicator logic. Disabled by default.",
+    image: "/strategies/ftm.png",
+  },
+  {
+    id: "SMC_REVERSAL",
+    name: "ER - Exhaustion Reversal",
+    prob: "Sniper",
+    freq: "Weekly",
+    type: "Reversal",
+    icon: Radar,
+    color: "#ee5a24",
+    description: "Indicator-based reversals. Removed to reduce noise on lower timeframes.",
+    entry: "M15 RSI extreme + M1 CHOCH break.",
+    exit: "TP at 1:3 R/R. SL at extreme.",
+    steps: ["Price enters HTF zone", "M5/M15 RSI Overextended", "LTF CHOCH validation", "Execute on engulfment"],
+    risk: "Medium",
+    note: "Removed in April 2026 Refactor.",
+    image: "/strategies/er.png",
+  },
+  {
+    id: "SMC_VSA",
+    name: "VSA - Absorption Shift",
+    prob: "Medium",
+    freq: "2-4/day",
+    type: "Volume",
+    icon: ArrowRightLeft,
+    color: "#ff9f43",
+    description: "Volume-based absorption. Removed in favor of pure structural footprints.",
+    entry: "High-volume spike (3x avg) + Price rejection at zone.",
+    exit: "TP at liquidity pool. SL at wick.",
+    steps: ["Identify key S/R zone", "Monitor for 3.0x volume spikes", "Confirm price rejection", "Execute on session flow"],
+    risk: "Medium",
+    note: "Removed in April 2026 Refactor.",
+    image: "/strategies/vsa.png",
+  },
+  {
+    id: "SMC_VOLUME",
+    name: "VOL - Order Flow/POC",
+    prob: "High",
+    freq: "High",
+    type: "Volume",
+    icon: TrendingUp,
+    color: "#747d8c",
+    description: "Point of Control mapping. Retired due to high fakeout rate without structural confirmation.",
+    entry: "Price interaction with POC + Session bias.",
+    exit: "Target 1:1.5 R/R. SL beyond POC.",
+    steps: ["Calculate Session POC", "Wait for price interaction", "Analyze volume delta", "Execute with session flow"],
+    risk: "Low",
+    note: "Removed in April 2026 Refactor.",
+    image: "/strategies/vsa.png",
+  },
+  {
+    id: "HYBRID_REVERSION",
+    name: "Mean Reversion (BB/RSI)",
+    prob: "High",
+    freq: "Daily",
+    type: "Reversal",
+    icon: Activity,
+    color: "#a29bfe",
+    description: "Pure indicator reversion. Retired as M1 signals are prone to volatility noise.",
+    entry: "Price outside BB + RSI extremes.",
+    exit: "TP at Middle BB.",
+    steps: ["Confirm low ADX", "Wait for BB boundary", "Verify RSI extreme", "Execute on rejection"],
+    risk: "Low",
+    note: "Removed in April 2026 Refactor.",
+    image: "/strategies/er.png",
   },
   {
     id: "HYBRID_BREAKOUT",
@@ -281,12 +260,12 @@ const strategies = [
     type: "Momentum",
     icon: Zap,
     color: "#00b894",
-    description: "Captures explosive price movements out of tight consolidation zones (spring-loading). Requires volume confirmation.",
-    entry: "Close above/below 50-bar consolidation range + 1.5x volume spike.",
-    exit: "1:1.5 R/R or measured move of the range. SL inside the range.",
-    steps: ["Identify consolidation phase", "Monitor for volume expansion", "Wait for clean range exit", "Execute on breakout candle close"],
+    description: "Range breakouts. Retired to avoid chasing fake liquidity sweeps.",
+    entry: "Close outside consolidation + volume spike.",
+    exit: "1:1.5 R/R.",
+    steps: ["Identify consolidation", "Monitor volume", "Wait for range exit", "Execute on close"],
     risk: "Medium-High",
-    note: "Designed for high-impact news days and session opens.",
+    note: "Removed in April 2026 Refactor.",
     image: "/strategies/ftm.png",
   },
 ];
@@ -1038,8 +1017,10 @@ export default function StrategyList({ isExpanded }) {
             gap: isMobile ? "10px" : "12px",
           }}
         >
-          {/* Core Strategies */}
-          {strategies.map((s, idx) => (
+          {/* Active Core Strategies (Validated High Probability: SRR, CR, MSS) */}
+          {strategies
+            .filter(s => ["SMC_SWEEP", "SMC_TREND", "SMC_MSS"].includes(s.id))
+            .map((s, idx) => (
             <StrategyCard
               key={idx}
               strategy={s}
@@ -1048,7 +1029,6 @@ export default function StrategyList({ isExpanded }) {
               onToggle={(e) => {
                 e.stopPropagation();
                 const currentStatus = strategySettings && strategySettings[s.id] ? strategySettings[s.id].enabled : true;
-                console.log(`Toggling Strategy ${s.id} from ${currentStatus} to ${!currentStatus}`);
                 updateStrategySetting(s.id, {
                   enabled: !currentStatus,
                 });
@@ -1084,6 +1064,60 @@ export default function StrategyList({ isExpanded }) {
               onDelete={(e) => {
                 e.stopPropagation();
                 removeCustomStrategy(s.id);
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Disabled Strategies Section */}
+        <div style={{ marginTop: "50px", marginBottom: "20px" }}>
+           <h2
+              style={{
+                fontSize: isMobile ? "16px" : "16px",
+                fontWeight: "800",
+                color: "var(--text-sub)",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px"
+              }}
+            >
+              <X size={16} /> 
+              Disabled or Removed Strategies (Low Probability)
+            </h2>
+            <p
+              style={{
+                fontSize: "11px",
+                color: "var(--text-sub)",
+                marginTop: "4px",
+                opacity: 0.7
+              }}
+            >
+              The following internal strategies have been phased out due to market noise or low conviction.
+            </p>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: isMobile ? "10px" : "12px",
+            opacity: 0.5
+          }}
+        >
+          {strategies
+            .filter(s => !["SMC_SWEEP", "SMC_TREND", "SMC_MSS"].includes(s.id))
+            .map((s, idx) => (
+            <StrategyCard
+              key={`disabled-${idx}`}
+              strategy={{...s, prob: "N/A"}}
+              onClick={() => setSelectedStrategy(s)}
+              isActive={false} // Always show as off
+              onToggle={(e) => {
+                e.stopPropagation();
+                // Logic kept simple, but effectively disabled in backend
+                alert("This strategy is currently hard-disabled in the backend engine for safety.");
               }}
             />
           ))}

@@ -1,18 +1,58 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getApiBaseUrl, getWsBaseUrl } from './config';
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: `${getApiBaseUrl()}/v1`,
+  prepareHeaders: (headers) => {
+    const token = localStorage.getItem('quant_token');
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  
+  if (result.error && result.error.status === 401) {
+    const refreshToken = localStorage.getItem('quant_refresh');
+    
+    if (refreshToken) {
+      try {
+        const refreshResult = await fetch(`${getApiBaseUrl()}/v1/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refresh_token: refreshToken })
+        });
+        
+        if (refreshResult.ok) {
+          const data = await refreshResult.json();
+          localStorage.setItem('quant_token', data.access_token);
+          localStorage.setItem('quant_refresh', data.refresh_token);
+          
+          // Retry the original query with new token
+          result = await baseQuery(args, api, extraOptions);
+          return result;
+        }
+      } catch (e) {
+        console.error("Token refresh failed");
+      }
+    }
+    
+    // Refresh failed or no refresh token
+    localStorage.removeItem('quant_token');
+    localStorage.removeItem('quant_refresh');
+    if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+      window.location.href = '/login';
+    }
+  }
+  return result;
+};
+
 export const tradingApi = createApi({
   reducerPath: 'tradingApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${getApiBaseUrl()}/v1`, // getApiBaseUrl() returns "/api" -> "/api/v1"
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('quant_token');
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Status', 'Trades', 'History', 'Strategy', 'EngineConfig'],
   endpoints: (builder) => ({
     getMultiStatus: builder.query({

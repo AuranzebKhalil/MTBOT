@@ -19,7 +19,7 @@ import {
   Users as UsersIcon,
   MessageSquare,
   ShieldAlert as ShieldIcon,
-  TrendingDown
+  TrendingDown,
 } from "lucide-react";
 import { useBot } from "./BotContext";
 import { useAuth } from "./AuthContext";
@@ -66,10 +66,10 @@ export default function Sidebar() {
     },
     { id: "news", icon: Calendar, label: "Economic Calendar", href: "/news" },
     {
-      id: "stratagems",
+      id: "strategies",
       icon: Zap,
-      label: "Active Strategies",
-      href: "/stratagems",
+      label: "Strategy Engine",
+      href: "/strategies",
     },
     {
       id: "market_depth",
@@ -91,33 +91,67 @@ export default function Sidebar() {
       href: "/history",
     },
     { id: "risk", icon: ShieldAlert, label: "Risk Control", href: "/risk" },
-    { id: "settings", icon: Settings, label: "Engine Settings", href: "/settings" },
-    { id: "user_support", icon: MessageSquare, label: "Live Support", href: "/support" }
+    {
+      id: "settings",
+      icon: Settings,
+      label: "Engine Settings",
+      href: "/settings",
+    },
+    {
+      id: "user_support",
+      icon: MessageSquare,
+      label: "Live Support",
+      href: "/support",
+    },
   ];
 
   const adminItems = [
-    { id: "admin_dash", icon: LayoutDashboard, label: "Admin Console", href: "/admin" },
-    { id: "admin_users", icon: UsersIcon, label: "User Management", href: "/admin/users" },
-    { id: "admin_support", icon: MessageSquare, label: "Global Support", href: "/admin/support" },
-    { id: "admin_profits", icon: TrendingUp, label: "Profit Analytics", href: "/admin/profits" },
+    {
+      id: "admin_dash",
+      icon: LayoutDashboard,
+      label: "Admin Console",
+      href: "/admin",
+    },
+    {
+      id: "admin_users",
+      icon: UsersIcon,
+      label: "User Management",
+      href: "/admin/users",
+    },
+    {
+      id: "admin_support",
+      icon: MessageSquare,
+      label: "Global Support",
+      href: "/admin/support",
+    },
+    {
+      id: "admin_profits",
+      icon: TrendingUp,
+      label: "Profit Analytics",
+      href: "/admin/profits",
+    },
     { id: "user_view", icon: ShieldIcon, label: "Exit to App", href: "/" },
   ];
 
   const isAdminPath = pathname.startsWith("/admin");
   const isAdminUser = user?.role === "admin" || user?.role === "superadmin";
 
-  const itemsToRender = (isAdminPath && isAdminUser) ? adminItems : menuItems;
+  const itemsToRender = isAdminPath && isAdminUser ? adminItems : menuItems;
 
   // Add Admin Panel link to user menu if admin
-  const finalItems = isAdminUser && !isAdminPath 
-    ? [...itemsToRender, {
-        id: "admin_gateway",
-        icon: ShieldIcon,
-        label: "Admin Dashboard",
-        href: "/admin",
-        style: { marginTop: 'auto', borderTop: '1px solid var(--border)' }
-      }]
-    : itemsToRender;
+  const finalItems =
+    isAdminUser && !isAdminPath
+      ? [
+          ...itemsToRender,
+          {
+            id: "admin_gateway",
+            icon: ShieldIcon,
+            label: "Admin Dashboard",
+            href: "/admin",
+            style: { marginTop: "auto", borderTop: "1px solid var(--border)" },
+          },
+        ]
+      : itemsToRender;
 
   // Render nothing if hidden on desktop
   if (isSidebarHidden && !isMobile) return null;
@@ -136,7 +170,10 @@ export default function Sidebar() {
         top: 0,
         background: "var(--surface)",
         borderRight: "1px solid var(--border)",
-        boxShadow: isMobile ? "20px 0 50px rgba(0,0,0,0.5)" : "inset -4px 0 24px rgba(0, 0, 0, 0.05)",
+        borderRadius: 0,
+        boxShadow: isMobile
+          ? "20px 0 50px rgba(0,0,0,0.5)"
+          : "inset -4px 0 24px rgba(0, 0, 0, 0.05)",
         zIndex: 1000,
         transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         overflow: "hidden",

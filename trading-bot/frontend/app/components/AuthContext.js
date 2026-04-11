@@ -65,6 +65,9 @@ export function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         localStorage.setItem("quant_token", data.access_token);
+        if (data.refresh_token) {
+          localStorage.setItem("quant_refresh", data.refresh_token);
+        }
         setToken(data.access_token);
         const success = await fetchUser(data.access_token);
         if (success) {
@@ -104,6 +107,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem("quant_token");
+    localStorage.removeItem("quant_refresh");
     setToken(null);
     setUser(null);
     router.push("/login");

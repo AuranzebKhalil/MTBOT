@@ -993,3 +993,141 @@
 2026-04-08 00:29:19,918 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
 2026-04-08 00:31:37,261 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
 2026-04-08 00:42:58,643 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 18:42:27,497 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 18:56:00,959 - INFO - ORDER DEAL: action=1 symbol=EURUSD vol=0.01 comment='SUPPORT_RESISTA'
+2026-04-08 18:56:01,269 - INFO -   TRY FILLING IOC: retcode=10009 time=0.310s comment=Request executed
+2026-04-08 18:56:01,269 - INFO -   SUCCESS: #703532138 filled via IOC
+2026-04-08 18:56:33,158 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='VOLUME'
+2026-04-08 18:56:33,592 - INFO -   TRY FILLING IOC: retcode=10009 time=0.433s comment=Request executed
+2026-04-08 18:56:33,592 - INFO -   SUCCESS: #703534969 filled via IOC
+2026-04-08 19:04:00,178 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='HYBRID'
+2026-04-08 19:04:00,453 - INFO -   TRY FILLING IOC: retcode=10009 time=0.275s comment=Request executed
+2026-04-08 19:04:00,454 - INFO -   SUCCESS: #703554304 filled via IOC
+2026-04-08 19:16:02,584 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-08 19:16:02,902 - INFO -   TRY FILLING IOC: retcode=10009 time=0.317s comment=Request executed
+2026-04-08 19:16:02,902 - INFO -   SUCCESS: #703578546 filled via IOC
+2026-04-08 19:30:41,545 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:32:53,804 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:32:56,929 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:32:58,325 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:32:59,149 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:32:59,841 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:37:19,970 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:37:19,972 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='Bot Full Exit'
+2026-04-08 19:37:20,292 - INFO -   TRY FILLING IOC: retcode=10009 time=0.321s comment=Request executed
+2026-04-08 19:37:20,292 - INFO -   SUCCESS: #703643799 filled via IOC
+2026-04-08 19:37:22,552 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:37:22,553 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='Bot Full Exit'
+2026-04-08 19:37:22,826 - INFO -   TRY FILLING IOC: retcode=10009 time=0.273s comment=Request executed
+2026-04-08 19:37:22,828 - INFO -   SUCCESS: #703643867 filled via IOC
+2026-04-08 19:38:00,621 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-08 19:38:01,159 - INFO -   TRY FILLING IOC: retcode=10009 time=0.537s comment=Request executed
+2026-04-08 19:38:01,159 - INFO -   SUCCESS: #703645612 filled via IOC
+2026-04-08 19:51:21,878 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 19:51:21,880 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='Bot Full Exit'
+2026-04-08 19:51:22,756 - INFO -   TRY FILLING IOC: retcode=10009 time=0.876s comment=Request executed
+2026-04-08 19:51:22,757 - INFO -   SUCCESS: #703682966 filled via IOC
+2026-04-08 19:56:02,239 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-08 19:56:02,543 - INFO -   TRY FILLING IOC: retcode=10009 time=0.305s comment=Request executed
+2026-04-08 19:56:02,544 - INFO -   SUCCESS: #703697874 filled via IOC
+2026-04-08 19:56:37,469 - INFO - ORDER SLTP: ticket=#703697874 symbol=GOLD sl=4744.9450000000015 tp=4728.13
+2026-04-08 19:56:38,097 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-08 19:58:02,962 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-08 19:58:03,627 - INFO -   TRY FILLING IOC: retcode=10009 time=0.664s comment=Request executed
+2026-04-08 19:58:03,628 - INFO -   SUCCESS: #703709505 filled via IOC
+2026-04-08 20:23:53,724 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='VOLUME'
+2026-04-08 20:23:54,044 - INFO -   TRY FILLING IOC: retcode=10009 time=0.320s comment=Request executed
+2026-04-08 20:23:54,044 - INFO -   SUCCESS: #703772648 filled via IOC
+2026-04-08 20:24:34,883 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='VOLUME'
+2026-04-08 20:24:35,181 - INFO -   TRY FILLING IOC: retcode=10009 time=0.298s comment=Request executed
+2026-04-08 20:24:35,182 - INFO -   SUCCESS: #703774114 filled via IOC
+2026-04-08 20:39:20,488 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-08 20:39:20,490 - INFO - ORDER DEAL: action=1 symbol=USDCAD vol=0.05 comment='Bot Full Exit'
+2026-04-08 20:39:20,792 - INFO -   TRY FILLING IOC: retcode=10009 time=0.303s comment=Request executed
+2026-04-08 20:39:20,792 - INFO -   SUCCESS: #703798130 filled via IOC
+2026-04-10 16:33:27,200 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 17:12:11,653 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 17:17:11,138 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-10 17:17:11,299 - INFO -   TRY FILLING IOC: retcode=10009 time=0.160s comment=Request executed
+2026-04-10 17:17:11,299 - INFO -   SUCCESS: #706697668 filled via IOC
+2026-04-10 17:31:05,647 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='MSS'
+2026-04-10 17:31:05,827 - INFO -   TRY FILLING IOC: retcode=10009 time=0.180s comment=Request executed
+2026-04-10 17:31:05,828 - INFO -   SUCCESS: #706736457 filled via IOC
+2026-04-10 17:31:48,903 - INFO - ORDER DEAL: action=1 symbol=GBPUSD vol=0.01 comment='CONTINUATION'
+2026-04-10 17:31:49,084 - INFO -   TRY FILLING IOC: retcode=10009 time=0.181s comment=Request executed
+2026-04-10 17:31:49,086 - INFO -   SUCCESS: #706738812 filled via IOC
+2026-04-10 17:34:10,117 - INFO - ORDER SLTP: ticket=#706736457 symbol=GOLD sl=4775.68 tp=4786.2
+2026-04-10 17:34:10,299 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 17:49:12,027 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='CONTINUATION'
+2026-04-10 17:49:12,206 - INFO -   TRY FILLING IOC: retcode=10009 time=0.180s comment=Request executed
+2026-04-10 17:49:12,208 - INFO -   SUCCESS: #706786757 filled via IOC
+2026-04-10 17:50:02,263 - INFO - ORDER SLTP: ticket=#706786757 symbol=GOLD sl=4765.325000000001 tp=4771.16
+2026-04-10 17:50:02,422 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 17:53:37,732 - INFO - ORDER SLTP: ticket=#706786757 symbol=GOLD sl=4767.53 tp=4771.16
+2026-04-10 17:53:37,949 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 17:54:42,359 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='CONTINUATION'
+2026-04-10 17:54:42,536 - INFO -   TRY FILLING IOC: retcode=10009 time=0.177s comment=Request executed
+2026-04-10 17:54:42,538 - INFO -   SUCCESS: #706796170 filled via IOC
+2026-04-10 17:56:09,939 - INFO - ORDER SLTP: ticket=#706796170 symbol=GOLD sl=4767.72 tp=4776.92
+2026-04-10 17:56:10,147 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 18:26:30,499 - INFO - ORDER SLTP: ticket=#706738812 symbol=GBPUSD sl=1.346225 tp=1.34833
+2026-04-10 18:26:30,662 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 18:38:12,152 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-10 18:38:12,326 - INFO -   TRY FILLING IOC: retcode=10009 time=0.174s comment=Request executed
+2026-04-10 18:38:12,326 - INFO -   SUCCESS: #706892182 filled via IOC
+2026-04-10 18:53:04,030 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-10 18:53:04,210 - INFO -   TRY FILLING IOC: retcode=10009 time=0.180s comment=Request executed
+2026-04-10 18:53:04,211 - INFO -   SUCCESS: #706921941 filled via IOC
+2026-04-10 19:02:48,905 - INFO - ORDER SLTP: ticket=#706921941 symbol=GOLD sl=4774.889999999999 tp=4785.12
+2026-04-10 19:02:49,096 - INFO -   RESULT SLTP: retcode=10009 comment=Request executed
+2026-04-10 19:09:05,089 - INFO - ORDER DEAL: action=1 symbol=GOLD vol=0.01 comment='VOLUME'
+2026-04-10 19:09:05,317 - INFO -   TRY FILLING IOC: retcode=10009 time=0.227s comment=Request executed
+2026-04-10 19:09:05,317 - INFO -   SUCCESS: #706947429 filled via IOC
+2026-04-10 20:01:17,472 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:05:23,979 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:12:16,089 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:19:08,498 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:19:09,106 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:19:10,324 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:23:57,165 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:30:18,014 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:40:52,506 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 20:43:36,346 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 21:01:19,246 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 21:18:45,604 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:03:22,607 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:03:30,063 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:03:30,285 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:03:31,118 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:04:50,863 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:04:50,864 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-10 22:04:51,167 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 17:59:01,676 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:00:41,977 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:00:43,217 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:00:43,217 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:00:43,880 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:01:24,601 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:01:27,716 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:01:27,716 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:08:52,898 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:11:56,474 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:03,470 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:03,516 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:03,569 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:12,283 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:17,007 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:17,007 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:17,122 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:17,986 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:18,759 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:28,750 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:28,771 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:28,798 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:29,077 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 18:12:29,480 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 19:16:00,217 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 20:52:44,588 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 22:52:13,370 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 22:54:21,131 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)
+2026-04-11 23:01:57,006 - INFO - STARTUP: Connected to account #336195466 (Mode: DEMO)

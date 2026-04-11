@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import AlphaFluxChart from "./AlphaFluxChart";
+import AuralithChart from "./AuralithChart";
 import StrategyExplanation from "./StrategyExplanation";
 import { X } from "lucide-react";
 
@@ -69,7 +69,7 @@ export default function FullscreenChartModal({ isOpen, onClose }) {
             border: "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          <AlphaFluxChart />
+          <AuralithChart />
         </div>
         <div style={{ flex: 1, minWidth: "350px" }}>
           <StrategyExplanation onFullscreen={() => {}} />

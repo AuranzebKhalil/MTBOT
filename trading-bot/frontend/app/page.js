@@ -12,11 +12,12 @@ import {
   Maximize2,
 } from "lucide-react";
 import QuantGrid from "./components/QuantGrid";
-import AlphaFluxChart from "./components/AlphaFluxChart";
+import AuralithChart from "./components/AuralithChart";
 import { useBot } from "./components/BotContext";
 import { useAuth } from "./components/AuthContext";
 import FilterStatusPanel from "./components/FilterStatusPanel";
 import { useMediaQuery } from "./lib/useMediaQuery";
+import AssetIcon from "./components/AssetIcon";
 
 export default function Home() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -191,7 +192,6 @@ export default function Home() {
         {/* RISK FILTERS PANEL */}
         <FilterStatusPanel />
 
-
         {/* CHART GRID AREA */}
         <div style={{ flex: 1, minHeight: 0 }}>
           <QuantGrid onOpenTerminal={openTerminal} />
@@ -249,17 +249,17 @@ export default function Home() {
                   style={{
                     width: isMobile ? "40px" : "56px",
                     height: isMobile ? "40px" : "56px",
-                    background:
-                      "linear-gradient(135deg, var(--primary) 0%, #00f2ff 100%)",
+                    // background:
+                    //   "linear-gradient(135deg, var(--primary) 0%, #00f2ff 100%)",
                     borderRadius: isMobile ? "12px" : "18px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 0 30px rgba(0, 122, 255, 0.3)",
+                    // boxShadow: "0 0 30px rgba(0, 122, 255, 0.3)",
                     flexShrink: 0,
                   }}
                 >
-                  <TerminalIcon size={isMobile ? 20 : 28} color="#000" />
+                  <AssetIcon symbol={popupSymbol} size={isMobile ? 24 : 36} />
                 </div>
                 <div>
                   <h2
@@ -343,7 +343,7 @@ export default function Home() {
                   boxShadow: "var(--shadow-glow)",
                 }}
               >
-                <AlphaFluxChart symbol={popupSymbol} />
+                <AuralithChart symbol={popupSymbol} />
               </div>
               <div
                 style={{

@@ -29,16 +29,16 @@ export function BotProvider({ children }) {
   const { token, logout } = useAuth();
 
   // RTK Query Hooks
-  const { data: multiData } = useGetMultiStatusQuery(undefined, {
+  const { data: multiData, isLoading: isMultiLoading } = useGetMultiStatusQuery(undefined, {
     skip: !token,
   });
 
-  const { data: trades = [] } = useGetTradesQuery(undefined, {
+  const { data: trades = [], isLoading: isTradesLoading } = useGetTradesQuery(undefined, {
     skip: !token,
     pollingInterval: 5000,
   });
 
-  const { data: history = [] } = useGetHistoryQuery(undefined, {
+  const { data: history = [], isLoading: isHistoryLoading } = useGetHistoryQuery(undefined, {
     skip: !token,
     pollingInterval: 30000,
   });
@@ -48,9 +48,11 @@ export function BotProvider({ children }) {
     pollingInterval: 30000,
   });
 
-  const { data: riskData } = useGetRiskQuery(undefined, { skip: !token });
-  const { data: engineConfig = {} } = useGetEngineConfigQuery(undefined, { skip: !token });
-  const { data: strategySettings = {} } = useGetStrategySettingsQuery(undefined, { skip: !token });
+  const { data: riskData, isLoading: isRiskLoading } = useGetRiskQuery(undefined, { skip: !token });
+  const { data: engineConfig = {}, isLoading: isEngineLoading } = useGetEngineConfigQuery(undefined, { skip: !token });
+  const { data: strategySettings = {}, isLoading: isSettingsLoading } = useGetStrategySettingsQuery(undefined, { skip: !token });
+
+  const isGlobalLoading = (isMultiLoading || isTradesLoading || isRiskLoading || isEngineLoading || isSettingsLoading) && token;
 
   // Mutations
   const [toggleBot] = useToggleBotMutation();
@@ -123,18 +125,6 @@ export function BotProvider({ children }) {
   };
 
   const symbolData = multiData?.symbols || {};
-  const isRunning = botStatus.is_running;
-  const activeSymbols = botStatus.active_symbols || ["EURUSD", "USDJPY", "AUDUSD", "USDCHF", "USDCAD", "GBPUSD", "XAUUSD"];
-  
-  const filterStatus = botStatus.filter_status || {};
-  const activeCooldowns = botStatus.active_cooldowns || [];
-  const activeBlockedZones = botStatus.active_blocked_zones || [];
-  const strategyAnalytics = botStatus.strategy_analytics || {};
-  const recentRejections = botStatus.recent_rejections || [];
-
-  const [selectedTF, setSelectedTF] = useState("M1");
-  const [selectedSession, setSelectedSession] = useState("ALL");
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTF = localStorage.getItem("selectedTF");
@@ -144,17 +134,41 @@ export function BotProvider({ children }) {
     }
   }, []);
 
+  const activeSymbols = botStatus.active_symbols || ["EURUSD", "USDJPY", "AUDUSD", "USDCHF", "USDCAD", "GBPUSD", "XAUUSD"];
+  const filterStatus = botStatus.filter_status || {};
+  const activeCooldowns = botStatus.active_cooldowns || [];
+  const activeBlockedZones = botStatus.active_blocked_zones || [];
+  const strategyAnalytics = botStatus.strategy_analytics || {};
+  const recentRejections = botStatus.recent_rejections || [];
+
+  const [selectedTF, setSelectedTF] = useState("M1");
+  const [selectedSession, setSelectedSession] = useState("ALL");
+  const [optimisticIsRunning, setOptimisticIsRunning] = useState(null);
+
+  useEffect(() => {
+    // Sync optimistic state back to null once server data catches up
+    if (optimisticIsRunning !== null && botStatus.is_running === optimisticIsRunning) {
+      setOptimisticIsRunning(null);
+    }
+  }, [botStatus.is_running]);
+
   const handleToggleBot = async () => {
-    const endpoint = isRunning ? "stop" : "start";
+    const nextState = !isRunning;
+    setOptimisticIsRunning(nextState);
+    const endpoint = nextState ? "start" : "stop";
+    
     try {
       await toggleBot(endpoint).unwrap();
-      toast(isRunning ? "Quant Engine Halted" : "Quant Engine Engaged", {
-        icon: isRunning ? "🛑" : "🚀",
+      toast(nextState ? "Quant Engine Engaged" : "Quant Engine Halted", {
+        icon: nextState ? "🚀" : "🛑",
       });
     } catch (err) {
+      setOptimisticIsRunning(null); // Rollback on failure
       toast.error(`Operation Failed`);
     }
   };
+
+  const isRunning = optimisticIsRunning !== null ? optimisticIsRunning : (botStatus.is_running || false);
 
   const handleSaveRiskProfile = async () => {
     try {
@@ -181,7 +195,7 @@ export function BotProvider({ children }) {
 
   const updateBotSettings = async (symbols, tf, session, aiThreshold) => {
     try {
-      await fetch(`${getApiBaseUrl()}/v1/settings`, {
+      await fetch(`${getApiBaseUrl()}/v1/legacy/settings`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -211,6 +225,7 @@ export function BotProvider({ children }) {
   return (
     <BotContext.Provider
       value={{
+        isGlobalLoading,
         isRunning,
         botStatus,
         trades,
