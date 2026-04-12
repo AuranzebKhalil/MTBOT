@@ -164,7 +164,7 @@ export default function Sidebar() {
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        padding: isSidebarCollapsed ? "32px 12px" : "32px 16px 20px",
+        padding: isSidebarCollapsed ? "12px 12px" : "12px 16px 20px",
         position: isMobile ? "fixed" : "sticky",
         left: isMobile ? (isSidebarHidden ? "-280px" : "0") : "0",
         top: 0,
@@ -182,36 +182,21 @@ export default function Sidebar() {
       <div
         className="brand-block"
         style={{
-          padding: isSidebarCollapsed ? "0 0 40px" : "0 12px 40px",
+          padding: isSidebarCollapsed ? "0 0 40px" : "0 12px ",
           display: "flex",
           alignItems: "center",
           gap: "14px",
           justifyContent: isSidebarCollapsed ? "center" : "flex-start",
         }}
       >
-        <div
-          style={{
-            width: "42px",
-            height: "42px",
-            background: "linear-gradient(135deg, #007aff 0%, #00f2ff 100%)",
-            borderRadius: "12px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 20px rgba(0, 122, 255, 0.3)",
-            flexShrink: 0,
-          }}
-        >
-          <span
-            style={{
-              color: theme === "dark" ? "#000" : "#fff",
-              fontWeight: "700",
-              fontSize: "20px",
-            }}
-          >
-            A
-          </span>
+        <div>
+          <img
+            style={{ width: "60px" }}
+            src="logo/AuraLithLogo.png"
+            alt=""
+          />{" "}
         </div>
+
         {!isSidebarCollapsed && (
           <div style={{ display: "flex", flexDirection: "column" }}>
             <h1
@@ -249,6 +234,7 @@ export default function Sidebar() {
           flex: 1,
           overflowY: "auto",
           paddingRight: isSidebarCollapsed ? 0 : "8px",
+          marginTop: "5px",
         }}
         className="custom-scrollbar"
       >

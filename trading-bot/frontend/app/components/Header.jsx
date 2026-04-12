@@ -22,6 +22,8 @@ import {
   Target,
   Plus,
   Trash2,
+  Loader,
+  User,
 } from "lucide-react";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import AssetIcon from "./AssetIcon";
@@ -331,9 +333,20 @@ export default function Header() {
                     fontWeight: "800",
                     color: "var(--text-main)",
                     lineHeight: 1,
+                    marginTop: "2px",
                   }}
                 >
-                  {isRunning ? "SCANNING..." : "STANDBY"}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    {isRunning ? "SCANNING..." : "STANDBY"}
+
+                    <Loader style={{ width: "16px" }} />
+                  </div>
                 </span>
               </div>
             </div>
@@ -467,8 +480,8 @@ export default function Header() {
               />
               {!isSmallDesktop && (
                 <HeaderIconButton
-                  icon={<Settings size={14} />}
-                  onClick={() => router.push("/settings")}
+                  icon={<User size={14} />}
+                  onClick={() => router.push("/profile")}
                   size={36}
                 />
               )}

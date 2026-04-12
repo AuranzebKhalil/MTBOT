@@ -22,7 +22,7 @@ def get_recent_signals(limit: int = 50, db: Session = Depends(get_db)):
 
 @router.get("/performance")
 def get_performance_stats(db: Session = Depends(get_db)):
-    state = db.query(Trade).first()
+    state = db.query(BotState).first()
     return state.strategy_analytics if state else {}
 
 @router.post("/{ticket_id}/close")

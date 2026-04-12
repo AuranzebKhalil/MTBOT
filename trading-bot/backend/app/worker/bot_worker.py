@@ -158,7 +158,7 @@ class BotWorker:
                         user = db.query(User).first()
                         if user:
                             print("\n" + "="*40)
-                            print("🚀 LIVE ALPHA DEPLOYMENT ACTIVE")
+                            print("LIVE ALPHA DEPLOYMENT ACTIVE")
                             print(f"Max Spread Points: 55")
                             print(f"Late Entry Threshold: {user.late_entry_threshold}")
                             print(f"Stage 1 Trigger: {user.partial_stage_1_trigger * 100}%")

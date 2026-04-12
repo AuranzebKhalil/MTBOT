@@ -72,26 +72,14 @@ export default function LoginPage() {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <div
-            style={{
-              width: "80px",
-              height: "80px",
-              background: "var(--gradient-primary)",
-              borderRadius: "24px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 24px",
-              boxShadow: "0 20px 40px rgba(0, 122, 255, 0.3)",
-              padding: "16px",
-            }}
-          >
+          <div>
             <img
-              src="/logo/alertli_logo.png"
+              src="/logo/AuraLithLogo.png"
               alt="Alertli"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{ width: "150px", height: "150px", objectFit: "contain" }}
             />
           </div>
+
           <h1
             style={{
               fontSize: "2rem",
@@ -100,9 +88,7 @@ export default function LoginPage() {
               marginBottom: "8px",
               letterSpacing: "-1px",
             }}
-          >
-            ALERTLI <span style={{ color: "var(--primary)" }}>ALPHA</span>
-          </h1>
+          ></h1>
           <p style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>
             Secure Operator Authorization
           </p>
@@ -219,7 +205,7 @@ export default function LoginPage() {
               <Loader2 size={24} className="animate-spin" />
             ) : (
               <>
-                ENGAGE SESSION <ArrowRight size={20} />
+                Login <ArrowRight size={20} />
               </>
             )}
           </button>
@@ -236,7 +222,7 @@ export default function LoginPage() {
                 textDecoration: "none",
               }}
             >
-              Apply for License
+              Register
             </Link>
           </p>
         </div>
