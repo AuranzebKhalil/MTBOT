@@ -28,7 +28,7 @@ class Backtester:
             
             if signal != "WAIT":
                 # Simulate a trade
-                trade_pnl = np.random.normal(50, 150) # Random walk for demo
+                trade_pnl = 50.0 # Fixed PnL for deterministic demo
                 self.balance += trade_pnl
                 results.append({
                     "time": h1_data.iloc[i]['time'],

@@ -22,9 +22,9 @@ from app.core.datatypes import TradingSession, MarketRegime, TradeSignal, Signal
 from app.strategy.context.regime import RegimeDetector
 from app.strategy.context.session import SessionManager
 from app.strategy.smc import (
-    SMCSweepReclaimStrategy, SMCVsaShiftStrategy, SMCContinuationRetestStrategy,
+    SMCSweepReclaimStrategy, SMCVsaShiftStrategy,
     SMCFirstTouchMitigationStrategy, SMCExhaustionReversalStrategy,
-    SMCMSSStrategy, SMCBreakerStrategy, SMCVolumeFlowStrategy
+    SMCBreakerStrategy, SMCVolumeFlowStrategy
 )
 from app.strategy.hybrid_strategies import (
     MeanReversionStrategy, SupportResistanceStrategy,
@@ -52,10 +52,8 @@ class BotWorker:
         self.strategies = [
             SMCSweepReclaimStrategy(self.indicators),
             SMCVsaShiftStrategy(self.indicators),
-            SMCContinuationRetestStrategy(self.indicators),
             SMCFirstTouchMitigationStrategy(self.indicators),
             SMCExhaustionReversalStrategy(self.indicators),
-            SMCMSSStrategy(self.indicators),
             SMCBreakerStrategy(self.indicators),
             SMCVolumeFlowStrategy(self.indicators),
             MeanReversionStrategy(self.indicators),
@@ -86,7 +84,7 @@ class BotWorker:
         self.loop_blocked_zones = []
         self.last_analytics_update = datetime.min.replace(tzinfo=timezone.utc)
         
-        logger.info("🤖 BotWorker initialized with enhanced filters.")
+        logger.info("BotWorker initialized with enhanced filters.")
 
     def _update_bot_status(self, is_running: Optional[bool] = None, message: Optional[str] = None, action: Optional[str] = None):
         """Internal helper to sync bot health/activity to the database for the dashboard."""
@@ -277,7 +275,15 @@ class BotWorker:
                 "same_zone_distance_atr_multiplier": 0.25,
                 "enable_level_distance_filter": True,
                 "min_reward_to_nearest_level_rr": 1.2,
-                "min_reward_to_level_points": 50
+                "min_reward_to_level_points": 50,
+                "min_setup_score": 70.0,
+                "min_ai_confidence": 0.45,
+                "max_spread_points": 50.0,
+                "enable_htf_filter": True,
+                "enable_volatility_filter": True,
+                "min_sl_atr_multiplier": 0.5,
+                "late_entry_threshold": 0.7,
+                "min_rr_filter": 1.0
             }
 
             if user:
@@ -299,7 +305,18 @@ class BotWorker:
                     "same_zone_distance_atr_multiplier": getattr(user, "same_zone_distance_atr_multiplier", 0.25),
                     "enable_level_distance_filter": getattr(user, "enable_level_distance_filter", True),
                     "min_reward_to_nearest_level_rr": getattr(user, "min_reward_to_nearest_level_rr", 1.2),
-                    "min_reward_to_level_points": getattr(user, "min_reward_to_level_points", 50)
+                    "min_reward_to_level_points": getattr(user, "min_reward_to_level_points", 50),
+                    "min_setup_score": getattr(user, "min_setup_score", 70.0),
+                    "enable_volatility_filter": getattr(user, "enable_volatility_filter", True),
+                    "min_sl_atr_multiplier": getattr(user, "min_sl_atr_multiplier", 0.5),
+                    "late_entry_threshold": getattr(user, "late_entry_threshold", 0.7),
+                    "min_rr_filter": getattr(user, "min_rr_filter", 1.0),
+                    "enable_post_sl_cooldown": getattr(user, "enable_post_sl_cooldown", True),
+                    "cooldown_bars_after_sl": getattr(user, "cooldown_bars_after_sl", 5),
+                    "enable_same_zone_block": getattr(user, "enable_same_zone_block", True),
+                    "same_zone_distance_atr_multiplier": getattr(user, "same_zone_distance_atr_multiplier", 0.25),
+                    "enable_level_distance_filter": getattr(user, "enable_level_distance_filter", True),
+                    "min_reward_to_nearest_level_rr": getattr(user, "min_reward_to_nearest_level_rr", 1.2)
                 })
             
             # --- LIVE EXECUTION ACTIVE ---
@@ -639,10 +656,11 @@ class BotWorker:
                 self.strategy.ai_threshold = 0.48 
         except: pass
 
-        approved, rejected = self.strategy.evaluate(symbol, data_strategy, strategy_settings=strategy_settings)
+        approved, rejected, _stats = self.strategy.evaluate(symbol, data_strategy, strategy_settings=strategy_settings)
         
         for rej in rejected:
-            reason = rej.metadata.get("ai_reason", "Low Score")
+            # Phase 4: prefer structured rejection_reason if present
+            reason = (rej.metadata or {}).get("rejection_reason") or (rej.metadata or {}).get("ai_reason") or "Rejected"
             logger.info(f"[{eval_id}] [{symbol}] STRATEGY REJECTED: {rej.strategy_name} | Direction={rej.side.name} | AI Score={rej.ai_confidence:.2f} (Required: {rej.ai_threshold_used}) | Reason={reason}")
             self._log_signal(rej, "REJECTED", reason)
 
@@ -675,14 +693,11 @@ class BotWorker:
                     logger.warning(f"[{eval_id}] [{symbol}] 🚫 Signal IGNORED: Active protection gap on unmanaged trade.")
                     continue
 
-            # --- DEMO SPREAD OVERRIDE ---
+            # --- DEMO SPREAD CONTEXT ---
             if symbol == "XAUUSD":
-                # Ensure we have a dict for the symbol to keep RiskManager happy
                 if "XAUUSD" not in symbol_settings:
                     symbol_settings["XAUUSD"] = {}
-                symbol_settings["max_spread_points"] = 55
-                # Also set at root in case RiskManager doesn't handle nesting correctly yet
-                symbol_settings["max_spread_points"] = 55
+                # No longer overriding, using user settings.
 
             # 1. Higher-Timeframe Context Detection (SENTINEL)
             m15_regime = self.regime_detector.identify(data_strategy["M15"])
@@ -700,6 +715,7 @@ class BotWorker:
                 "nearest_level": self._find_nearest_structural_level(symbol, data_strategy["M15"], signal.side),
                 "market_bias": m15_bias,
                 "atr": m15_atr,
+                "market_regime": m15_regime.regime.name,
                 "eval_id": eval_id
             }
 
@@ -1015,6 +1031,13 @@ class BotWorker:
 
 
     def _log_signal(self, signal: TradeSignal, status: str, reason: str):
+        # Phase 4: if a structured rejection exists, prefer it for logging.
+        if status in ["REJECTED", "REJECTED_RISK", "IGNORED"]:
+            md = getattr(signal, "metadata", {}) or {}
+            structured = md.get("rejection_reason")
+            if structured:
+                reason = structured
+
         # Always attach real AI confidence + threshold when present
         conf = getattr(signal, "ai_confidence", None)
         thr = getattr(signal, "ai_threshold_used", None)
@@ -1053,13 +1076,19 @@ class BotWorker:
                 # 2. Update recent rejections for structured UI display
                 if status in ["REJECTED", "REJECTED_RISK", "IGNORED"]:
                     rejections = list(state.recent_rejections or [])
+                    md = getattr(signal, "metadata", {}) or {}
                     rejections.insert(0, {
                         "time": datetime.now(timezone.utc).isoformat(),
                         "symbol": signal.symbol,
                         "direction": signal.side.value if hasattr(signal.side, "value") else str(signal.side),
                         "strategy": strat_name,
                         "reason": reason,
-                        "score": getattr(signal, "ai_score", getattr(signal, "ai_confidence", 0.0))
+                        "score": getattr(signal, "ai_score", getattr(signal, "ai_confidence", 0.0)),
+                        # Extra structured fields (UI can ignore if not used)
+                        "rejection_stage": md.get("rejection_stage"),
+                        "rejection_rule": md.get("rejection_rule"),
+                        "current_value": md.get("current_value"),
+                        "required_value": md.get("required_value"),
                     })
                     state.recent_rejections = rejections[:20]
             db.commit()

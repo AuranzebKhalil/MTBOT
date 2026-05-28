@@ -83,6 +83,20 @@ export function BotProvider({ children }) {
     partial_stage_1_close_pct: 50,
     partial_stage_2_trigger: 80,
     partial_stage_2_close_pct: 25,
+    min_setup_score: 70,
+    min_ai_confidence: 0.45,
+    max_spread_points: 50,
+    enable_htf_filter: true,
+    enable_volatility_filter: true,
+    min_sl_atr_multiplier: 0.5,
+    late_entry_threshold: 0.7,
+    min_rr_filter: 1.0,
+    enable_post_sl_cooldown: true,
+    cooldown_bars_after_sl: 5,
+    enable_same_zone_block: true,
+    same_zone_distance_atr_multiplier: 0.25,
+    enable_level_distance_filter: true,
+    min_reward_to_nearest_level_rr: 1.2,
     trading_mode: "DEMO"
   });
 
@@ -100,6 +114,20 @@ export function BotProvider({ children }) {
         partial_stage_1_close_pct: (riskData.partial_stage_1_close_pct || 0.5) * 100,
         partial_stage_2_trigger: (riskData.partial_stage_2_trigger || 0.8) * 100,
         partial_stage_2_close_pct: (riskData.partial_stage_2_close_pct || 0.25) * 100,
+        min_setup_score: riskData.min_setup_score || 70,
+        min_ai_confidence: riskData.min_ai_confidence || 0.45,
+        max_spread_points: riskData.max_spread_points || 50,
+        enable_htf_filter: riskData.enable_htf_filter ?? true,
+        enable_volatility_filter: riskData.enable_volatility_filter ?? true,
+        min_sl_atr_multiplier: riskData.min_sl_atr_multiplier || 0.5,
+        late_entry_threshold: riskData.late_entry_threshold || 0.7,
+        min_rr_filter: riskData.min_rr_filter || 1.0,
+        enable_post_sl_cooldown: riskData.enable_post_sl_cooldown ?? true,
+        cooldown_bars_after_sl: riskData.cooldown_bars_after_sl || 5,
+        enable_same_zone_block: riskData.enable_same_zone_block ?? true,
+        same_zone_distance_atr_multiplier: riskData.same_zone_distance_atr_multiplier || 0.25,
+        enable_level_distance_filter: riskData.enable_level_distance_filter ?? true,
+        min_reward_to_nearest_level_rr: riskData.min_reward_to_nearest_level_rr || 1.2,
         trading_mode: riskData.trading_mode || "DEMO"
       });
     }
@@ -185,6 +213,20 @@ export function BotProvider({ children }) {
         partial_stage_1_close_pct: parseFloat(riskParams.partial_stage_1_close_pct) / 100,
         partial_stage_2_trigger: parseFloat(riskParams.partial_stage_2_trigger) / 100,
         partial_stage_2_close_pct: parseFloat(riskParams.partial_stage_2_close_pct) / 100,
+        min_setup_score: parseFloat(riskParams.min_setup_score),
+        min_ai_confidence: parseFloat(riskParams.min_ai_confidence),
+        max_spread_points: parseFloat(riskParams.max_spread_points),
+        enable_htf_filter: riskParams.enable_htf_filter,
+        enable_volatility_filter: riskParams.enable_volatility_filter,
+        min_sl_atr_multiplier: parseFloat(riskParams.min_sl_atr_multiplier),
+        late_entry_threshold: parseFloat(riskParams.late_entry_threshold),
+        min_rr_filter: parseFloat(riskParams.min_rr_filter),
+        enable_post_sl_cooldown: riskParams.enable_post_sl_cooldown,
+        cooldown_bars_after_sl: parseInt(riskParams.cooldown_bars_after_sl),
+        enable_same_zone_block: riskParams.enable_same_zone_block,
+        same_zone_distance_atr_multiplier: parseFloat(riskParams.same_zone_distance_atr_multiplier),
+        enable_level_distance_filter: riskParams.enable_level_distance_filter,
+        min_reward_to_nearest_level_rr: parseFloat(riskParams.min_reward_to_nearest_level_rr),
         trading_mode: riskParams.trading_mode
       }).unwrap();
       toast.success("Risk Protocol Updated");

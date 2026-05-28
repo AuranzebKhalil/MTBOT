@@ -58,6 +58,13 @@ class User(Base):
     news_block_minutes_after = Column(Integer, default=20)
     high_impact_only = Column(Boolean, default=True)
     session_filter_enabled = Column(Boolean, default=True)
+    enable_htf_filter = Column(Boolean, default=True)
+    enable_volatility_filter = Column(Boolean, default=True)
+    min_sl_atr_multiplier = Column(Float, default=0.5)
+    
+    # Thresholds
+    min_setup_score = Column(Float, default=70.0)
+    min_ai_confidence = Column(Float, default=0.45)
     
     trades = relationship("Trade", back_populates="owner")
     risk_events = relationship("RiskEvent", back_populates="owner")

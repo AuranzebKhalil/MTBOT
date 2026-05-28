@@ -4,6 +4,14 @@ export const getApiBaseUrl = () => {
   return "/api";
 };
 
+export const getDirectApiBaseUrl = () => {
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname || "localhost";
+    return `http://${hostname}:8000/api`;
+  }
+  return "http://localhost:8000/api";
+};
+
 export const getWsBaseUrl = () => {
   if (typeof window !== "undefined") {
     const hostname = window.location.hostname;

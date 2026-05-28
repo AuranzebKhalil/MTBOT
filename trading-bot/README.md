@@ -1,98 +1,88 @@
-# 🛡️ MTBOT | Advanced Algorithmic Trading Suite
+# MTBOT - Advanced SMC Trading System
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Platform](https://img.shields.io/badge/platform-MetaTrader%205-orange.svg)
+MTBOT is a high-performance automated trading system for MetaTrader 5 (MT5), specializing in **Smart Money Concepts (SMC)**. It identifies institutional footprints and executes high-probability trades based on market structure, liquidity, and volume analysis.
 
-**MTBOT** is a professional-grade, institutional-inspired algorithmic trading platform. It combines a high-performance Python backend with a stunning, modern Next.js dashboard to provide real-time market analysis, automated trade execution, and comprehensive strategy management.
+## 🚀 Key Features
 
----
+### 1. Live Trading Engine
+- **Multitimeframe Analysis**: Synchronizes data from M1, M5, and M15 timeframes to confirm high-probability setups.
+- **Smart Execution**: Uses IOC (Immediate or Cancel), Return, and FOK (Fill or Kill) retry logic to ensure optimal entry.
+- **Automated Trade Management**:
+  - **Stage 1**: Closes 50% of the position at 60% progress and moves Stop Loss to Break-Even.
+  - **Stage 2**: Closes 25% of the position at 80% progress and advances the Stop Loss to lock in profits.
+- **Monotonic Protection**: Stop Loss only moves in favor of the trade (never backwards), protecting capital against sudden reversals.
 
-## ✨ Key Features
+### 2. Advanced Risk Management
+- **Spread Guard**: Blocks trades if the spread exceeds a safety threshold (default: 55 points, adjusted for Gold).
+- **Late Entry Protection**: Prevents entering a trade if more than 70% of the expected move has already occurred.
+- **Gap Lock**: Halts activity if protection updates fail, ensuring the bot remains in a safe state.
+- **AI Filtering**: Optional AI confidence check (0.48 threshold) to filter out low-probability signals based on historical patterns.
 
-### 🤖 Intelligent Trading Engine
-- **Hybrid Strategy Logic:** Optimized (April 2026) to prioritize high-probability structural setups (SMC) while excluding noisy M1 reversals and fakeouts.
-- **Advanced Indicator Suite:** Integrated custom indicators including LYRO RS, Bollinger Bands, RSI, and Multi-Timeframe Volume Analysis.
-- **Support for High Probability:** For detailed setup criteria and refinement history, see [STRATEGIES.md](file:///c:/Users/Auranzeb%20Khalil/OneDrive/Desktop/My%20project/trading-bot/STRATEGIES.md).
-- **Risk Management:** Institutional-grade risk filters, including ADR-based stop losses, partial profit-taking (staged execution), and post-loss cooldown periods.
+### 3. Comprehensive Backtesting
+The bot includes a specialized **Quant Backtest Engine** that allows you to:
+- **Simulate Real Market Conditions**: Replays historical M1 data candle-by-candle.
+- **Strategy Validation**: Tests all 8 SMC strategies across various symbols like XAUUSD, GBPUSD, and EURUSD.
+- **Detailed Reporting**: Generates reports showing every potential trade, entry reason, and strategy performance.
+- **Cooldown Logic**: Simulates realistic trading intervals (30-minute cooldown between trades on the same symbol).
 
-### 📊 Professional Dashboard
-- **Glassmorphic UI:** A premium, dark-mode interface built with high-fidelity aesthetics.
-- **Real-Time Monitoring:** Live tracking of bot status, active positions, and AI confidence levels.
-- **Strategy Analytics:** Detailed performance breakdown of different strategy families.
+## 📊 Trading Strategies
 
-### 🛡️ Secure Infrastructure
-- **Role-Based Access:** Multi-level user access (User, Admin, Superadmin).
-- **Database Flexibility:** Developed with SQLite for zero-config local setup, fully compatible with PostgreSQL for cloud scale.
-- **Support System:** Integrated ticketing system for enterprise-level user management.
+MTBOT supports 13 high-probability trading setups across three specialized strategy families:
 
----
+### 1. Smart Money Concepts (SMC) Family
+These strategies identify institutional footprints and liquidity cycles:
 
-## 🛠️ Technology Stack
+| Strategy | Logic | Target Move |
+| :--- | :--- | :--- |
+| **Sweep Reclaim** | Reclaims liquidity after a sweep of major HTF H/L. | Mean Reversion |
+| **VSA Shift** | Institutional absorption via Volume Spread Analysis. | Reversal |
+| **MSS Shift** | Market Structure Shift confirming trend changes. | Reversal/Continuation |
+| **Continuation** | Order Block mitigation in an established trend. | Trend Following |
+| **Mitigation** | Precise entry at Fair Value Gap (FVG) boundaries. | Trend Following |
+| **Breaker Block** | Retest of a failed OB (Institutional S/R flip). | Trend Following |
+| **Exhaustion** | Counter-trend reversals at extreme RSI/ADX levels. | Mean Reversion |
+| **Volume Flow** | High-volume reactions at the Point of Control (POC). | Reversal/Absorption |
 
-| Layer | Technologies |
+### 2. Hybrid & Quantitative Family
+Blends structural SMC logic with traditional quantitative signals:
+
+| Strategy | Logic |
 | :--- | :--- |
-| **Frontend** | Next.js 14, React, Tailwind CSS, Lucide Icons |
-| **Backend** | FastAPI, Python 3.10+, SQLAlchemy |
-| **Database** | SQLite (Local) / PostgreSQL (Production) |
-| **Execution** | MetaTrader 5 Python Integration |
-| **Analytics** | Pandas, NumPy, Scikit-learn, TensorFlow |
+| **Hybrid Reversion** | Mean reversion using Bollinger Bands and RSI extremes. |
+| **Hybrid S/R** | Volume-confirmed flips of major Support and Resistance levels. |
+| **Hybrid Breakout** | Momentum-based breakouts with volatility expansion filters. |
+| **Hybrid Master** | Multi-regime switcher that adapts to trend vs. range. |
 
----
+### 3. Trend Optimization Family
+| Strategy | Logic |
+| :--- | :--- |
+| **MAD Trend Loop** | Moving Average Deviation strategy that "loops" into strong trends. |
 
-## 🚀 Getting Started
+## 🛠 Technical Indicators
+The bot calculates a wide array of technical and structural indicators:
+- **Structure**: BOS (Break of Structure), CHoCH (Change of Character), MSS (Market Structure Shift).
+- **Zones**: Order Blocks (OB), Fair Value Gaps (FVG), Supply/Demand Zones.
+- **Volume**: VSA (Volume Spread Analysis), Volume Profile (POC).
+- **Statistical**: ATR (for dynamic SL/TP), RSI, Bollinger Bands, ADX.
 
-### Prerequisites
-- Python 3.10 or higher
-- Node.js 18 or higher
-- MetaTrader 5 Terminal (installed and running on Windows)
+## 💻 Usage
 
-### 1. Backend Setup
+### Backend (Python)
+The backend manages MT5 connection, strategy execution, and risk management.
 ```bash
-cd trading-bot/backend
-python -m venv venv
-source venv/bin/scripts/activate  # venv\Scripts\activate on Windows
-pip install -r requirements.txt
+# Start the bot
 python start.py
+
+# Run a backtest
+python backtest.py
 ```
 
-### 2. Frontend Setup
+### Frontend (Next.js)
+The frontend provides a real-time dashboard to monitor trades and backtest results.
 ```bash
-cd trading-bot/frontend
-npm install
+cd frontend
 npm run dev
 ```
 
-### 3. Environment Configuration
-Create a `.env` file in the `backend` directory:
-```env
-DATABASE_URL=sqlite:///./alertli.db
-SECRET_KEY=your_secure_random_key
-MT5_LOGIN=your_mt5_account
-MT5_PASSWORD=your_password
-MT5_SERVER=your_broker_server
-```
-
 ---
-
-## 📈 Deployment
-
-For production deployment, we recommend the following free-tier stack:
-- **Backend:** [Render](https://render.com) (Python Web Service)
-- **Frontend:** [Vercel](https://vercel.com) (Next.js)
-- **Database:** [Neon.tech](https://neon.tech) (PostgreSQL)
-
-> [!IMPORTANT]
-> Since this bot uses the official `MetaTrader5` library, it must be hosted on a **Windows-based server** (VPS) to communicate with the MT5 terminal.
-
----
-
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-This project is licensed under the MIT License.
-
----
-
-Developed with ❤️ by **Auranzeb Khalil**
+**Disclaimer**: This bot is for educational and demo purposes. Always test on a demo account before considering live deployment.

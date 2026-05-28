@@ -144,6 +144,21 @@ def init_db():
                 try:
                     conn.execute(text("ALTER TABLE users ADD COLUMN max_spread_points FLOAT DEFAULT 50.0"))
                 except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN min_setup_score FLOAT DEFAULT 70.0"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN min_ai_confidence FLOAT DEFAULT 0.45"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN enable_htf_filter BOOLEAN DEFAULT 1"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN enable_volatility_filter BOOLEAN DEFAULT 1"))
+                except OperationalError: pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN min_sl_atr_multiplier FLOAT DEFAULT 0.5"))
+                except OperationalError: pass
 
                 # Bot State
                 try:

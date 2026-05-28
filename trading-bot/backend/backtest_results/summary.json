@@ -1,0 +1,22 @@
+{
+    "total_trades": 14,
+    "net_pnl": 160.46,
+    "win_rate": 42.86,
+    "profit_factor": 1.59,
+    "max_drawdown": 1.23,
+    "return_pct": 1.6,
+    "average_rr": 1.98,
+    "best_setup_type": "N/A",
+    "daily_protection_skipped": 3521,
+    "rejected_by_regime": 305,
+    "rejected_by_score": 403,
+    "rejected_by_low_volatility": 96,
+    "rejected_by_choppiness": 91,
+    "rejected_by_missing_fvg": 75,
+    "rejected_by_missing_sweep": 387,
+    "rejected_by_cooldown": 0,
+    "rejected_by_clustering": 0,
+    "rejected_by_strategy_health": 0,
+    "strategy_degraded_count": 0,
+    "strategy_recovered_count": 0
+}

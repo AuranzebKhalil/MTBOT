@@ -14,14 +14,24 @@ class HybridLogicFamily:
         self.indicators = indicators
 
     def preprocess(self, df: pd.DataFrame) -> pd.DataFrame:
-        df = df.copy()
-        upper, mid, lower = self.indicators.calculate_bollinger_bands(df['close'])
-        df['bb_upper'] = upper
-        df['bb_mid'] = mid
-        df['bb_lower'] = lower
-        df['rsi'] = self.indicators.calculate_rsi(df['close'])
-        df['adx'] = self.indicators.calculate_adx(df)
-        df['atr'] = self.indicators.calculate_atr(df)
+        """Adds hybrid indicators. In backtests, these are often already pre-calculated."""
+        # Only add if missing (speedup)
+        if 'bb_upper' not in df.columns:
+            df = df.copy()
+            upper, mid, lower = self.indicators.calculate_bollinger_bands(df['close'])
+            df['bb_upper'] = upper
+            df['bb_mid'] = mid
+            df['bb_lower'] = lower
+        if 'rsi' not in df.columns:
+            df['rsi'] = self.indicators.calculate_rsi(df['close'])
+        if 'adx' not in df.columns:
+            df['adx'] = self.indicators.calculate_adx(df)
+        if 'atr' not in df.columns:
+            # Check for atr_m1 alias
+            if 'atr_m1' in df.columns:
+                df['atr'] = df['atr_m1']
+            else:
+                df['atr'] = self.indicators.calculate_atr(df)
         return df
 
     def detect_regime(self, df: pd.DataFrame) -> str:
@@ -93,7 +103,13 @@ class HybridLogicFamily:
 
     def _create_signal(self, df, side, family, reason, symbol, sl=None, tp=None) -> Signal:
         latest = df.iloc[-1]
-        atr = self.indicators.calculate_atr(df).iloc[-1]
+        # Use pre-calculated ATR if available
+        if 'atr' in df.columns:
+            atr = latest['atr']
+        elif 'atr_m1' in df.columns:
+            atr = latest['atr_m1']
+        else:
+            atr = self.indicators.calculate_atr(df).iloc[-1]
         price = float(latest['close'])
         
         if sl is None:
@@ -111,7 +127,7 @@ class HybridLogicFamily:
             tp=tp,
             score=70.0,
             reasons=[reason],
-            metadata={"atr": float(atr), "timestamp": datetime.now(timezone.utc)}
+            metadata={"atr": float(atr), "timestamp": latest['time'] if 'time' in latest else df.index[-1]}
         )
 
     def _is_bullish_rejection(self, candle):

@@ -42,7 +42,7 @@ class MT5Client:
             return False
             
         mode_str = "DEMO" if acc.trade_mode in [mt5.ACCOUNT_TRADE_MODE_DEMO, mt5.ACCOUNT_TRADE_MODE_CONTEST] else "REAL"
-        logger.info(f"✅ BROKER CONNECTED: Account #{acc.login} ({acc.server}) [Mode: {mode_str}]")
+        logger.info(f"[OK] BROKER CONNECTED: Account #{acc.login} ({acc.server}) [Mode: {mode_str}]")
         self.audit_logger.info(f"STARTUP: Connected to account #{acc.login} (Mode: {mode_str})")
             
         # Optional Login
@@ -69,50 +69,60 @@ class MT5Client:
             self.connect()
         
         if not self._connected:
+            logger.error("[MT5] Cannot resolve symbol: MT5 not connected.")
             return None
             
         symbol_clean = symbol.upper().strip()
+        logger.info(f"[MT5] Resolving symbol: {symbol_clean}")
         
         # 1. Direct match (Market Watch already)
-        if mt5.symbol_info(symbol_clean) and mt5.symbol_select(symbol_clean, True):
-            return symbol_clean
+        if mt5.symbol_info(symbol_clean):
+            if mt5.symbol_select(symbol_clean, True):
+                logger.info(f"[MT5] Symbol {symbol_clean} found and selected.")
+                return symbol_clean
+            else:
+                logger.warning(f"[MT5] Symbol {symbol_clean} found but could not be selected.")
 
         # 2. Hardcoded Common Variations
-        variants = [symbol_clean]
-        if "XAUUSD" in symbol_clean or "GOLD" in symbol_clean:
-            variants.extend(["GOLD", "XAUUSD", "XAUUSD.m", "XAUUSD.raw", "XAUUSD.pro", "XAUUSD.s", "XAUUSD.z", "XAUUSD.", "GOLD.", "GOLD.m"])
+        # XAUUSD variations
+        xau_variants = ["XAUUSD", "GOLD", "XAUUSDm", "XAUUSD.", "GOLDm", "GOLD.", "XAUUSD.m", "XAUUSD.raw", "XAUUSD.pro", "XAUUSD.s", "XAUUSD.z"]
+        # EURUSD variations
+        eur_variants = ["EURUSD", "EURUSDm", "EURUSD.", "EURUSD.m", "EURUSD.raw", "EURUSD.pro", "EURUSD.s", "EURUSD.z"]
+        
+        variants = []
+        if any(x in symbol_clean for x in ["XAU", "GOLD"]):
+            variants = xau_variants
         elif "EURUSD" in symbol_clean:
-            variants.extend(["EURUSD", "EURUSD.m", "EURUSD.raw", "EURUSD.pro", "EURUSD.s", "EURUSD.z", "EURUSD."])
-        elif "GBPUSD" in symbol_clean:
-            variants.extend(["GBPUSD", "GBPUSD.m", "GBPUSD.raw", "GBPUSD.pro", "GBPUSD.s", "GBPUSD.z", "GBPUSD."])
-        elif "USDCAD" in symbol_clean:
-            variants.extend(["USDCAD", "USDCAD.m", "USDCAD.raw", "USDCAD.pro", "USDCAD.s", "USDCAD.z", "USDCAD."])
+            variants = eur_variants
+        else:
+            variants = [symbol_clean]
+            # Add some generic suffixes
+            for sfx in ["m", ".", ".m", ".raw", ".pro", ".s", ".z"]:
+                variants.append(symbol_clean + sfx)
 
         for v in variants:
             if mt5.symbol_info(v) and mt5.symbol_select(v, True):
-                if not self.audit_logger.handlers: # Check if logger is ready
-                    logger.info(f"Symbol {symbol} resolved to {v} via variants.")
+                logger.info(f"[MT5] Symbol {symbol} resolved to {v} via variants.")
                 return v
 
-        # 3. Dynamic Prefix/Suffix Scanning (if symbols_get is working)
+        # 3. Dynamic Prefix/Suffix Scanning using symbols_get
+        logger.info(f"[MT5] Searching all symbols for matches containing 'XAU' or 'GOLD' or '{symbol_clean}'")
+        search_terms = []
+        if any(x in symbol_clean for x in ["XAU", "GOLD"]):
+            search_terms = ["XAU", "GOLD"]
+        else:
+            search_terms = [symbol_clean]
+
         all_symbols = mt5.symbols_get()
         if all_symbols:
-            for sym in all_symbols:
-                name = sym.name
-                name_up = name.upper()
-                # Check if it contains the core symbol name
-                if symbol_clean in name_up:
-                    if mt5.symbol_select(name, True):
-                        return name
+            for term in search_terms:
+                for sym in all_symbols:
+                    if term in sym.name.upper():
+                        if mt5.symbol_select(sym.name, True):
+                            logger.info(f"[MT5] Symbol {symbol} resolved to {sym.name} via dynamic scan (matched '{term}').")
+                            return sym.name
 
-        # 4. Final attempt: force select common suffixes directly without checking info
-        common_suffixes = [".m", ".raw", ".pro", ".s", ".z", ".", "#"]
-        for sfx in common_suffixes:
-            test_name = symbol_clean + sfx
-            if mt5.symbol_select(test_name, True):
-                return test_name
-
-        logger.error(f"FATAL: Symbol {symbol} could not be resolved on this broker.")
+        logger.error(f"[MT5] FATAL: Symbol {symbol} could not be resolved on this broker.")
         return None
 
     def get_symbol_info(self, symbol: str):
@@ -153,6 +163,34 @@ class MT5Client:
         if not include_current:
             df = df.iloc[:-1].copy()
         
+        return df
+
+    def get_bars_range(self, symbol: str, timeframe: str, date_from: datetime, date_to: datetime) -> Optional[pd.DataFrame]:
+        """
+        Fetch historical bars between two datetimes (inclusive range).
+        Uses MT5 copy_rates_range.
+        """
+        tf_map = {
+            "M1": mt5.TIMEFRAME_M1,
+            "M5": mt5.TIMEFRAME_M5,
+            "M15": mt5.TIMEFRAME_M15,
+            "H1": mt5.TIMEFRAME_H1
+        }
+
+        mt5_symbol = self.resolve_symbol(symbol)
+        if not mt5_symbol:
+            logger.error(f"Symbol {symbol} resolve failed for range fetch.")
+            return None
+
+        tf = tf_map.get(timeframe, mt5.TIMEFRAME_M1)
+        rates = mt5.copy_rates_range(mt5_symbol, tf, date_from, date_to)
+        if rates is None or len(rates) == 0:
+            err = mt5.last_error()
+            logger.error(f"Failed to fetch range rates for {mt5_symbol} ({timeframe}): {err}")
+            return None
+
+        df = pd.DataFrame(rates)
+        df["time"] = pd.to_datetime(df["time"], unit="s")
         return df
 
     def get_latest_tick(self, symbol: str) -> Optional[Dict]:
@@ -275,6 +313,10 @@ class MT5Client:
 
     def send_order(self, request: Dict) -> Dict:
         """Sends an order with automated filling mode retries for XM Demo conditions."""
+        # Phase 5 safety guard: never allow order sending in backtest mode
+        if getattr(settings, "BACKTEST_MODE", False):
+            return {"retcode": -1, "comment": "BACKTEST_MODE active: MT5 order sending blocked"}
+
         action_type = request.get("action")
         symbol = request.get("symbol", "UNKNOWN")
         

@@ -1,0 +1,119 @@
+MTBOT Strategy Funnel & Performance Report
+============================================================
+
+Active Strategies:    SMC_VOLUME, HYBRID_REVERSION
+Blocked Strategies:   None
+Silent Strategies:    SMC_SWEEP, SMC_VSA, SMC_MITIGATION, SMC_REVERSAL, SMC_BREAKER, HYBRID_SR, HYBRID_BREAKOUT, HYBRID_MASTER, MAD_TREND_LOOP
+
+Strategy Details
+------------------------------------------------------------
+Strategy:       SMC_VOLUME (Volume Flow)
+Status:         NEEDS_MORE_DATA
+Recommendation: NEEDS_MORE_DATA
+Raw Signals:    252
+Executed:       10
+Profit Factor:  4.34
+Win Rate:       70.0%
+Top Rejection:  STRUCTURE_SCORE_MIN
+Funnel:         {'raw_signals': 252, 'after_strategy_filter': 435, 'after_structure_gate': 98, 'after_ai_gate': 98, 'after_trade_grading': 95, 'after_risk_manager': 10, 'after_entry_model': 10, 'executed': 10}
+------------------------------
+Strategy:       SMC_SWEEP (Sweep Reclaim)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       SMC_VSA (VSA Shift)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       SMC_MITIGATION (Mitigation)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       SMC_REVERSAL (Exhaustion)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       SMC_BREAKER (Breaker Block)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       HYBRID_REVERSION (Hybrid Reversion)
+Status:         NEEDS_MORE_DATA
+Recommendation: NEEDS_MORE_DATA
+Raw Signals:    306
+Executed:       17
+Profit Factor:  1.34
+Win Rate:       41.18%
+Top Rejection:  STRUCTURE_SCORE_MIN
+Funnel:         {'raw_signals': 306, 'after_strategy_filter': 612, 'after_structure_gate': 38, 'after_ai_gate': 38, 'after_trade_grading': 38, 'after_risk_manager': 17, 'after_entry_model': 17, 'executed': 17}
+------------------------------
+Strategy:       HYBRID_SR (Hybrid S/R)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       HYBRID_BREAKOUT (Hybrid Breakout)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       HYBRID_MASTER (Hybrid Master)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------
+Strategy:       MAD_TREND_LOOP (MAD Trend Loop)
+Status:         NO_SIGNALS
+Recommendation: NO_ACTION
+Raw Signals:    0
+Executed:       0
+Profit Factor:  0
+Win Rate:       0%
+Top Rejection:  N/A
+Funnel:         {'raw_signals': 0, 'after_strategy_filter': 0, 'after_structure_gate': 0, 'after_ai_gate': 0, 'after_trade_grading': 0, 'after_risk_manager': 0, 'after_entry_model': 0, 'executed': 0}
+------------------------------

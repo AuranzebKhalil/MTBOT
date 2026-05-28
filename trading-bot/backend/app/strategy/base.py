@@ -52,3 +52,10 @@ class BaseStrategy(ABC):
     def propose_targets(self, setup: RawSetup, context: StrategyContext) -> List[float]:
         """Calculates TP1, TP2 based on structural RR."""
         pass
+
+    def validate_setup(self, setup: RawSetup, data: Dict[str, Any], context: StrategyContext) -> tuple[bool, Optional[str]]:
+        """
+        Optional: Performs advanced market context validation.
+        Returns (True, None) if valid, else (False, "REJECTION_REASON").
+        """
+        return True, None

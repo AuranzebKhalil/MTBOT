@@ -25,9 +25,14 @@ class ConfluenceScorer:
         # 5. Risk-Reward Efficiency (10%)
         rr_score = self._score_risk_reward(setup)
         
-        total = (bias_score * 0.3) + (quality_score * 0.3) + \
-                (volume_score * 0.2) + (session_score * 0.1) + \
-                (rr_score * 0.1)
+        weights = self.weights
+        total = (
+            bias_score * weights.get("bias", 0.3)
+            + quality_score * weights.get("quality", 0.3)
+            + volume_score * weights.get("volume", 0.2)
+            + session_score * weights.get("session", 0.1)
+            + rr_score * weights.get("rr", 0.1)
+        )
                 
         return SetupScore(
             total_score=total,
@@ -51,12 +56,12 @@ class ConfluenceScorer:
         """Stricter rule checks per family."""
         if setup.family == SetupFamily.SWEEP_RECLAIM:
              # Freshness and Displacement check
-             return setup.metadata.get('displacement_factor', 0.5) * 100
+             return max(0.0, min(100.0, setup.metadata.get('displacement_factor', 0.5) * 100))
         return 80.0 # Standard quality
 
     def _score_vol_spike(self, setup: RawSetup, context: StrategyContext) -> float:
         """Relative Volume Z-Score logic."""
-        return setup.metadata.get('rv_ratio', 1.0) * 50
+        return max(0.0, min(100.0, setup.metadata.get('rv_ratio', 1.0) * 50))
 
     def _score_session(self, context: StrategyContext) -> float:
         """Bonus for London/NY Killzones."""
@@ -65,9 +70,16 @@ class ConfluenceScorer:
 
     def _score_risk_reward(self, setup: RawSetup) -> float:
         """Reward:Risk must be viable (> 1:2)."""
-        rr = (setup.targets[0] - setup.entry_price) / (setup.entry_price - setup.stop_loss)
+        if not setup.targets:
+            return 0.0
+        risk = abs(setup.entry_price - setup.stop_loss)
+        reward = abs(setup.targets[0] - setup.entry_price)
+        if risk <= 0:
+            return 0.0
+        rr = reward / risk
         if rr > 3.0: return 100
         if rr > 2.0: return 80
+        if rr > 1.2: return 50
         return 0
 
     def _default_weights(self) -> Dict[str, Any]:

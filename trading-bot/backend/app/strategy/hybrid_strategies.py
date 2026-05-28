@@ -35,14 +35,15 @@ class MeanReversionStrategy(BaseStrategy):
         self.logic_family = HybridLogicFamily(indicators)
 
     def detect_setup(self, data: Dict[str, Any], context: StrategyContext) -> Optional[RawSetup]:
-        # Preprocess BB/RSI/ADX
-        data["M1"] = self.logic_family.preprocess(data["M1"])
+        # Use local preprocessed copy to avoid contaminating shared context
+        m1_local = self.logic_family.preprocess(data["M1"])
+        local_data = {**data, "M1": m1_local}
         
         # Only trade if ranging (lower ADX)
         regime = self.logic_family.detect_regime(data["M15"])
         if regime != "RANGING": return None
         
-        signal = self.logic_family.check_mean_reversion(data, context.symbol)
+        signal = self.logic_family.check_mean_reversion(local_data, context.symbol)
         return self._signal_to_setup(signal) if signal else None
 
     def _signal_to_setup(self, signal: Signal) -> RawSetup:
@@ -83,8 +84,9 @@ class SupportResistanceStrategy(BaseStrategy):
         self.logic_family = HybridLogicFamily(indicators)
 
     def detect_setup(self, data: Dict[str, Any], context: StrategyContext) -> Optional[RawSetup]:
-        data["M1"] = self.logic_family.preprocess(data["M1"])
-        signal = self.logic_family.check_support_resistance(data, context.symbol)
+        m1_local = self.logic_family.preprocess(data["M1"])
+        local_data = {**data, "M1": m1_local}
+        signal = self.logic_family.check_support_resistance(local_data, context.symbol)
         return self._signal_to_setup(signal) if signal else None
 
     def _signal_to_setup(self, signal: Signal) -> RawSetup:
@@ -125,13 +127,14 @@ class BreakoutStrategy(BaseStrategy):
         self.logic_family = HybridLogicFamily(indicators)
 
     def detect_setup(self, data: Dict[str, Any], context: StrategyContext) -> Optional[RawSetup]:
-        data["M1"] = self.logic_family.preprocess(data["M1"])
+        m1_local = self.logic_family.preprocess(data["M1"])
+        local_data = {**data, "M1": m1_local}
         
         # Only trade if consolidation
         regime = self.logic_family.detect_regime(data["M15"])
         if regime != "CONSOLIDATION": return None
         
-        signal = self.logic_family.check_breakout(data, context.symbol)
+        signal = self.logic_family.check_breakout(local_data, context.symbol)
         return self._signal_to_setup(signal) if signal else None
 
     def _signal_to_setup(self, signal: Signal) -> RawSetup:
@@ -172,10 +175,11 @@ class HybridSwitcherStrategy(BaseStrategy):
         self.logic_family = HybridLogicFamily(indicators)
 
     def detect_setup(self, data: Dict[str, Any], context: StrategyContext) -> Optional[RawSetup]:
-        data["M1"] = self.logic_family.preprocess(data["M1"])
+        m1_local = self.logic_family.preprocess(data["M1"])
+        local_data = {**data, "M1": m1_local}
         
         # Call the switcher's evaluation
-        approved, _ = self.logic_family.evaluate(context.symbol, data)
+        approved, _ = self.logic_family.evaluate(context.symbol, local_data)
         if approved:
             return self._signal_to_setup(approved[0])
         return None
@@ -211,6 +215,56 @@ class HybridSwitcherStrategy(BaseStrategy):
     def propose_targets(self, setup: RawSetup, context: StrategyContext) -> List[float]:
         return setup.targets
 
+    def validate_setup(self, setup: RawSetup, data: Dict[str, Any], context: StrategyContext) -> tuple[bool, Optional[str]]:
+        m1 = data["M1"]
+        m5 = data["M5"]
+        m15 = data["M15"]
+        latest = m1.iloc[-1]
+        from app.core.enums import OrderSide
+        
+        # 1. M15 Trend Alignment
+        if context.m15_bias != 0:
+            if (context.m15_bias == 1 and setup.direction != OrderSide.BUY) or \
+               (context.m15_bias == -1 and setup.direction != OrderSide.SELL):
+                return False, "HTF_TREND_MISMATCH"
+
+        # 2. M5 Confirmation
+        m5_latest = m5.iloc[-1]
+        m5_bullish = m5_latest['close'] > m5_latest['open']
+        if setup.direction == OrderSide.BUY and not m5_bullish:
+             if not self.logic_family._is_bullish_rejection(m5_latest):
+                return False, "NO_M5_CONFIRMATION"
+        if setup.direction == OrderSide.SELL and m5_bullish:
+             if not self.logic_family._is_bearish_rejection(m5_latest):
+                return False, "NO_M5_CONFIRMATION"
+
+        # 3. Near Opposing Level
+        support = m15[m15['swing_low'] == True]['low'].tail(3).max()
+        resistance = m15[m15['swing_high'] == True]['high'].tail(3).min()
+        if setup.direction == OrderSide.BUY and latest['close'] > resistance * 0.9995:
+            return False, "NEAR_OPPOSING_LEVEL"
+        if setup.direction == OrderSide.SELL and latest['close'] < support * 1.0005:
+            return False, "NEAR_OPPOSING_LEVEL"
+
+        # 4. Displacement / Pullback
+        body = abs(latest['close'] - latest['open'])
+        avg_body = abs(m1['close'] - m1['open']).tail(20).mean()
+        if body > avg_body * 3.0:
+            return False, "NO_VALID_PULLBACK"
+
+        # 5. SMC Confirmation
+        smc_confirmed = False
+        m1_recent = m1.tail(5)
+        for col in ['liquidity_sweep', 'bos', 'choch', 'order_block']:
+            if col in m1.columns and (m1_recent[col] != 0).any():
+                smc_confirmed = True
+                break
+        
+        if not smc_confirmed:
+            return False, "NO_LIQUIDITY_CONFIRMATION"
+
+        return True, None
+
 class MadTrendLoopStrategy(BaseStrategy):
     def __init__(self, indicators: SMCIndicators):
         super().__init__(SetupFamily.HYBRID)
@@ -220,11 +274,17 @@ class MadTrendLoopStrategy(BaseStrategy):
         self.indicator_class = IndicatorClass
 
     def detect_setup(self, data: Dict[str, Any], context: StrategyContext) -> Optional[RawSetup]:
-        df = data["M1"].copy()
-        df_ind = self.indicator_class.apply_indicator(df)
-        if df_ind.empty: return None
+        df = data["M1"]
+        # In backtest, signals are often pre-calculated in runner.py
+        if 'buy_signal' in df.columns:
+            latest = df.iloc[-1]
+            df_ind = df # Use existing
+        else:
+            df_copy = df.copy()
+            df_ind = self.indicator_class.apply_indicator(df_copy)
+            latest = df_ind.iloc[-1]
         
-        latest = df_ind.iloc[-1]
+        if df_ind.empty: return None
         
         from app.core.datatypes import OrderSide
         direction = None

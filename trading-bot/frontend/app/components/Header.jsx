@@ -67,8 +67,9 @@ export default function Header() {
     <header
       style={{
         zIndex: 200,
-        height: isMobile ? "70px" : "80px",
-        padding: isMobile ? "0 16px" : "0 32px",
+        height: isMobile ? "auto" : "80px",
+        minHeight: isMobile ? "56px" : "80px",
+        padding: isMobile ? "6px 16px" : "0 32px",
         background: "var(--glass-bg)",
         backdropFilter: "blur(20px)",
         borderBottom: "1px solid var(--border)",
@@ -90,20 +91,14 @@ export default function Header() {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            gap: "16px",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
             width: "100%",
           }}
         >
-          {/* Row 1: Logo, Status, Controls */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
+          {/* Mobile single row: left group + right group */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
             <div
               style={{
                 width: "36px",
@@ -157,67 +152,9 @@ export default function Header() {
                 {isRunning ? "SCN" : "STB"}
               </span>
             </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <HeaderIconButton
-                icon={theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-                onClick={toggleTheme}
-                size={36}
-              />
-              <button
-                onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                style={{
-                  background: "var(--divider)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "12px",
-                  padding: "8px",
-                  color: "var(--text-main)",
-                }}
-              >
-                {isSidebarHidden ? <Menu size={20} /> : <X size={20} />}
-              </button>
-            </div>
           </div>
 
-          {/* Row 2: Tabs and Pairs */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              justifyContent: "flex-start",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                background: "var(--divider)",
-                borderRadius: "10px",
-                padding: "2px",
-                border: "1px solid var(--border)",
-              }}
-            >
-              {["M1", "M5", "M15", "H1"].map((tf) => (
-                <button
-                  key={tf}
-                  onClick={() => updateBotSettings(null, tf)}
-                  style={{
-                    padding: "0 8px",
-                    height: "28px",
-                    minWidth: "32px",
-                    background:
-                      selectedTF === tf ? "var(--primary)" : "transparent",
-                    border: "none",
-                    color: selectedTF === tf ? "#000" : "var(--text-secondary)",
-                    fontSize: "10px",
-                    fontWeight: "800",
-                    borderRadius: "6px",
-                  }}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "auto" }}>
             <div style={{ position: "relative" }} ref={pairsRef}>
               <div
                 onClick={() => setIsPairsOpen(!isPairsOpen)}
@@ -233,6 +170,8 @@ export default function Header() {
                   alignItems: "center",
                   gap: "4px",
                   height: "32px",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 {activeSymbols.length} PAIRS
@@ -246,6 +185,31 @@ export default function Header() {
                   isMobile={true}
                 />
               )}
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <HeaderIconButton
+                icon={theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                onClick={toggleTheme}
+                size={36}
+              />
+              <button
+                onClick={() => setIsSidebarHidden(!isSidebarHidden)}
+                style={{
+                  background: "var(--divider)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  width: "36px",
+                  height: "36px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                  color: "var(--text-main)",
+                }}
+              >
+                {isSidebarHidden ? <Menu size={16} /> : <X size={16} />}
+              </button>
             </div>
           </div>
         </div>
@@ -373,45 +337,7 @@ export default function Header() {
               justifySelf: "end",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                background: "var(--divider)",
-                borderRadius: "12px",
-                padding: "3px",
-                border: "1px solid var(--border)",
-                height: "36px",
-                alignItems: "center",
-              }}
-            >
-              {["M1", "M5", "M15", "H1"].map((tf) => (
-                <button
-                  key={tf}
-                  onClick={() => updateBotSettings(null, tf)}
-                  style={{
-                    padding: isSmallDesktop ? "0 10px" : "0 14px",
-                    height: "30px",
-                    background:
-                      selectedTF === tf ? "var(--primary)" : "transparent",
-                    border: "none",
-                    color:
-                      selectedTF === tf
-                        ? theme === "dark"
-                          ? "#000"
-                          : "#fff"
-                        : "var(--text-secondary)",
-                    fontSize: "11px",
-                    fontWeight: "800",
-                    cursor: "pointer",
-                    borderRadius: "8px",
-                  }}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
-
-            {!isSmallDesktop && (
+            {/* {!isSmallDesktop && (
               <div
                 style={{
                   background: "var(--divider)",
@@ -431,7 +357,7 @@ export default function Header() {
                 {new Date().getUTCMinutes().toString().padStart(2, "0")}{" "}
                 <ChevronDown size={12} style={{ opacity: 0.6 }} />
               </div>
-            )}
+            )} */}
 
             <div style={{ position: "relative" }} ref={pairsRef}>
               <div

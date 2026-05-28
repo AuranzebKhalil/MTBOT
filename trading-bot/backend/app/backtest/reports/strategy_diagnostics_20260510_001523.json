@@ -1,0 +1,70 @@
+{
+    "strategy_performance": {
+        "Volume Flow": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Sweep Reclaim": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "VSA Shift": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Continuation": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Mitigation": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Exhaustion": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "MSS Shift": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Breaker Block": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Hybrid Reversion": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Hybrid S/R": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Hybrid Breakout": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "Hybrid Master": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        },
+        "MAD Trend Loop": {
+            "executed_trades": 0,
+            "net_pnl": 0,
+            "label": "NEEDS MORE DATA"
+        }
+    },
+    "session_performance": {}
+}

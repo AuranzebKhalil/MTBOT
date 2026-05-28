@@ -8,7 +8,7 @@ from app.api.routes.trades import get_recent_trades
 from app.api.routes.risk import get_risk_settings, update_risk_settings
 from pydantic import BaseModel
 from typing import List, Optional
-
+import copy
 router = APIRouter()
 
 class SettingsUpdate(BaseModel):
@@ -185,14 +185,18 @@ def legacy_get_risk(db: Session = Depends(get_db)):
             "risk_per_trade": 0.01,
             "max_trades": 2,
             "max_daily_trades": 20,
-            "daily_loss_limit": 0.10
+            "daily_loss_limit": 0.10,
+            "min_setup_score": 70.0,
+            "min_ai_confidence": 0.45
         }
     return {
         "risk_per_trade": user.risk_per_trade,
         "max_trades": user.max_trades,
         "max_daily_trades": 20,
         "daily_loss_limit": user.daily_loss_limit,
-        "preferred_session": user.preferred_session or "ALL"
+        "preferred_session": user.preferred_session or "ALL",
+        "min_setup_score": getattr(user, "min_setup_score", 70.0),
+        "min_ai_confidence": getattr(user, "min_ai_confidence", 0.45)
     }
 
 @router.post("/risk")
@@ -215,6 +219,8 @@ def legacy_update_risk(settings: dict, db: Session = Depends(get_db)):
         "partial_stage_1_close_pct": settings.get("partial_stage_1_close_pct", getattr(user, "partial_stage_1_close_pct", 0.5)),
         "partial_stage_2_trigger": settings.get("partial_stage_2_trigger", getattr(user, "partial_stage_2_trigger", 0.8)),
         "partial_stage_2_close_pct": settings.get("partial_stage_2_close_pct", getattr(user, "partial_stage_2_close_pct", 0.25)),
+        "min_setup_score": settings.get("min_setup_score", getattr(user, "min_setup_score", 70.0)),
+        "min_ai_confidence": settings.get("min_ai_confidence", getattr(user, "min_ai_confidence", 0.45)),
     }
     return update_risk_settings(RiskSettings(**risk_data), db)
 
@@ -239,7 +245,7 @@ def legacy_update_settings(settings: SettingsUpdate, db: Session = Depends(get_d
     if settings.ai_confidence_threshold is not None:
         v = float(settings.ai_confidence_threshold)
         state.ai_confidence_threshold = max(0.15, min(1.0, v))
-        cm = dict(state.current_metrics or {})
+        cm = copy.deepcopy(state.current_metrics or {})
         cm["ai_confidence_threshold"] = state.ai_confidence_threshold
         state.current_metrics = cm
     
@@ -302,7 +308,7 @@ def update_symbol_settings(update: SymbolSettingsUpdate, db: Session = Depends(g
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    settings_dict = dict(user.symbol_settings or {})
+    settings_dict = copy.deepcopy(user.symbol_settings or {})
     
     # Save under the direct name provided by the frontend
     main_sym = update.symbol.upper()
@@ -342,7 +348,7 @@ def update_strategy_settings(update: StrategySettingsUpdate, db: Session = Depen
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
         
-    settings_dict = dict(user.strategy_settings or {})
+    settings_dict = copy.deepcopy(user.strategy_settings or {})
     if update.strategy_id not in settings_dict:
         settings_dict[update.strategy_id] = {"enabled": True, "ai_threshold": 0.7, "params": {}}
     
@@ -371,10 +377,10 @@ def get_strategy_settings(db: Session = Depends(get_db)):
     defaults = {
         "SMC_SWEEP": {"name": "BOS + Liquidity Sweep", "enabled": True, "ai_threshold": 0.7},
         "SMC_REVERSAL": {"name": "FVG + OB Reversal", "enabled": True, "ai_threshold": 0.7},
-        "SMC_MSS": {"name": "Market Structure Shift (MSS)", "enabled": False, "ai_threshold": 0.75},
         "SMC_BREAKER": {"name": "Breaker Block (BB)", "enabled": False, "ai_threshold": 0.8},
+        "SMC_TREND": {"name": "Continuation Retest", "enabled": True, "ai_threshold": 0.7},
+        "SMC_MSS": {"name": "Market Structure Shift", "enabled": True, "ai_threshold": 0.75},
         "SMC_VOLUME": {"name": "Volume Profile & Order Flow", "enabled": False, "ai_threshold": 0.7},
-        "SMC_TREND": {"name": "MTF Trend Continuation", "enabled": True, "ai_threshold": 0.65},
         "SMC_MITIGATION": {"name": "First Touch Mitigation", "enabled": True, "ai_threshold": 0.7},
         "SMC_VSA": {"name": "Absorption Shift", "enabled": True, "ai_threshold": 0.7},
         "HYBRID_MASTER": {"name": "Hybrid Master Switcher (Auto-Regime)", "enabled": True, "ai_threshold": 0.5},

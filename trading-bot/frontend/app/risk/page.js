@@ -2,13 +2,21 @@
 import React from "react";
 import { useBot } from "../components/BotContext";
 import { useAuth } from "../components/AuthContext";
-import { Shield, Target, AlertTriangle, RefreshCcw, Hash, Trash2, RotateCcw } from "lucide-react";
+import { Shield, Target, AlertTriangle, RefreshCcw, Hash, Trash2, RotateCcw, TrendingUp, TrendingDown } from "lucide-react";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import RRRatioDropdown from "../components/RRRatioDropdown";
 
 export default function RiskControl() {
   const { user } = useAuth();
-  const { riskParams, setRiskParams, saveRiskProfile, clearRiskEvents, resetRiskProfile } = useBot();
+  const {
+    riskParams,
+    setRiskParams,
+    saveRiskProfile,
+    clearRiskEvents,
+    resetRiskProfile,
+    selectedTF,
+    updateBotSettings,
+  } = useBot();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   if (!user) return null;
@@ -233,6 +241,61 @@ export default function RiskControl() {
         </div>
       </div>
 
+      {/* --- TIMEFRAME CONTROL --- */}
+      <div
+        className="glass-card"
+        style={{
+          marginBottom: "30px",
+          padding: isMobile ? "18px" : "20px",
+          border: "1px solid var(--glass-border)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "14px",
+            gap: "12px",
+            flexWrap: "wrap",
+          }}
+        >
+          <h4 style={{ fontSize: "14px", fontWeight: "800", margin: 0 }}>
+            Execution Timeframe
+          </h4>
+          <span style={{ fontSize: "11px", color: "var(--text-sub)" }}>
+            Signal generation interval
+          </span>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            gap: "8px",
+          }}
+        >
+          {["M1", "M5", "M15", "H1"].map((tf) => (
+            <button
+              key={tf}
+              onClick={() => updateBotSettings(null, tf)}
+              style={{
+                padding: "10px 12px",
+                borderRadius: "10px",
+                border: "1px solid var(--glass-border)",
+                fontSize: "12px",
+                fontWeight: "800",
+                cursor: "pointer",
+                background: selectedTF === tf ? "var(--primary)" : "rgba(255,255,255,0.03)",
+                color: selectedTF === tf ? "black" : "var(--text-secondary)",
+                transition: "all 0.2s ease",
+              }}
+            >
+              {tf}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Institutional note */}
       <div
         style={{
@@ -279,6 +342,76 @@ export default function RiskControl() {
           extremeThreshold={5}
           onChange={(e) =>
             setRiskParams({ ...riskParams, risk_per_trade: e.target.value })
+          }
+        />
+
+        <RiskItem
+          title="Min Setup Score"
+          sub="Technical score required to approve institutional setups."
+          icon={Target}
+          value={riskParams.min_setup_score}
+          step="1"
+          min="50"
+          max="100"
+          extremeThreshold={85}
+          onChange={(e) =>
+            setRiskParams({ ...riskParams, min_setup_score: e.target.value })
+          }
+        />
+
+        <RiskItem
+          title="Min AI Confidence"
+          sub="Predictive probability threshold from Sentinel AI."
+          icon={Shield}
+          value={riskParams.min_ai_confidence}
+          step="0.01"
+          min="0.3"
+          max="0.9"
+          extremeThreshold={0.7}
+          onChange={(e) =>
+            setRiskParams({ ...riskParams, min_ai_confidence: e.target.value })
+          }
+        />
+
+        <RiskItem
+          title="Max Allowed Spread"
+          sub="Circuit breaker for high volatility/low liquidity periods."
+          icon={AlertTriangle}
+          value={riskParams.max_spread_points}
+          step="1"
+          min="10"
+          max="200"
+          extremeThreshold={100}
+          onChange={(e) =>
+            setRiskParams({ ...riskParams, max_spread_points: e.target.value })
+          }
+        />
+
+        <RiskItem
+          title="Late Entry Tolerance"
+          sub="Maximum percentage of the move already completed before blocking."
+          icon={TrendingUp}
+          value={riskParams.late_entry_threshold}
+          step="0.01"
+          min="0.1"
+          max="0.9"
+          extremeThreshold={0.8}
+          onChange={(e) =>
+            setRiskParams({ ...riskParams, late_entry_threshold: e.target.value })
+          }
+        />
+
+        <RiskItem
+          title="Min R:R Filter"
+          sub="Minimum risk-to-reward ratio required for execution."
+          icon={TrendingDown}
+          value={riskParams.min_rr_filter}
+          step="0.1"
+          min="0.5"
+          max="3.0"
+          extremeThreshold={2.0}
+          onChange={(e) =>
+            setRiskParams({ ...riskParams, min_rr_filter: e.target.value })
           }
         />
 
@@ -354,10 +487,224 @@ export default function RiskControl() {
               <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Efficiency threshold for institutional order flow.</p>
             </div>
           </div>
-          <RRRatioDropdown
+        <RRRatioDropdown
             value={riskParams.risk_reward_ratio}
             onChange={(val) => setRiskParams({ ...riskParams, risk_reward_ratio: val })}
           />
+        </div>
+
+        {/* --- ADVANCED SAFETY PROTOCOLS --- */}
+        <div 
+          style={{ 
+            marginBottom: "40px", 
+            padding: "32px", 
+            background: "rgba(255, 255, 255, 0.01)", 
+            borderRadius: "24px", 
+            border: "1px solid var(--divider)" 
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+             <Shield size={18} color="var(--primary)" />
+             <h3 style={{ fontSize: "14px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px" }}>Advanced Safety Protocols</h3>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {/* HTF Filter Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px" }}>
+              <div>
+                <h5 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "4px" }}>HTF Trend Alignment</h5>
+                <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Only execute signals aligned with M15/H1 institutional bias.</p>
+              </div>
+              <button 
+                onClick={() => setRiskParams({...riskParams, enable_htf_filter: !riskParams.enable_htf_filter})}
+                style={{
+                  width: "50px",
+                  height: "26px",
+                  borderRadius: "13px",
+                  background: riskParams.enable_htf_filter ? "var(--primary)" : "rgba(255,255,255,0.1)",
+                  border: "none",
+                  position: "relative",
+                  cursor: "pointer",
+                  transition: "0.3s"
+                }}
+              >
+                <div style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "10px",
+                  background: "white",
+                  position: "absolute",
+                  top: "3px",
+                  left: riskParams.enable_htf_filter ? "27px" : "3px",
+                  transition: "0.3s"
+                }} />
+              </button>
+            </div>
+
+            {/* Volatility Filter Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px" }}>
+              <div>
+                <h5 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "4px" }}>Volatility Protection (ATR)</h5>
+                <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Block trades where SL is too tight relative to market noise.</p>
+              </div>
+              <button 
+                onClick={() => setRiskParams({...riskParams, enable_volatility_filter: !riskParams.enable_volatility_filter})}
+                style={{
+                  width: "50px",
+                  height: "26px",
+                  borderRadius: "13px",
+                  background: riskParams.enable_volatility_filter ? "var(--primary)" : "rgba(255,255,255,0.1)",
+                  border: "none",
+                  position: "relative",
+                  cursor: "pointer",
+                  transition: "0.3s"
+                }}
+              >
+                <div style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "10px",
+                  background: "white",
+                  position: "absolute",
+                  top: "3px",
+                  left: riskParams.enable_volatility_filter ? "27px" : "3px",
+                  transition: "0.3s"
+                }} />
+              </button>
+            </div>
+
+            {riskParams.enable_volatility_filter && (
+              <div style={{ padding: "0 15px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "12px", fontWeight: "700" }}>Volatility Buffer (ATR Mult)</span>
+                  <span style={{ fontSize: "12px", color: "var(--primary)", fontWeight: "800" }}>{riskParams.min_sl_atr_multiplier}x</span>
+                </div>
+                <input 
+                  type="range"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                  value={riskParams.min_sl_atr_multiplier}
+                  onChange={(e) => setRiskParams({...riskParams, min_sl_atr_multiplier: e.target.value})}
+                  style={{ width: "100%", accentColor: "var(--primary)" }}
+                />
+              </div>
+            )}
+
+            {/* Level Distance Filter Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px" }}>
+              <div>
+                <h5 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "4px" }}>Institutional Level Buffer</h5>
+                <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Block trades entering directly into major S/R levels.</p>
+              </div>
+              <button 
+                onClick={() => setRiskParams({...riskParams, enable_level_distance_filter: !riskParams.enable_level_distance_filter})}
+                style={{
+                  width: "50px",
+                  height: "26px",
+                  borderRadius: "13px",
+                  background: riskParams.enable_level_distance_filter ? "var(--primary)" : "rgba(255,255,255,0.1)",
+                  border: "none",
+                  position: "relative",
+                  cursor: "pointer",
+                  transition: "0.3s"
+                }}
+              >
+                <div style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "10px",
+                  background: "white",
+                  position: "absolute",
+                  top: "3px",
+                  left: riskParams.enable_level_distance_filter ? "27px" : "3px",
+                  transition: "0.3s"
+                }} />
+              </button>
+            </div>
+
+            {riskParams.enable_level_distance_filter && (
+              <div style={{ padding: "0 15px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "12px", fontWeight: "700" }}>Min R:R to Level</span>
+                  <span style={{ fontSize: "12px", color: "var(--primary)", fontWeight: "800" }}>{riskParams.min_reward_to_nearest_level_rr}x</span>
+                </div>
+                <input 
+                  type="range"
+                  min="0.5"
+                  max="3.0"
+                  step="0.1"
+                  value={riskParams.min_reward_to_nearest_level_rr}
+                  onChange={(e) => setRiskParams({...riskParams, min_reward_to_nearest_level_rr: e.target.value})}
+                  style={{ width: "100%", accentColor: "var(--primary)" }}
+                />
+              </div>
+            )}
+
+            {/* Same-Zone Block Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px" }}>
+              <div>
+                <h5 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "4px" }}>Same-Zone Protection</h5>
+                <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Prevent duplicate entries in the same price zone.</p>
+              </div>
+              <button 
+                onClick={() => setRiskParams({...riskParams, enable_same_zone_block: !riskParams.enable_same_zone_block})}
+                style={{
+                  width: "50px",
+                  height: "26px",
+                  borderRadius: "13px",
+                  background: riskParams.enable_same_zone_block ? "var(--primary)" : "rgba(255,255,255,0.1)",
+                  border: "none",
+                  position: "relative",
+                  cursor: "pointer",
+                  transition: "0.3s"
+                }}
+              >
+                <div style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "10px",
+                  background: "white",
+                  position: "absolute",
+                  top: "3px",
+                  left: riskParams.enable_same_zone_block ? "27px" : "3px",
+                  transition: "0.3s"
+                }} />
+              </button>
+            </div>
+
+            {/* Post-SL Cooldown Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px" }}>
+              <div>
+                <h5 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "4px" }}>Loss Recovery Cooldown</h5>
+                <p style={{ fontSize: "11px", color: "var(--text-sub)" }}>Pause trading after a loss to prevent revenge trading.</p>
+              </div>
+              <button 
+                onClick={() => setRiskParams({...riskParams, enable_post_sl_cooldown: !riskParams.enable_post_sl_cooldown})}
+                style={{
+                  width: "50px",
+                  height: "26px",
+                  borderRadius: "13px",
+                  background: riskParams.enable_post_sl_cooldown ? "var(--primary)" : "rgba(255,255,255,0.1)",
+                  border: "none",
+                  position: "relative",
+                  cursor: "pointer",
+                  transition: "0.3s"
+                }}
+              >
+                <div style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "10px",
+                  background: "white",
+                  position: "absolute",
+                  top: "3px",
+                  left: riskParams.enable_post_sl_cooldown ? "27px" : "3px",
+                  transition: "0.3s"
+                }} />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Primary Action */}

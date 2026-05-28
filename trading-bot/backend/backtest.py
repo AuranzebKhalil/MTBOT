@@ -1,138 +1,117 @@
-import time
-import datetime
-import pandas as pd
+import argparse
+import logging
 import sys
-import os
-import MetaTrader5 as mt5
-from data_layer.mt5_connector import MT5Connector
-from strategy import SMCStrategy
-from indicators import SMCIndicators
+from datetime import datetime
+from app.backtest.runner import BacktestRunner
+from app.backtest.config import BacktestSettings
 
-def run_backtest():
-    connector = MT5Connector()
-    if not connector.connect():
-        print("Failed to connect to MT5")
-        return
-
-    # 1. Define Time Window: Today at 13:00 (1 PM)
-    now_local = datetime.datetime.now()
-    start_time = now_local.replace(hour=13, minute=0, second=0, microsecond=0)
+def main():
+    parser = argparse.ArgumentParser(description="MTBOT Advanced Backtest CLI")
+    parser.add_argument("--symbol", type=str, default="XAUUSD", help="Symbol to test")
+    parser.add_argument("--from", dest="from_date", type=str, help="Start date (YYYY-MM-DD)")
+    parser.add_argument("--to", dest="to_date", type=str, help="End date (YYYY-MM-DD)")
+    parser.add_argument("--balance", type=float, default=10000.0, help="Initial balance")
+    parser.add_argument("--risk", type=float, default=0.01, help="Risk per trade (0.01 = 1%)")
+    parser.add_argument("--debug", type=str, default="false", help="Enable debug logging")
+    parser.add_argument("--apply-recommended-filters", type=str, default="false", help="Run second pass with optimized filters")
     
-    # If now is before 13:00, go back one day
-    if now_local < start_time:
-        start_time -= datetime.timedelta(days=1)
-        
-    end_time = datetime.datetime.now()
-
-    print(f"--- Quant Backtest Report ---")
-    print(f"Window: {start_time} to {end_time}")
-    print(f"------------------------------")
-
-    # 2. Pairs to Test
-    test_symbols = ["GOLD", "XAUUSD", "BTCUSD", "ETHUSD", "GBPUSD", "EURUSD"]
+    # Walk-Forward Arguments
+    parser.add_argument("--walk-forward", type=str, default="false", help="Enable walk-forward validation")
+    parser.add_argument("--train-from", type=str, help="Train start date")
+    parser.add_argument("--train-to", type=str, help="Train end date")
+    parser.add_argument("--test-from", type=str, help="Test start date")
+    parser.add_argument("--test-to", type=str, help="Test end date")
+    parser.add_argument("--rolling-wf", type=str, default="false", help="Enable rolling walk-forward")
     
-    results = {}
-    strategy = SMCStrategy()
-    
-    for symbol in test_symbols:
-        # Check if symbol exists using the mt5 package directly
-        if not mt5.symbol_info(symbol):
-            continue
-            
-        print(f"Analyzing {symbol}...")
-        
-        # Fetch data up to end_time
-        data_m1 = connector.get_market_data(symbol, "M1", 5000) 
-        data_m5 = connector.get_market_data(symbol, "M5", 2000)
-        data_m15 = connector.get_market_data(symbol, "M15", 1000)
-        
-        if data_m1 is None or data_m5 is None or data_m15 is None:
-            continue
-            
-        if data_m1.empty or data_m5.empty or data_m15.empty:
-            continue
+    # Monte Carlo Arguments
+    parser.add_argument("--monte-carlo", type=str, default="false", help="Enable Monte Carlo robustness testing")
+    parser.add_argument("--mc-runs", type=int, default=1000, help="Number of MC simulations")
+    parser.add_argument("--mc-noise", type=float, default=0.10, help="PnL noise percentage (0.10 = 10%)")
+    parser.add_argument("--mc-ruin", type=float, default=20.0, help="Ruin drawdown threshold (%)")
+    parser.add_argument("--mc-seed", type=int, default=42, help="Seed for reproducibility")
+    parser.add_argument("--test-data", action="store_true", help="Quickly test candle fetching only")
+    parser.add_argument("--diagnose-gates", type=str, default="false", help="Enable advanced pipeline gate diagnostics")
+    parser.add_argument("--gate-profile", type=str, default="balanced", choices=["strict", "balanced", "research"], help="Strictness of structure gates")
+    parser.add_argument("--ai-mode", type=str, default="disabled", choices=["disabled", "fallback", "live_model"], help="AI gate behavior in backtest")
+    parser.add_argument("--compare-gates", type=str, default="false", help="Run comparison across all gate profiles")
 
-        # Convert times to comparable datetime objects
-        # get_market_data already converts them, but let's be sure
-        data_m1['time'] = pd.to_datetime(data_m1['time'])
-        data_m5['time'] = pd.to_datetime(data_m5['time'])
-        data_m15['time'] = pd.to_datetime(data_m15['time'])
-        
-        # Filter M1 to start from 13:00
-        test_bars = data_m1[data_m1['time'] >= start_time].copy()
-        
-        if test_bars.empty:
-            print(f"  ✗ No data found starting from {start_time}")
-            continue
+    args = parser.parse_args()
 
-        trades = []
-        last_trade_time = datetime.datetime.min
-        cooldown = datetime.timedelta(minutes=30) 
+    # Setup Logging
+    log_level = logging.DEBUG if args.debug.lower() == "true" else logging.INFO
+    logging.basicConfig(level=log_level, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", stream=sys.stdout)
 
-        # Simulation Loop (Optimized for speed: Sample every 5 minutes)
-        total_steps = len(test_bars)
-        for i in range(0, total_steps, 5): 
-            sim_time = test_bars.iloc[i]['time']
-            
-            # Slice historical data up to this exact M1 candle
-            m1_history = data_m1[data_m1['time'] <= sim_time].tail(1000)
-            m5_history = data_m5[data_m5['time'] <= sim_time].tail(500)
-            m15_history = data_m15[data_m15['time'] <= sim_time].tail(500)
-            
-            if len(m1_history) < 100 or len(m5_history) < 50 or len(m15_history) < 50:
-                continue
-
-            # Run Analysis
-            signal, price, name, details = strategy.analyze(m1_history, m5_history, m15_history)
-            
-            if signal != "WAIT" and (sim_time - last_trade_time) > cooldown:
-                trades.append({
-                    "time": sim_time.strftime("%H:%M"),
-                    "type": signal,
-                    "price": price,
-                    "strategy": name,
-                    "reason": details.get("reason", "N/A")
-                })
-                last_trade_time = sim_time
-                
-        results[symbol] = trades
-        print(f"  ↳ Found {len(trades)} potential trades.")
-
-    # 3. Generate Report
-    report_path = "backtest_report.md"
     try:
-        with open(report_path, "w") as f:
-            f.write(f"# Quant Backtest Report\n\n")
-            f.write(f"**Period:** {start_time.strftime('%Y-%m-%d %H:%M')} to {end_time.strftime('%Y-%m-%d %H:%M')}\n")
-            f.write(f"**Engine:** Alpha Flux v4.2 Pro\n\n")
-            
-            f.write("## Summary\n\n")
-            f.write("| Symbol | Total Trades | Top Strategy |\n")
-            f.write("| :--- | :--- | :--- |\n")
-            
-            for sym, t_list in results.items():
-                top_strat = "N/A"
-                if t_list:
-                    strats = [t['strategy'] for t in t_list]
-                    top_strat = max(set(strats), key=strats.count)
-                f.write(f"| {sym} | {len(t_list)} | {top_strat} |\n")
-            
-            f.write("\n## Detailed Execution Logs\n\n")
-            for sym, t_list in results.items():
-                if not t_list:
-                    continue
-                f.write(f"### {sym}\n\n")
-                f.write("| Time | Signal | Price | Strategy | Core Logic |\n")
-                f.write("| :--- | :--- | :--- | :--- | :--- |\n")
-                for t in t_list:
-                    f.write(f"| {t['time']} | {t['type']} | {t['price']:.5f} | {t['strategy']} | {t['reason']} |\n")
-                f.write("\n")
-                
-        print(f"--- Backtest Complete. Report saved to {report_path} ---")
-    except Exception as e:
-        print(f"Failed to write report: {e}")
+        d_from = datetime.strptime(args.from_date, "%Y-%m-%d") if args.from_date else None
+        d_to = datetime.strptime(args.to_date, "%Y-%m-%d") if args.to_date else None
+        tr_from = datetime.strptime(args.train_from, "%Y-%m-%d") if args.train_from else None
+        tr_to = datetime.strptime(args.train_to, "%Y-%m-%d") if args.train_to else None
+        ts_from = datetime.strptime(args.test_from, "%Y-%m-%d") if args.test_from else None
+        ts_to = datetime.strptime(args.test_to, "%Y-%m-%d") if args.test_to else None
+    except ValueError as e:
+        print(f"Error: Invalid date format. Use YYYY-MM-DD. Details: {e}")
+        sys.exit(1)
 
-    connector.disconnect()
+    cfg = BacktestSettings(
+        symbol=args.symbol, date_from=d_from, date_to=d_to, initial_balance=args.balance, risk_per_trade_pct=args.risk,
+        apply_recommended_filters=(args.apply_recommended_filters.lower() == "true"),
+        walk_forward_enabled=(args.walk_forward.lower() == "true"),
+        train_date_from=tr_from, train_date_to=tr_to, test_date_from=ts_from, test_date_to=ts_to,
+        rolling_walk_forward_enabled=(args.rolling_wf.lower() == "true"),
+        monte_carlo_enabled=(args.monte_carlo.lower() == "true"),
+        mc_runs=args.mc_runs, mc_pnl_noise=args.mc_noise, mc_ruin_dd_pct=args.mc_ruin / 100.0, mc_seed=args.mc_seed,
+        diagnose_gates=(args.diagnose_gates.lower() == "true"),
+        gate_profile=args.gate_profile,
+        ai_mode=args.ai_mode,
+        compare_gates=(args.compare_gates.lower() == "true")
+    )
+
+    print(f"\n{'='*50}\n  MTBOT HIGH-FIDELITY BACKTEST ENGINE v2.6\n{'='*50}")
+    print(f" Symbol:       {cfg.symbol}")
+    if cfg.monte_carlo_enabled:
+        print(f" Mode:         MONTE CARLO ROBUSTNESS TEST ({cfg.mc_runs} runs)")
+    elif cfg.walk_forward_enabled:
+        print(f" Mode:         WALK-FORWARD VALIDATION")
+    elif cfg.diagnose_gates:
+        print(f" Mode:         PIPELINE GATE DIAGNOSTICS")
+    else:
+        print(f" Mode:         STANDARD BACKTEST")
+    print(f" Period:       {args.from_date} to {args.to_date}")
+    print(f" Profile:      {cfg.gate_profile.upper()}")
+    print(f" AI Mode:      {cfg.ai_mode.upper()}")
+    print(f" Initial Bal:  ${cfg.initial_balance:,.2f}")
+    print(f"{'='*50}\n")
+
+    runner = BacktestRunner(cfg)
+    
+    if args.test_data:
+        print(f"[TEST] Verifying MT5 Data Connection...")
+        resolved = runner.mt5.resolve_symbol(cfg.symbol)
+        if not resolved:
+            print(f"[ERROR] Could not resolve symbol: {cfg.symbol}")
+            sys.exit(1)
+        
+        print(f" - Resolved Symbol: {resolved}")
+        df = runner.mt5.get_bars_range(resolved, "M1", cfg.date_from, cfg.date_to)
+        
+        if df is None or df.empty:
+            print(f"[ERROR] No candles found for {resolved} in range.")
+            print(f" - MT5 Last Error: {runner.mt5.get_last_error()}")
+            sys.exit(1)
+            
+        print(f" - Candles Count:  {len(df)}")
+        print(f" - First Candle:   {df.iloc[0]['time']}")
+        print(f" - Last Candle:    {df.iloc[-1]['time']}")
+        print(f"\n[SUCCESS] MT5 data feed is working for {resolved}.")
+        sys.exit(0)
+
+    results = runner.run()
+
+    if "error" in results:
+        print(f"[ERROR] {results['error']}")
+        sys.exit(1)
+
+    print(f"\n[DONE] Reports saved in '{cfg.export_folder}/'")
 
 if __name__ == "__main__":
-    run_backtest()
+    main()

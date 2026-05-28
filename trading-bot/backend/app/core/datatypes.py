@@ -60,6 +60,7 @@ class StrategyContext:
     is_tradable: bool
     spread_v_atr: float
     current_tick: Dict[str, Any]
+    regime_details: Dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class StrategyDecision:

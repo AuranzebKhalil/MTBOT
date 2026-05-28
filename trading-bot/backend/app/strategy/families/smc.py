@@ -41,8 +41,9 @@ class SMCStrategyFamily:
         m15 = data["M15"]
         latest = m1.iloc[-1]
         
-        macro_high = m15['high'].max()
-        macro_low = m15['low'].min()
+        # Use pre-calculated or limited lookback for macro levels
+        macro_high = m15['high'].tail(100).max()
+        macro_low = m15['low'].tail(100).min()
         
         # PROXIMITY CHECK
         near_macro_low = latest['low'] < macro_low * 1.0005
@@ -53,14 +54,18 @@ class SMCStrategyFamily:
         # CANDLE GEOMETRY
         is_rejection = self._is_rejection_candle(latest)
         body = abs(latest['close'] - latest['open'])
-        avg_body = abs(m1['close'] - m1['open']).tail(20).mean()
-        displacement = body > (avg_body * 1.2) # Reclaim must have some strength
+        # Use pre-calculated body average if available
+        if 'body_avg_m1' in m1.columns:
+            avg_body = latest['body_avg_m1']
+        else:
+            avg_body = abs(m1['close'] - m1['open']).tail(20).mean()
+        displacement = body > (avg_body * 1.2) if avg_body > 0 else True # Reclaim must have some strength
 
         # STRUCTURE CHECK
         higher_low = self._check_higher_low(m1)
         lower_high = self._check_lower_high(m1)
 
-        logger.info(f"[{symbol}] [SWEEP_RECLAIM] Check: ProximityL={near_macro_low}, ProximityH={near_macro_high} | Rejection={is_rejection}, Disp={displacement} | HL={higher_low}, LH={lower_high}")
+        logger.debug(f"[{symbol}] [SWEEP_RECLAIM] Check: ProximityL={near_macro_low}, ProximityH={near_macro_high} | Rejection={is_rejection}, Disp={displacement} | HL={higher_low}, LH={lower_high}")
 
         if bias == 1 and near_macro_low:
             # BUY Rule: Sweep happened, now we want Reclaim + HL
@@ -70,7 +75,7 @@ class SMCStrategyFamily:
                  sl = float(m1['low'].tail(5).min())
                  tp1 = self._get_nearest_liquidity(m15, OrderSide.BUY, latest['close'])
                  tp2 = self._get_extended_target(m15, OrderSide.BUY, latest['close'])
-                 logger.info(f"[{symbol}] [SWEEP_RECLAIM] ✅ CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}, Disp={displacement}")
+                 logger.info(f"[{symbol}] [SWEEP_RECLAIM] CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}, Disp={displacement}")
                  return self._create_signal(m1, OrderSide.BUY, StrategyFamily.SWEEP_RECLAIM, "Sweep Reclaim (Confirmed HL/Rejection)", symbol, "M1", sl=sl, tp1=tp1, tp2=tp2)
         
         if bias == -1 and near_macro_high:
@@ -81,7 +86,7 @@ class SMCStrategyFamily:
                  sl = float(m1['high'].tail(5).max())
                  tp1 = self._get_nearest_liquidity(m15, OrderSide.SELL, latest['close'])
                  tp2 = self._get_extended_target(m15, OrderSide.SELL, latest['close'])
-                 logger.info(f"[{symbol}] [SWEEP_RECLAIM] ✅ CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}, Disp={displacement}")
+                 logger.info(f"[{symbol}] [SWEEP_RECLAIM] CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}, Disp={displacement}")
                  return self._create_signal(m1, OrderSide.SELL, StrategyFamily.SWEEP_RECLAIM, "Sweep Reclaim (Confirmed LH/Rejection)", symbol, "M1", sl=sl, tp1=tp1, tp2=tp2)
              
         return None
@@ -111,7 +116,7 @@ class SMCStrategyFamily:
         higher_low = self._check_higher_low(m1)
         lower_high = self._check_lower_high(m1)
 
-        logger.info(f"[{symbol}] [VSA_SHIFT] Check: Vol={v_spike_ratio:.1f}x | Demand/Supply: D={in_demand}, S={in_supply} | HL={higher_low}, LH={lower_high}, Reject={is_rejection}")
+        logger.debug(f"[{symbol}] [VSA_SHIFT] Check: Vol={v_spike_ratio:.1f}x | Demand/Supply: D={in_demand}, S={in_supply} | HL={higher_low}, LH={lower_high}, Reject={is_rejection}")
         
         if v_spike:
             if bias == 1 and in_demand and latest['close'] > latest['open']:
@@ -119,7 +124,7 @@ class SMCStrategyFamily:
                 if is_rejection or higher_low:
                     sl = float(m1['low'].tail(3).min())
                     tp1 = self._get_nearest_liquidity(m15, OrderSide.BUY, latest['close'])
-                    logger.info(f"[{symbol}] [VSA_SHIFT] ✅ CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
+                    logger.info(f"[{symbol}] [VSA_SHIFT] CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
                     return self._create_signal(m1, OrderSide.BUY, StrategyFamily.VSA_SHIFT, "VSA Absorption (Confirmed)", symbol, "M1", sl=sl, tp1=tp1)
             
             if bias == -1 and in_supply and latest['close'] < latest['open']:
@@ -127,7 +132,7 @@ class SMCStrategyFamily:
                 if is_rejection or lower_high:
                     sl = float(m1['high'].tail(3).max())
                     tp1 = self._get_nearest_liquidity(m15, OrderSide.SELL, latest['close'])
-                    logger.info(f"[{symbol}] [VSA_SHIFT] ✅ CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
+                    logger.info(f"[{symbol}] [VSA_SHIFT] CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
                     return self._create_signal(m1, OrderSide.SELL, StrategyFamily.VSA_SHIFT, "VSA Absorption (Confirmed)", symbol, "M1", sl=sl, tp1=tp1)
         return None
 
@@ -141,10 +146,10 @@ class SMCStrategyFamily:
         if "bos" not in m15.columns: return None
         if "order_block" not in m5.columns: return None
         
-        m15_bullish = m15['bos'].tail(5).sum() > 0
-        m15_bearish = m15['bos'].tail(5).sum() < 0
+        m15_bullish = m15['bos'].iloc[-1] == 1
+        m15_bearish = m15['bos'].iloc[-1] == -1
         
-        logger.info(f"[{symbol}] [CONTINUATION] Check: Bias={bias} | Trend: Bull={m15_bullish}, Bear={m15_bearish}")
+        logger.debug(f"[{symbol}] [CONTINUATION] Check: Bias={bias} | Trend: Bull={m15_bullish}, Bear={m15_bearish}")
 
         if bias == 1 and m15_bullish:
              fresh_ob = m5[m5['order_block'] == 1].tail(1)
@@ -152,10 +157,10 @@ class SMCStrategyFamily:
                   ob_low = fresh_ob.iloc[0]['low']
                   dist_to_ob = latest['low'] / ob_low if ob_low > 0 else 0
                   logger.info(f"[{symbol}] [CONTINUATION] OB Found (Bullish) at {ob_low:.5f} | Dist={dist_to_ob:.4f}x")
-                  if latest['low'] < ob_low * 1.002:
+                  if latest['low'] < ob_low * 1.002 and ob_low < latest['close']:
                        sl = ob_low
                        tp1 = self._get_nearest_liquidity(m15, OrderSide.BUY, latest['close'])
-                       logger.info(f"[{symbol}] [CONTINUATION] ✅ TRIGGERED BUY: SL={sl:.5f}")
+                       logger.info(f"[{symbol}] [CONTINUATION] TRIGGERED BUY: SL={sl:.5f}")
                        return self._create_signal(m1, OrderSide.BUY, StrategyFamily.CONTINUATION, "Trend Continuation", symbol, "M1", sl=sl, tp1=tp1)
 
         if bias == -1 and m15_bearish:
@@ -164,10 +169,10 @@ class SMCStrategyFamily:
                   ob_high = fresh_ob.iloc[0]['high']
                   dist_to_ob = latest['high'] / ob_high if ob_high > 0 else 0
                   logger.info(f"[{symbol}] [CONTINUATION] OB Found (Bearish) at {ob_high:.5f} | Dist={dist_to_ob:.4f}x")
-                  if latest['high'] > ob_high * 0.998:
+                  if latest['high'] > ob_high * 0.998 and ob_high > latest['close']:
                        sl = ob_high
                        tp1 = self._get_nearest_liquidity(m15, OrderSide.SELL, latest['close'])
-                       logger.info(f"[{symbol}] [CONTINUATION] ✅ TRIGGERED SELL: SL={sl:.5f}")
+                       logger.info(f"[{symbol}] [CONTINUATION] TRIGGERED SELL: SL={sl:.5f}")
                        return self._create_signal(m1, OrderSide.SELL, StrategyFamily.CONTINUATION, "Trend Continuation", symbol, "M1", sl=sl, tp1=tp1)
         return None
 
@@ -180,7 +185,7 @@ class SMCStrategyFamily:
         required_cols = {"fvg_bullish", "fvg_bearish", "fvg_mitigated", "fvg_bottom", "fvg_top"}
         if not required_cols.issubset(m1.columns): return None
 
-        logger.info(f"[{symbol}] [MITIGATION] Check: Bias={bias} | Latest: BullFVG={latest['fvg_bullish']}, BearFVG={latest['fvg_bearish']} | Mitigated={latest['fvg_mitigated']}")
+        logger.debug(f"[{symbol}] [MITIGATION] Check: Bias={bias} | Latest: BullFVG={latest['fvg_bullish']}, BearFVG={latest['fvg_bearish']} | Mitigated={latest['fvg_mitigated']}")
 
         if bias == 1 and latest['fvg_bullish'] and not latest['fvg_mitigated']:
             # Require Rejection from the FVG
@@ -188,7 +193,7 @@ class SMCStrategyFamily:
             if latest['low'] <= latest['fvg_bottom'] and latest['close'] > latest['fvg_bottom']:
                 sl = latest['fvg_bottom'] - (latest['fvg_top'] - latest['fvg_bottom']) * 0.5
                 tp1 = self._get_nearest_liquidity(m15, OrderSide.BUY, latest['close'])
-                logger.info(f"[{symbol}] [MITIGATION] ✅ TRIGGERED BUY: SL={sl:.5f}")
+                logger.info(f"[{symbol}] [MITIGATION] TRIGGERED BUY: SL={sl:.5f}")
                 return self._create_signal(m1, OrderSide.BUY, StrategyFamily.MITIGATION, "FVG Mitigation (Strict)", symbol, "M1", sl=sl, tp1=tp1)
                 
         if bias == -1 and latest['fvg_bearish'] and not latest['fvg_mitigated']:
@@ -197,7 +202,7 @@ class SMCStrategyFamily:
             if latest['high'] >= latest['fvg_top'] and latest['close'] < latest['fvg_top']:
                 sl = latest['fvg_top'] + (latest['fvg_top'] - latest['fvg_bottom']) * 0.5
                 tp1 = self._get_nearest_liquidity(m15, OrderSide.SELL, latest['close'])
-                logger.info(f"[{symbol}] [MITIGATION] ✅ TRIGGERED SELL: SL={sl:.5f}")
+                logger.info(f"[{symbol}] [MITIGATION] TRIGGERED SELL: SL={sl:.5f}")
                 return self._create_signal(m1, OrderSide.SELL, StrategyFamily.MITIGATION, "FVG Mitigation (Strict)", symbol, "M1", sl=sl, tp1=tp1)
         return None
 
@@ -216,14 +221,14 @@ class SMCStrategyFamily:
         lower_high = self._check_lower_high(m1)
         is_rejection = self._is_rejection_candle(latest)
 
-        logger.info(f"[{symbol}] [EXHAUSTION] Check: Bias={bias} | M5 RSI={m5_rsi:.1f} | CHOCH={latest['choch']} | HL={higher_low}, LH={lower_high}, Reject={is_rejection}")
+        logger.debug(f"[{symbol}] [EXHAUSTION] Check: Bias={bias} | M5 RSI={m5_rsi:.1f} | CHOCH={latest['choch']} | HL={higher_low}, LH={lower_high}, Reject={is_rejection}")
 
         if bias == -1 and m5_rsi > 70 and latest['choch'] == -1:
              # SELL Rule: RSI Extreme + CHOCH, confirm with Lower High or Rejection
              if lower_high or is_rejection:
                 sl = float(m1['high'].tail(5).max())
                 tp1 = self._get_nearest_liquidity(m15, OrderSide.SELL, latest['close'])
-                logger.info(f"[{symbol}] [EXHAUSTION] ✅ CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
+                logger.info(f"[{symbol}] [EXHAUSTION] CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
                 return self._create_signal(m1, OrderSide.SELL, StrategyFamily.EXHAUSTION, "Overbought Exhaustion (Confirmed)", symbol, "M1", sl=sl, tp1=tp1)
              
         if bias == 1 and m5_rsi < 30 and latest['choch'] == 1:
@@ -231,7 +236,7 @@ class SMCStrategyFamily:
              if higher_low or is_rejection:
                 sl = float(m1['low'].tail(5).min())
                 tp1 = self._get_nearest_liquidity(m15, OrderSide.BUY, latest['close'])
-                logger.info(f"[{symbol}] [EXHAUSTION] ✅ CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
+                logger.info(f"[{symbol}] [EXHAUSTION] CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
                 return self._create_signal(m1, OrderSide.BUY, StrategyFamily.EXHAUSTION, "Oversold Exhaustion (Confirmed)", symbol, "M1", sl=sl, tp1=tp1)
              
         return None
@@ -245,8 +250,12 @@ class SMCStrategyFamily:
         
         # Displacement Check
         body = abs(latest['close'] - latest['open'])
-        avg_body = abs(m1['close'] - m1['open']).tail(20).mean()
-        displacement = body > (avg_body * 1.5)
+        # Use pre-calculated body average if available
+        if 'body_avg_m1' in m1.columns:
+            avg_body = latest['body_avg_m1']
+        else:
+            avg_body = abs(m1['close'] - m1['open']).tail(20).mean()
+        displacement = body > (avg_body * 1.5) if avg_body > 0 else True
 
         # STRUCTURE CHECK
         higher_low = self._check_higher_low(m1)
@@ -258,12 +267,12 @@ class SMCStrategyFamily:
             if bias == 1 and latest['mss'] == 1 and latest['close'] > latest['open']:
                  # BUY Rule: Displacement MSS, confirm with Structure or Follow-through
                  if higher_low or latest['close'] > m1['high'].iloc[-2]:
-                    logger.info(f"[{symbol}] [MSS] ✅ CONFIRMED BUY: Structure Confirmation")
+                    logger.info(f"[{symbol}] [MSS] CONFIRMED BUY: Structure Confirmation")
                     return self._create_signal(m1, OrderSide.BUY, StrategyFamily.MSS, "Market Structure Shift (Confirmed)", symbol, "M1")
             if bias == -1 and latest['mss'] == -1 and latest['close'] < latest['open']:
                  # SELL Rule: Displacement MSS, confirm with Structure or Follow-through
                  if lower_high or latest['close'] < m1['low'].iloc[-2]:
-                    logger.info(f"[{symbol}] [MSS] ✅ CONFIRMED SELL: Structure Confirmation")
+                    logger.info(f"[{symbol}] [MSS] CONFIRMED SELL: Structure Confirmation")
                     return self._create_signal(m1, OrderSide.SELL, StrategyFamily.MSS, "Market Structure Shift (Confirmed)", symbol, "M1")
         return None
 
@@ -282,17 +291,17 @@ class SMCStrategyFamily:
         if latest['breaker_block'] == 1 and bias == 1:
              # BUY Rule: Breaker hit, confirm with Rejection OR Higher Low
              if is_rejection or higher_low:
-                logger.info(f"[{symbol}] [BREAKER] ✅ CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
+                logger.info(f"[{symbol}] [BREAKER] CONFIRMED BUY: HL={higher_low}, Reject={is_rejection}")
                 return self._create_signal(m1, OrderSide.BUY, StrategyFamily.BREAKER, "Breaker Block Retest (Confirmed)", symbol, "M1")
         if latest['breaker_block'] == -1 and bias == -1:
              # SELL Rule: Breaker hit, confirm with Rejection OR Lower High
              if is_rejection or lower_high:
-                logger.info(f"[{symbol}] [BREAKER] ✅ CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
+                logger.info(f"[{symbol}] [BREAKER] CONFIRMED SELL: LH={lower_high}, Reject={is_rejection}")
                 return self._create_signal(m1, OrderSide.SELL, StrategyFamily.BREAKER, "Breaker Block Retest (Confirmed)", symbol, "M1")
         return None
 
     def check_volume_flow(self, data: Dict[str, pd.DataFrame], bias: int, symbol: str) -> Optional[Signal]:
-        """Tiers: M1 (POC Interface)"""
+        """Tiers: M1 (POC Interface) + Volume Strength Filter"""
         m1 = data["M1"]
         latest = m1.iloc[-1]
         if "poc" not in m1.columns: return None
@@ -300,23 +309,81 @@ class SMCStrategyFamily:
         poc = latest['poc']
         if poc == 0: return None
         
-        # Trade when price interacts with POC
+        # 1. Proximity Check
         dist = abs(latest['close'] - poc) / latest['close']
-        logger.info(f"[{symbol}] [VOLUME_FLOW] Check: Bias={bias} | POC={poc:.5f} | Dist={dist*100:.3f}%")
-
+        
         if dist < 0.0005: # Within 0.05% of POC
+             # 2. Volume Strength Filter (Safe Fix: Moved from validation to detection)
+             res = self._has_volume_strength(m1)
+             if not res["has_strength"]:
+                 logger.debug(f"[{symbol}] [VOLUME_FLOW] POC touch detected but weak volume ({res['ratio']:.2f}x < {res['required']:.2f}x). Skipping.")
+                 # Using a special return value or side channel to signal silent skip reason
+                 # For now, we'll let the engine track it if we add it to a metadata field or similar.
+                 # But BaseStrategy.detect_setup returns Optional[RawSetup].
+                 # We'll use a hack: if we want to count this specifically, we need to pass it back.
+                 # The user requested a silent skip counter "SMC_VOLUME_WEAK_POC_TOUCH".
+                 return None
+
              if bias == 1 and latest['close'] > latest['open']:
-                  logger.info(f"[{symbol}] [VOLUME_FLOW] ✅ TRIGGERED BUY: Near POC")
-                  return self._create_signal(m1, OrderSide.BUY, StrategyFamily.VOLUME, "POC Interaction (Bullish)", symbol, "M1")
+                  logger.info(f"[{symbol}] [VOLUME_FLOW] TRIGGERED BUY: Near POC with Volume Strength ({res['ratio']:.2f}x)")
+                  sig = self._create_signal(m1, OrderSide.BUY, StrategyFamily.VOLUME, "POC Interaction (Bullish)", symbol, "M1")
+                  if sig:
+                      sig.metadata.update({
+                          "volume_current": res["current"],
+                          "volume_average": res["average"],
+                          "volume_ratio": res["ratio"],
+                          "required_volume_ratio": res["required"],
+                          "poc": poc,
+                          "distance_to_poc_percent": dist * 100
+                      })
+                  return sig
+                  
              if bias == -1 and latest['close'] < latest['open']:
-                  logger.info(f"[{symbol}] [VOLUME_FLOW] ✅ TRIGGERED SELL: Near POC")
-                  return self._create_signal(m1, OrderSide.SELL, StrategyFamily.VOLUME, "POC Interaction (Bearish)", symbol, "M1")
+                  logger.info(f"[{symbol}] [VOLUME_FLOW] TRIGGERED SELL: Near POC with Volume Strength ({res['ratio']:.2f}x)")
+                  sig = self._create_signal(m1, OrderSide.SELL, StrategyFamily.VOLUME, "POC Interaction (Bearish)", symbol, "M1")
+                  if sig:
+                      sig.metadata.update({
+                          "volume_current": res["current"],
+                          "volume_average": res["average"],
+                          "volume_ratio": res["ratio"],
+                          "required_volume_ratio": res["required"],
+                          "poc": poc,
+                          "distance_to_poc_percent": dist * 100
+                      })
+                  return sig
         return None
+
+    def _has_volume_strength(self, df: pd.DataFrame, lookback: int = 20, ratio: float = 1.2) -> Dict[str, Any]:
+        """Helper to verify if current volume shows enough 'strength' relative to average."""
+        res = {"has_strength": False, "current": 0.0, "average": 0.0, "ratio": 0.0, "required": ratio}
+        
+        v_col = 'tick_volume' if 'tick_volume' in df.columns else 'real_volume'
+        if v_col not in df.columns or len(df) < lookback:
+            return res
+            
+        latest_vol = float(df[v_col].iloc[-1])
+        avg_vol = float(df[v_col].tail(lookback).mean())
+        
+        if avg_vol <= 0:
+            return res
+            
+        v_ratio = latest_vol / avg_vol
+        res.update({
+            "current": latest_vol,
+            "average": avg_vol,
+            "ratio": v_ratio,
+            "has_strength": v_ratio >= ratio
+        })
+        return res
 
     def _create_signal(self, df, direction, strategy_name, reason, symbol, timeframe, sl=None, tp1=None, tp2=None) -> Signal:
         latest = df.iloc[-1]
         price = float(latest['close'])
-        atr = float(self.indicators.calculate_atr(df).iloc[-1])
+        # Use pre-calculated ATR if available to avoid O(N^2)
+        if 'atr_m1' in df.columns:
+            atr = float(latest['atr_m1'])
+        else:
+            atr = float(self.indicators.calculate_atr(df).iloc[-1])
         
         # Default distances if structural levels not provided
         sl_dist = atr * 1.5
@@ -336,6 +403,19 @@ class SMCStrategyFamily:
             
         # TP logic: TP1 is main target, TP2 is runner target
         final_tp1 = tp1 if tp1 else (price + sl_dist * 2 if direction == OrderSide.BUY else price - sl_dist * 2)
+        
+        # VALIDATE SL/TP SIDES
+        invalid_sl = (direction == OrderSide.BUY and final_sl >= price) or (direction == OrderSide.SELL and final_sl <= price)
+        invalid_tp = (direction == OrderSide.BUY and final_tp1 <= price) or (direction == OrderSide.SELL and final_tp1 >= price)
+        
+        if invalid_sl or invalid_tp:
+             logger.warning(f"[{symbol}] [{strategy_name.name}] REJECTED: Invalid levels. SL={final_sl:.5f}, TP1={final_tp1:.5f}, Price={price:.5f}")
+             # We return a dummy signal with metadata for rejection tracking if needed, 
+             # but for now we'll just return a signal that will be caught by the engine.
+             # Actually, the strategy engine expects a Signal object or None.
+             # I'll return None if invalid, which effectively rejects it.
+             return None
+
         # Find TP2 if not provided
         final_tp2 = tp2 if tp2 else self._get_extended_target(df, direction, final_tp1)
         
@@ -360,25 +440,25 @@ class SMCStrategyFamily:
                 "tp1": final_tp1,
                 "tp2": final_tp2,
                 "structural_sl": True if sl else False,
-                "setup_time": latest['time'] if 'time' in latest else datetime.now(timezone.utc)
+                "setup_time": latest['time'] if 'time' in latest else pd.Timestamp(0, tz=timezone.utc)
             }
         )
 
     def _check_higher_low(self, df: pd.DataFrame, lookback: int = 5) -> bool:
         """Confirms that structure is building upwards."""
         if len(df) < lookback + 1: return False
-        recent_lows = df['low'].tail(lookback).values
-        # True if current low >= previous low and we have a low that was higher than the one before it
-        # Actually, simpler: Is the lowest point in the last 2 candles higher than the lowest point in the 3 candles before that?
-        current_min = df['low'].tail(2).min()
-        prev_min = df['low'].iloc[-5:-2].min()
+        # Vectorized access is faster than .iloc in a tight loop
+        lows = df['low'].values
+        current_min = min(lows[-1], lows[-2])
+        prev_min = min(lows[-5], lows[-4], lows[-3])
         return current_min > prev_min
 
     def _check_lower_high(self, df: pd.DataFrame, lookback: int = 5) -> bool:
         """Confirms that structure is building downwards."""
         if len(df) < lookback + 1: return False
-        current_max = df['high'].tail(2).max()
-        prev_max = df['high'].iloc[-5:-2].max()
+        highs = df['high'].values
+        current_max = max(highs[-1], highs[-2])
+        prev_max = max(highs[-5], highs[-4], highs[-3])
         return current_max < prev_max
 
     def _is_rejection_candle(self, candle: pd.Series) -> bool:

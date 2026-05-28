@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     TIMEFRAME_M5: str = "M5"
     TIMEFRAME_M15: str = "M15"
     BOT_LOOP_INTERVAL: float = 2.0  # seconds
+
+    # Safety / Simulation
+    # When enabled, all MT5 order sending is blocked (backtest/replay safe mode).
+    BACKTEST_MODE: bool = False
     
     # Risk Management
     RISK_PER_TRADE: float = 0.01  # 1%
@@ -30,6 +34,55 @@ class Settings(BaseSettings):
     DAILY_LOSS_LIMIT: float = 0.10  # 10%
     MAX_SPREAD_PIPS: float = 50.0
     
+    # Strategy Filter Thresholds
+    AI_THRESHOLDS: dict = {
+        "HYBRID_MASTER": 0.56,
+        "SMC_VOLUME": 0.56,
+        "HYBRID_REVERSION": 0.58,
+        "SMC_REVERSAL": 0.58,
+        "HYBRID_SR": 0.58,
+        "SMC_TREND": 0.56,
+        "SMC_MITIGATION": 0.60,
+        "SMC_MSS": 0.62,
+        "DEFAULT": 0.52
+    }
+    
+    STRUCTURE_THRESHOLDS: dict = {
+        "HYBRID_MASTER": 0.65,
+        "SMC_VOLUME": 0.55,
+        "HYBRID_REVERSION": 0.68,
+        "SMC_REVERSAL": 0.68,
+        "HYBRID_SR": 0.62,
+        "SMC_TREND": 0.60,
+        "SMC_MITIGATION": 0.68,
+        "SMC_MSS": 0.70,
+        "DEFAULT": 0.45
+    }
+
+    # Quality Filters
+    MAX_CANDLE_ATR_RATIO: float = 1.5
+    MIN_SCORE_SMC_TREND: float = 70.0
+    MIN_SCORE_SMC_MSS: float = 75.0
+    
+    # Cooldowns (minutes)
+    COOLDOWN_AFTER_LOSS: int = 45
+    COOLDOWN_SAME_SETUP: int = 60
+    
+    # Daily Protection
+    MAX_TRADES_PER_DAY: int = 3
+    MAX_CONSECUTIVE_LOSSES: int = 2
+    DAILY_DRAWDOWN_LIMIT_PCT: float = 0.015  # 1.5%
+    
+    # Phase 2 Cooldown, Clustering, & Health Monitoring Settings
+    COOLDOWN_AFTER_LOSSES: int = 2
+    COOLDOWN_MINUTES: int = 60
+    PER_STRATEGY_COOLDOWN: bool = True
+    PER_SYMBOL_COOLDOWN: bool = True
+    MIN_CANDLES_BETWEEN_SAME_STRATEGY_ENTRIES: int = 10
+    MIN_PRICE_DISTANCE_ATR_MULTIPLIER: float = 0.5
+    MIN_ROLLING_WIN_RATE: float = 40.0
+    MIN_ROLLING_PROFIT_FACTOR: float = 1.0
+
     # Staged Management
     ENABLE_PARTIAL_TP: bool = True
     STAGE_1_TRIGGER_PCT: float = 0.6

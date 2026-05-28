@@ -7,20 +7,29 @@ import { BotProvider, useBot } from "./BotContext";
 import { AuthProvider } from "./AuthContext";
 import { ThemeProvider } from "./ThemeContext";
 import { useMediaQuery } from "../lib/useMediaQuery";
+import { usePathname } from "next/navigation";
 import StoreProvider from "../StoreProvider";
 
 function LayoutContent({ children }) {
+  const pathname = usePathname();
+  const isAuthPage = pathname === "/login" || pathname === "/register";
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { isSidebarCollapsed, isSidebarHidden, setIsSidebarHidden } = useBot();
   
   // Auto-hide sidebar on mobile resize
   React.useEffect(() => {
-    if (isMobile) {
+    if (isAuthPage) {
+      setIsSidebarHidden(true);
+    } else if (isMobile) {
       setIsSidebarHidden(true);
     } else {
       setIsSidebarHidden(false);
     }
-  }, [isMobile, setIsSidebarHidden]);
+  }, [isMobile, setIsSidebarHidden, isAuthPage, pathname]);
+
+  if (isAuthPage) {
+    return <>{children}</>;
+  }
 
   return (
     <div

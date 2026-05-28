@@ -273,9 +273,25 @@ export default function TradeTable({ trades, selectedSymbol }) {
                     <span style={{ fontWeight: "800", color: rej.direction === "BUY" ? "var(--success)" : "var(--loss)", fontSize: "11px" }}>{rej.direction}</span>
                   </div>
                   {!isMobile && <span style={{ fontSize: "11px", fontWeight: "600", color: "var(--text-secondary)" }}>{rej.strategy}</span>}
-                  <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--loss)", background: "rgba(255, 69, 58, 0.1)", padding: "4px 8px", borderRadius: "6px" }}>{rej.reason}</span>
+                  <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--loss)", background: "rgba(255, 69, 58, 0.1)", padding: "4px 8px", borderRadius: "6px" }}>
+                    {rej.rejection_reason || rej.reason || "Rejected"}
+                  </span>
                 </div>
-                <span style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.6 }}>{new Date(rej.time).toLocaleTimeString()}</span>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: isMobile ? "flex-start" : "flex-end", gap: "4px" }}>
+                  {(rej.rejection_stage || rej.rejection_rule) && (
+                    <span style={{ fontSize: "10px", color: "var(--text-sub)", opacity: 0.9 }}>
+                      {(rej.rejection_stage || "stage")} {rej.rejection_rule ? `• ${rej.rejection_rule}` : ""}
+                    </span>
+                  )}
+                  {(rej.current_value !== undefined || rej.required_value !== undefined) && (
+                    <span style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.75 }}>
+                      now: {rej.current_value ?? "—"} req: {rej.required_value ?? "—"}
+                    </span>
+                  )}
+                  <span style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.6 }}>
+                    {new Date(rej.time).toLocaleTimeString()}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

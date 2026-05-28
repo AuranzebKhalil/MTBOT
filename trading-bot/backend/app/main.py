@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.routes import bot, trades, risk, health, legacy, auth, charts, sockets, admin, support
+from app.api.routes import bot, trades, risk, health, legacy, auth, charts, sockets, admin, support, backtest, analytics
 from app.storage.db import init_db
 import logging
 
@@ -41,4 +41,6 @@ app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["aut
 app.include_router(legacy.router, prefix=f"{settings.API_V1_STR}/legacy", tags=["legacy"])
 app.include_router(admin.router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])
 app.include_router(support.router, prefix=f"{settings.API_V1_STR}/support", tags=["support"])
+app.include_router(backtest.router, prefix=f"{settings.API_V1_STR}/backtest", tags=["backtest"])
+app.include_router(analytics.router, prefix=f"{settings.API_V1_STR}/analytics", tags=["analytics"])
 app.include_router(sockets.router, tags=["sockets"]) # Sockets usually at /ws

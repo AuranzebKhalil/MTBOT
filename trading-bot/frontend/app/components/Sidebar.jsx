@@ -20,6 +20,8 @@ import {
   MessageSquare,
   ShieldAlert as ShieldIcon,
   TrendingDown,
+  Activity,
+  FlaskConical,
 } from "lucide-react";
 import { useBot } from "./BotContext";
 import { useAuth } from "./AuthContext";
@@ -70,6 +72,18 @@ export default function Sidebar() {
       icon: Zap,
       label: "Strategy Engine",
       href: "/strategies",
+    },
+    {
+      id: "backtest",
+      icon: FlaskConical,
+      label: "Backtest",
+      href: "/backtest",
+    },
+    {
+      id: "analytics",
+      icon: Activity,
+      label: "Strategy Performance",
+      href: "/analytics",
     },
     {
       id: "market_depth",

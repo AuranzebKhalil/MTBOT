@@ -35,7 +35,7 @@ def run_worker(env):
 
 def main():
     logger.info("==========================================")
-    logger.info("🛡️  ALPHA QUANTITATIVE | TRADING ENGINE")
+    logger.info("[START] ALPHA QUANTITATIVE | TRADING ENGINE")
     logger.info("==========================================")
     
     # Ensure current directory is in PYTHONPATH for consistent imports
@@ -50,7 +50,7 @@ def main():
     
     worker_process = run_worker(env)
 
-    logger.info("✅ System synchronized. Services are now active.")
+    logger.info("[OK] System synchronized. Services are now active.")
     logger.info("   API: http://localhost:8000")
     logger.info("   Worker: Scanning configurations...")
     
@@ -58,18 +58,18 @@ def main():
         while True:
             # Monitor process health
             if api_process.poll() is not None:
-                logger.error("⚠️ API process terminated unexpectedly. Restarting in 5s...")
+                logger.error("[ERROR] API process terminated unexpectedly. Restarting in 5s...")
                 time.sleep(5)
-                api_process = run_api()
+                api_process = run_api(env)
             
             if worker_process.poll() is not None:
-                logger.error("⚠️ Worker process terminated unexpectedly. Restarting in 5s...")
+                logger.error("[ERROR] Worker process terminated unexpectedly. Restarting in 5s...")
                 time.sleep(5)
-                worker_process = run_worker()
+                worker_process = run_worker(env)
                 
             time.sleep(5)
     except KeyboardInterrupt:
-        logger.info("\n🛑 Shutdown command received. Terminating processes...")
+        logger.info("\n[STOP] Shutdown command received. Terminating processes...")
         api_process.terminate()
         worker_process.terminate()
         

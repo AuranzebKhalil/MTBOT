@@ -94,6 +94,7 @@ const strategies = [
     note: "The most reliable early-entry signal for trend changes.",
     image: "/strategies/mss.png",
   },
+
   {
     id: "SMC_MITIGATION",
     name: "FTM - First Touch Mitigation",
